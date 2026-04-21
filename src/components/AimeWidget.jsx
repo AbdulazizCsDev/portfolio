@@ -41,7 +41,7 @@ function highlightSkills() {
 export default function AimeWidget() {
   const { t, lang } = useLanguage();
 
-  const [isOpen, setIsOpen]             = useState(false);
+  const [isOpen, setIsOpen]             = useState(true);
   const [isExpanded, setIsExpanded]     = useState(false);
   const [isMuted, setIsMuted]           = useState(false);
   const [messages, setMessages]         = useState([]);
@@ -49,10 +49,8 @@ export default function AimeWidget() {
   const [isRecording, setIsRecording]   = useState(false);
   const [isSpeaking, setIsSpeaking]     = useState(false);
   const [isLoading, setIsLoading]       = useState(false);
-  const [showInput, setShowInput]       = useState(false);
   const [micError, setMicError]         = useState(null);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const [showBubble, setShowBubble] = useState(false);
 
   const mediaRecorderRef = useRef(null);
   const chunksRef        = useRef([]);
@@ -72,34 +70,6 @@ export default function AimeWidget() {
 
   useEffect(() => { isMutedRef.current = isMuted; }, [isMuted]);
 
-  // Show greeting bubble near FAB after page loads, queue sound for first interaction
-  useEffect(() => {
-    const t1 = setTimeout(() => {
-      setShowBubble(true);
-      // Queue greeting speak for first user gesture (browser autoplay policy)
-      const fire = () => {
-        pendingBubbleRef.current = null;
-        speakTextRef.current?.(bubbleTextRef.current);
-      };
-      pendingBubbleRef.current = fire;
-      window.addEventListener('click',   fire, { once: true });
-      window.addEventListener('keydown', fire, { once: true });
-    }, 1800);
-    const t2 = setTimeout(() => setShowBubble(false), 11000);
-    return () => {
-      clearTimeout(t1); clearTimeout(t2);
-      if (pendingBubbleRef.current) {
-        window.removeEventListener('click',   pendingBubbleRef.current);
-        window.removeEventListener('keydown', pendingBubbleRef.current);
-      }
-    };
-  }, []); // eslint-disable-line
-
-  // Hide bubble when panel opens
-  useEffect(() => {
-    if (isOpen) setShowBubble(false);
-  }, [isOpen]);
-
   // Open from Hero CTA button
   useEffect(() => {
     const handler = () => setIsOpen(true);
@@ -107,25 +77,13 @@ export default function AimeWidget() {
     return () => document.removeEventListener('openAime', handler);
   }, []);
 
-  // Reset greeting flag when language changes; re-show bubble with new lang + play sound
+  // Reset greeting when language changes
   useEffect(() => {
     hasGreetedRef.current = false;
     pendingGreetRef.current = false;
-    if (!isOpen) {
-      setMessages([]);
-      // Cancel any pending bubble speak from previous lang
-      if (pendingBubbleRef.current) {
-        window.removeEventListener('click',   pendingBubbleRef.current);
-        window.removeEventListener('keydown', pendingBubbleRef.current);
-        pendingBubbleRef.current = null;
-      }
-      // Re-show bubble with updated text (t.aime.bubbleGreet will be new lang by now)
-      setShowBubble(true);
-      // User just clicked the lang toggle → play immediately
-      setTimeout(() => speakTextRef.current?.(bubbleTextRef.current), 200);
-      const hide = setTimeout(() => setShowBubble(false), 11000);
-      return () => clearTimeout(hide);
-    }
+    setMessages([{ role: 'aime', content: t.aime.greeting }]);
+    setShowSuggestions(true);
+    setTimeout(() => speakTextRef.current?.(t.aime.greeting), 300);
   }, [lang]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const speakText = useCallback(async (text) => {
@@ -157,13 +115,13 @@ export default function AimeWidget() {
   speakTextRef.current = speakText;
   bubbleTextRef.current = t.aime.bubbleGreet;
 
-  // Show greeting in chat on first open (text only, no sound)
+  // Show greeting in chat on first open (text only, no sound - lang effect handles sound)
   useEffect(() => {
-    if (!isOpen || hasGreetedRef.current) return;
+    if (hasGreetedRef.current) return;
     hasGreetedRef.current = true;
     setMessages([{ role: 'aime', content: t.aime.greeting }]);
     setShowSuggestions(true);
-  }, [isOpen]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -323,45 +281,11 @@ export default function AimeWidget() {
 
   return (
     <>
-      {/* Greeting bubble */}
-      {showBubble && (
-        <div
-          className={`aime-bubble ${lang === 'ar' ? 'rtl' : ''}`}
-          dir={lang === 'ar' ? 'rtl' : 'ltr'}
-          role="button"
-          tabIndex={0}
-          onClick={() => {
-            // Cancel window listener so it doesn't double-fire
-            if (pendingBubbleRef.current) {
-              window.removeEventListener('click',   pendingBubbleRef.current);
-              window.removeEventListener('keydown', pendingBubbleRef.current);
-              pendingBubbleRef.current = null;
-            }
-            speakTextRef.current?.(bubbleTextRef.current);
-            setShowBubble(false);
-            setIsOpen(true);
-          }}
-          onKeyDown={(e) => e.key === 'Enter' && e.currentTarget.click()}
-        >
-          <div className="bubble-body">
-            <span>{t.aime.bubbleGreet}</span>
-            <span className="bubble-tap-hint">
-              {lang === 'ar' ? '✨ اضغط للاستماع' : '✨ tap to hear'}
-            </span>
-          </div>
-          <button
-            className="bubble-close"
-            onClick={(e) => { e.stopPropagation(); setShowBubble(false); }}
-            aria-label="Dismiss"
-          >×</button>
-        </div>
-      )}
-
-      {/* FAB */}
+      {/* FAB - minimize/maximize toggle */}
       <button
         className={`aime-fab ${isOpen ? 'open' : ''} ${isSpeaking ? 'speaking' : ''} ${isRecording ? 'recording' : ''}`}
         onClick={() => setIsOpen((o) => !o)}
-        aria-label="Open Aime assistant"
+        aria-label="Toggle Aime assistant"
       >
         {isSpeaking ? (
           <div className="fab-wave">
@@ -500,9 +424,32 @@ export default function AimeWidget() {
         <div className="aime-input-area">
           {micError && <p className="mic-error">{micError}</p>}
 
-          <div className="aime-controls">
+          <div className="aime-input-bar">
+            <input
+              ref={inputRef}
+              type="text"
+              value={inputText}
+              onChange={(e) => setInputText(e.target.value)}
+              onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleTextSend(); } }}
+              placeholder={t.aime.placeholder}
+              disabled={isLoading || isRecording}
+              dir={lang === 'ar' ? 'rtl' : 'ltr'}
+            />
+
+            {isSpeaking && (
+              <button
+                className="stop-btn"
+                onClick={() => { currentAudioRef.current?.pause(); setIsSpeaking(false); }}
+                title={lang === 'en' ? 'Stop' : 'إيقاف'}
+              >
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <rect x="6" y="6" width="12" height="12" rx="2" />
+                </svg>
+              </button>
+            )}
+
             <button
-              className={`mic-btn ${isRecording ? 'recording' : ''}`}
+              className={`mic-btn-inline ${isRecording ? 'recording' : ''}`}
               onClick={startRecording}
               title={isRecording
                 ? (lang === 'en' ? 'Stop recording' : 'إيقاف التسجيل')
@@ -523,56 +470,18 @@ export default function AimeWidget() {
               )}
             </button>
 
-            <button
-              className={`text-toggle-btn ${showInput ? 'active' : ''}`}
-              onClick={() => setShowInput((s) => !s)}
-              title="Text input"
-            >
+            <button className="send-btn" onClick={handleTextSend} disabled={!inputText.trim() || isLoading}>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <line x1="21" y1="6" x2="3" y2="6" />
-                <line x1="21" y1="12" x2="3" y2="12" />
-                <line x1="17" y1="18" x2="3" y2="18" />
+                <line x1="22" y1="2" x2="11" y2="13" />
+                <polygon points="22 2 15 22 11 13 2 9 22 2" />
               </svg>
             </button>
-
-            {isSpeaking && (
-              <button
-                className="stop-btn"
-                onClick={() => { currentAudioRef.current?.pause(); setIsSpeaking(false); }}
-                title={lang === 'en' ? 'Stop' : 'إيقاف'}
-              >
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <rect x="6" y="6" width="12" height="12" rx="2" />
-                </svg>
-              </button>
-            )}
           </div>
-
-          {showInput && (
-            <div className="text-input-row">
-              <input
-                ref={inputRef}
-                type="text"
-                value={inputText}
-                onChange={(e) => setInputText(e.target.value)}
-                onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleTextSend(); } }}
-                placeholder={t.aime.placeholder}
-                disabled={isLoading || isRecording}
-                dir={lang === 'ar' ? 'rtl' : 'ltr'}
-              />
-              <button className="send-btn" onClick={handleTextSend} disabled={!inputText.trim() || isLoading}>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <line x1="22" y1="2" x2="11" y2="13" />
-                  <polygon points="22 2 15 22 11 13 2 9 22 2" />
-                </svg>
-              </button>
-            </div>
-          )}
 
           <p className="input-hint">
             {isRecording
-              ? (lang === 'en' ? 'Listening… tap again to stop' : 'يستمع… اضغط مرة أخرى للإيقاف')
-              : (lang === 'en' ? 'Tap mic to speak • auto-stops on silence' : 'اضغط المايك للتحدث • يتوقف تلقائياً')}
+              ? (lang === 'en' ? 'Listening… tap mic again to stop' : 'يستمع… اضغط المايك للإيقاف')
+              : (lang === 'en' ? 'Type a message or tap 🎤 to speak' : 'اكتب رسالة أو اضغط 🎤 للتحدث')}
           </p>
         </div>
       </div>

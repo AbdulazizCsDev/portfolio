@@ -1,0 +1,83 @@
+/* ── Splash / intro screen ─────────────────────────────────── */
+.splash {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #06060f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.splash.out {
+  opacity: 0;
+  transform: translateY(-28px);
+  pointer-events: none;
+}
+
+/* ── Inner wrapper ─────────────────────────────────────────── */
+.splash-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+/* ── SVG logo ──────────────────────────────────────────────── */
+.splash-svg {
+  width: 96px;
+  height: 115px;
+  filter: drop-shadow(0 0 24px rgba(0, 212, 255, 0.25));
+}
+
+/* ── Stroke draw-in layer ──────────────────────────────────── */
+.s-stroke {
+  stroke-dasharray: 500;
+  /* default stroke-dashoffset is 0 → fully visible when no animation */
+  transition: opacity 0.5s ease;
+}
+
+.splash.draw .s-stroke {
+  animation: drawPath 1.1s ease forwards;
+}
+
+/* after draw → fade stroke out (offset stays 0 = CSS default) */
+.splash.reveal .s-stroke,
+.splash.out   .s-stroke {
+  opacity: 0;
+}
+
+@keyframes drawPath {
+  from { stroke-dashoffset: 500; }
+  to   { stroke-dashoffset: 0;   }
+}
+
+/* ── Fill fade-in layer ────────────────────────────────────── */
+.s-fill {
+  opacity: 0;
+  transition: opacity 0.65s ease;
+}
+
+.splash.reveal .s-fill,
+.splash.out    .s-fill {
+  opacity: 1;
+}
+
+/* ── Name label ────────────────────────────────────────────── */
+.splash-name {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 300;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  color: rgba(160, 160, 185, 0);
+  opacity: 0;
+  transition: color 0.7s ease 0.1s, opacity 0.7s ease 0.1s;
+}
+
+.splash.reveal .splash-name,
+.splash.out    .splash-name {
+  color: rgba(160, 160, 185, 0.65);
+  opacity: 1;
+}

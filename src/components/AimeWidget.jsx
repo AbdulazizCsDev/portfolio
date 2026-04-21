@@ -279,11 +279,33 @@ export default function AimeWidget() {
     <>
       {/* Greeting bubble */}
       {showBubble && (
-        <div className={`aime-bubble ${lang === 'ar' ? 'rtl' : ''}`} dir={lang === 'ar' ? 'rtl' : 'ltr'}>
-          <span>{t.aime.bubbleGreet}</span>
+        <div
+          className={`aime-bubble ${lang === 'ar' ? 'rtl' : ''}`}
+          dir={lang === 'ar' ? 'rtl' : 'ltr'}
+          role="button"
+          tabIndex={0}
+          onClick={() => {
+            // Cancel window listener so it doesn't double-fire
+            if (pendingBubbleRef.current) {
+              window.removeEventListener('click',   pendingBubbleRef.current);
+              window.removeEventListener('keydown', pendingBubbleRef.current);
+              pendingBubbleRef.current = null;
+            }
+            speakTextRef.current?.(bubbleTextRef.current);
+            setShowBubble(false);
+            setIsOpen(true);
+          }}
+          onKeyDown={(e) => e.key === 'Enter' && e.currentTarget.click()}
+        >
+          <div className="bubble-body">
+            <span>{t.aime.bubbleGreet}</span>
+            <span className="bubble-tap-hint">
+              {lang === 'ar' ? '✨ اضغط للاستماع' : '✨ tap to hear'}
+            </span>
+          </div>
           <button
             className="bubble-close"
-            onClick={() => setShowBubble(false)}
+            onClick={(e) => { e.stopPropagation(); setShowBubble(false); }}
             aria-label="Dismiss"
           >×</button>
         </div>

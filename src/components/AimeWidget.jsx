@@ -63,9 +63,12 @@ export default function AimeWidget() {
   const inputRef         = useRef(null);
   const isMutedRef       = useRef(false);
   const pendingGreetRef  = useRef(false);
-  const speakTextRef     = useRef(null);   // forward-ref so effects defined early can call speakText
-  const pendingBubbleRef = useRef(null);   // pending first-gesture bubble speak
-  const bubbleTextRef    = useRef('');     // current lang bubble greeting text
+  const speakTextRef     = useRef(null);
+  const pendingBubbleRef = useRef(null);
+  const bubbleTextRef    = useRef('');
+  const audioCtxRef      = useRef(null);
+  const silenceTimerRef  = useRef(null);
+  const isRecordingRef   = useRef(false);
 
   useEffect(() => { isMutedRef.current = isMuted; }, [isMuted]);
 
@@ -217,11 +220,81 @@ export default function AimeWidget() {
     [messages, speakText, navigateToSection, t.aime.noBackend]
   );
 
+  // ── Smart VAD recording ────────────────────────────────────────────────────
+  const SILENCE_THRESHOLD = 0.012; // RMS below this = silence
+  const SILENCE_DELAY     = 1600;  // ms of silence before auto-stop
+  const MIN_SPEECH_MS     = 400;   // ignore clips shorter than this
+
+  const submitAudio = useCallback(async () => {
+    const blob = new Blob(chunksRef.current, { type: mediaRecorderRef.current?.mimeType || 'audio/webm' });
+    streamRef.current?.getTracks().forEach((tr) => tr.stop());
+    audioCtxRef.current?.close().catch(() => {});
+    audioCtxRef.current = null;
+    setIsRecording(false);
+    isRecordingRef.current = false;
+    if (blob.size < 1000) return;
+    try {
+      const formData = new FormData();
+      formData.append('audio', blob, 'recording.webm');
+      setIsLoading(true);
+      const res = await fetch(`${API}/transcribe`, { method: 'POST', body: formData });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      const text = data.text || data.transcript || '';
+      if (text.trim()) await sendMessage(text);
+      else setIsLoading(false);
+    } catch {
+      setIsLoading(false);
+      setMessages((prev) => [...prev, { role: 'aime', content: t.aime.noTranscribe }]);
+    }
+  }, [sendMessage, t.aime.noTranscribe]);
+
+  const stopRecordingVAD = useCallback(() => {
+    clearTimeout(silenceTimerRef.current);
+    const mr = mediaRecorderRef.current;
+    if (!mr || mr.state === 'inactive') return;
+    mr.onstop = submitAudio;
+    mr.stop();
+  }, [submitAudio]);
+
   const startRecording = async () => {
+    if (isRecordingRef.current) { stopRecordingVAD(); return; } // toggle off
     setMicError(null);
+    // Stop any playing audio first
+    if (currentAudioRef.current) { currentAudioRef.current.pause(); setIsSpeaking(false); }
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       streamRef.current = stream;
+
+      // ── Voice Activity Detection via Web Audio ──────────────────────────
+      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      audioCtxRef.current = audioCtx;
+      const source    = audioCtx.createMediaStreamSource(stream);
+      const analyser  = audioCtx.createAnalyser();
+      analyser.fftSize = 512;
+      source.connect(analyser);
+      const buf = new Float32Array(analyser.fftSize);
+      let speechStarted = false;
+      let speechStartTime = Date.now();
+
+      const checkVAD = () => {
+        if (!isRecordingRef.current) return;
+        analyser.getFloatTimeDomainData(buf);
+        const rms = Math.sqrt(buf.reduce((s, v) => s + v * v, 0) / buf.length);
+        if (rms > SILENCE_THRESHOLD) {
+          if (!speechStarted) { speechStarted = true; speechStartTime = Date.now(); }
+          clearTimeout(silenceTimerRef.current);
+          silenceTimerRef.current = null;
+        } else if (speechStarted && !silenceTimerRef.current) {
+          silenceTimerRef.current = setTimeout(() => {
+            if (Date.now() - speechStartTime >= MIN_SPEECH_MS) stopRecordingVAD();
+          }, SILENCE_DELAY);
+        }
+        requestAnimationFrame(checkVAD);
+      };
+      requestAnimationFrame(checkVAD);
+      // ───────────────────────────────────────────────────────────────────
+
       const mimeType = ['audio/webm;codecs=opus', 'audio/webm', 'audio/ogg', ''].find(
         (m) => !m || MediaRecorder.isTypeSupported(m)
       );
@@ -230,6 +303,7 @@ export default function AimeWidget() {
       chunksRef.current = [];
       mr.ondataavailable = (e) => { if (e.data.size > 0) chunksRef.current.push(e.data); };
       mr.start(100);
+      isRecordingRef.current = true;
       setIsRecording(true);
     } catch (err) {
       setMicError(
@@ -240,34 +314,6 @@ export default function AimeWidget() {
     }
   };
 
-  const stopRecording = () => {
-    const mr = mediaRecorderRef.current;
-    if (!mr || mr.state === 'inactive') return;
-    mr.onstop = async () => {
-      const blob = new Blob(chunksRef.current, { type: mr.mimeType || 'audio/webm' });
-      streamRef.current?.getTracks().forEach((tr) => tr.stop());
-      setIsRecording(false);
-      if (blob.size < 1000) return;
-      try {
-        const formData = new FormData();
-        formData.append('audio', blob, 'recording.webm');
-        setIsLoading(true);
-        const res = await fetch(`${API}/transcribe`, { method: 'POST', body: formData });
-        if (!res.ok) throw new Error();
-        const data = await res.json();
-        const text = data.text || data.transcript || '';
-        if (text.trim()) await sendMessage(text);
-        else setIsLoading(false);
-      } catch {
-        setIsLoading(false);
-        setMessages((prev) => [...prev, { role: 'aime', content: t.aime.noTranscribe }]);
-      }
-    };
-    mr.stop();
-  };
-
-  const handleMicDown = (e) => { e.preventDefault(); startRecording(); };
-  const handleMicUp   = (e) => { e.preventDefault(); stopRecording(); };
   const handleTextSend = () => { sendMessage(inputText); setInputText(''); };
 
   const statusLabel = isRecording ? t.aime.listening
@@ -457,10 +503,10 @@ export default function AimeWidget() {
           <div className="aime-controls">
             <button
               className={`mic-btn ${isRecording ? 'recording' : ''}`}
-              onMouseDown={handleMicDown} onMouseUp={handleMicUp}
-              onTouchStart={handleMicDown} onTouchEnd={handleMicUp}
-              onContextMenu={(e) => e.preventDefault()}
-              title={t.aime.hold}
+              onClick={startRecording}
+              title={isRecording
+                ? (lang === 'en' ? 'Stop recording' : 'إيقاف التسجيل')
+                : (lang === 'en' ? 'Click to speak' : 'اضغط للتحدث')}
               disabled={isLoading || isSpeaking}
             >
               {isRecording ? (
@@ -523,7 +569,11 @@ export default function AimeWidget() {
             </div>
           )}
 
-          <p className="input-hint">{isRecording ? t.aime.release : t.aime.hold}</p>
+          <p className="input-hint">
+            {isRecording
+              ? (lang === 'en' ? 'Listening… tap again to stop' : 'يستمع… اضغط مرة أخرى للإيقاف')
+              : (lang === 'en' ? 'Tap mic to speak • auto-stops on silence' : 'اضغط المايك للتحدث • يتوقف تلقائياً')}
+          </p>
         </div>
       </div>
     </>

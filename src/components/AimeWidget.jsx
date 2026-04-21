@@ -69,6 +69,7 @@ export default function AimeWidget() {
   const isRecordingRef   = useRef(false);
 
   useEffect(() => { isMutedRef.current = isMuted; }, [isMuted]);
+  const isLangMountRef = useRef(true);
 
   // Open from Hero CTA button
   useEffect(() => {
@@ -77,8 +78,9 @@ export default function AimeWidget() {
     return () => document.removeEventListener('openAime', handler);
   }, []);
 
-  // Reset greeting when language changes
+  // Reset greeting when language changes (skip on first mount)
   useEffect(() => {
+    if (isLangMountRef.current) { isLangMountRef.current = false; return; }
     hasGreetedRef.current = false;
     pendingGreetRef.current = false;
     setMessages([{ role: 'aime', content: t.aime.greeting }]);
@@ -126,10 +128,6 @@ export default function AimeWidget() {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isLoading]);
-
-  useEffect(() => {
-    if (showInput) inputRef.current?.focus();
-  }, [showInput]);
 
   const navigateToSection = useCallback((intent) => {
     if (!intent) return;

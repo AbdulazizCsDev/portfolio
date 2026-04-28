@@ -125,8 +125,9 @@ export default function AimeWidget() {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
+    if (!isOpen) return;
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, isLoading]);
+  }, [messages, isLoading, isOpen]);
 
   const navigateToSection = useCallback((intent) => {
     if (!intent) return;

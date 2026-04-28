@@ -37,7 +37,7 @@ export default function Contact() {
       value: t.contact.emailVal,
       href: `mailto:${t.contact.emailVal}`,
       icon: <EmailIcon />,
-      color: '#00d4ff',
+      color: 'var(--accent)',
     },
     {
       label: t.contact.linkedin,
@@ -51,7 +51,7 @@ export default function Contact() {
       value: t.contact.githubVal,
       href: `https://${t.contact.githubVal}`,
       icon: <GitHubIcon />,
-      color: '#e4e4f0',
+      color: 'var(--text-primary)',
     },
   ];
 

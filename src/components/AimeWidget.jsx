@@ -41,7 +41,7 @@ function highlightSkills() {
 export default function AimeWidget() {
   const { t, lang } = useLanguage();
 
-  const [isOpen, setIsOpen]             = useState(true);
+  const [isOpen, setIsOpen]             = useState(false);
   const [isExpanded, setIsExpanded]     = useState(false);
   const [isMuted, setIsMuted]           = useState(false);
   const [messages, setMessages]         = useState([]);
@@ -62,7 +62,6 @@ export default function AimeWidget() {
   const isMutedRef       = useRef(false);
   const pendingGreetRef  = useRef(false);
   const speakTextRef     = useRef(null);
-  const pendingBubbleRef = useRef(null);
   const bubbleTextRef    = useRef('');
   const audioCtxRef      = useRef(null);
   const silenceTimerRef  = useRef(null);
@@ -113,9 +112,9 @@ export default function AimeWidget() {
       setIsSpeaking(false);
     }
   }, []);
-  // Keep ref in sync so early-bound effects can call it; also store current bubble text
-  speakTextRef.current = speakText;
-  bubbleTextRef.current = t.aime.bubbleGreet;
+  // Keep refs in sync so early-bound effects can call the latest version
+  useEffect(() => { speakTextRef.current = speakText; });
+  useEffect(() => { bubbleTextRef.current = t.aime.bubbleGreet; }, [t.aime.bubbleGreet]);
 
   // Show greeting in chat on first open (text only, no sound - lang effect handles sound)
   useEffect(() => {
@@ -151,14 +150,25 @@ export default function AimeWidget() {
       setIsLoading(true);
 
       try {
-        const history = messages.map((m) => ({
-          role: m.role === 'aime' ? 'assistant' : 'user',
-          content: m.content,
-        }));
+        const langInstruction = lang === 'en'
+          ? 'Please always respond in English only, regardless of what language I write in.'
+          : 'من فضلك أجب دائماً باللغة العربية فقط، بغض النظر عن لغة رسالتي.';
+        const langAck = lang === 'en'
+          ? 'Understood, I will always respond in English.'
+          : 'حسناً، سأجيب دائماً باللغة العربية.';
+
+        const history = [
+          { role: 'user', content: langInstruction },
+          { role: 'assistant', content: langAck },
+          ...messages.map((m) => ({
+            role: m.role === 'aime' ? 'assistant' : 'user',
+            content: m.content,
+          })),
+        ];
         const res = await fetch(`${API}/chat`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: trimmed, history }),
+          body: JSON.stringify({ message: trimmed, history, lang }),
         });
         if (!res.ok) throw new Error();
         const data = await res.json();
@@ -173,7 +183,7 @@ export default function AimeWidget() {
         setIsLoading(false);
       }
     },
-    [messages, speakText, navigateToSection, t.aime.noBackend]
+    [messages, speakText, navigateToSection, t.aime.noBackend, lang]
   );
 
   // ── Smart VAD recording ────────────────────────────────────────────────────

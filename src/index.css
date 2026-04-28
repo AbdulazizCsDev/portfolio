@@ -1,4 +1,4 @@
-﻿@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Cairo:wght@300;400;500;600;700;800&display=swap');
+﻿@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Cairo:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 /* ─── CSS Variables ─────────────────────────────────────── */
 :root {
@@ -25,6 +25,7 @@
 
   --font-en: 'Inter', system-ui, -apple-system, sans-serif;
   --font-ar: 'Cairo', 'Tajawal', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
 
   --radius:    12px;
   --radius-lg: 20px;
@@ -240,4 +241,25 @@ section { padding: var(--section-pad) 2rem; position: relative; }
 @keyframes typewriter-cursor {
   0%, 100% { opacity: 1; }
   50%       { opacity: 0; }
+}
+
+/* ─── Code-style Section Label ──────────────────────────── */
+.section-label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--accent);
+  opacity: 0.55;
+  letter-spacing: 0.09em;
+  margin-bottom: 0.6rem;
+}
+
+/* ─── Reduced Motion ────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

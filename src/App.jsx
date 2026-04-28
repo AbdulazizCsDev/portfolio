@@ -9,6 +9,7 @@ import Skills from './components/Skills';
 import Contact from './components/Contact';
 import AimeWidget from './components/AimeWidget';
 import NeuralBackground from './components/NeuralBackground';
+import NeuralLogo3D from './components/NeuralLogo3D';
 import './App.css';
 
 function AppContent() {
@@ -41,6 +42,8 @@ function AppContent() {
       {!splashDone && <SplashScreen onDone={() => setSplashDone(true)} />}
       <div className={`app ${lang === 'ar' ? 'rtl' : 'ltr'}`}>
       <NeuralBackground />
+      <NeuralLogo3D splashDone={splashDone} />
+      <div className="scanline-overlay" aria-hidden="true" />
       <Navbar />
       <main>
         <Hero />

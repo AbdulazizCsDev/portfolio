@@ -3,7 +3,79 @@
   z-index: 1;
 }
 
+/* Fixed 3D neural logo — floats over entire page, reacts to scroll */
+.neural-logo-fixed {
+  position: fixed;
+  right: 3%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 380px;
+  height: 380px;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.neural-logo-fixed.active {
+  opacity: 1;
+}
+
+/* RTL — flip to left side */
+.rtl .neural-logo-fixed {
+  right: auto;
+  left: 3%;
+}
+
+@media (max-width: 1280px) {
+  .neural-logo-fixed {
+    width: 300px;
+    height: 300px;
+    right: 1%;
+  }
+  .rtl .neural-logo-fixed {
+    right: auto;
+    left: 1%;
+  }
+}
+
+@media (max-width: 1024px) {
+  .neural-logo-fixed {
+    width: 220px;
+    height: 220px;
+    right: 0;
+  }
+  .rtl .neural-logo-fixed {
+    right: auto;
+    left: 0;
+  }
+  .neural-logo-fixed.active {
+    opacity: 0.5;
+  }
+}
+
+@media (max-width: 640px) {
+  .neural-logo-fixed {
+    display: none;
+  }
+}
+
 main {
   position: relative;
   z-index: 1;
+}
+
+/* Scanline veil — ultra-faint horizontal lines for terminal/oscilloscope feel */
+.scanline-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 3px,
+    rgba(0, 0, 0, 0.014) 3px,
+    rgba(0, 0, 0, 0.014) 4px
+  );
 }

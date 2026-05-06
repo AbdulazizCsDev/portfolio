@@ -72,7 +72,7 @@ const translations = {
         },
         {
           name: 'Between the Lines',
-          desc: 'An intelligent X archive analyzer that uncovers hidden patterns in your tweets and turns them into actionable content strategies using AI.',
+          desc: 'AI-powered X archive analyzer that reveals hidden patterns in your tweets and converts them into a ready-to-execute content strategy.',
           tags: ['Next.js', 'React', 'FastAPI', 'Claude AI', 'SQLite', 'Tailwind CSS'],
           live: 'https://x-tweets-analyzer.vercel.app/',
           github: 'https://github.com/AbdulazizCsDev/x-tweets-analyzer',

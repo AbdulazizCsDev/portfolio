@@ -71,7 +71,7 @@ const translations = {
           github: 'https://github.com/AbdulazizCsDev/typing-game',
         },
         {
-          name: 'بين السطور — X Archive Analyzer',
+          name: 'Between the Lines',
           desc: 'An intelligent X archive analyzer that uncovers hidden patterns in your tweets and turns them into actionable content strategies using AI.',
           tags: ['Next.js', 'React', 'FastAPI', 'Claude AI', 'SQLite', 'Tailwind CSS'],
           live: 'https://x-tweets-analyzer.vercel.app/',

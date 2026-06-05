@@ -44,8 +44,8 @@ const translations = {
         {
           name: 'Aime Voice Assistant',
           desc: 'An Arabic-first AI voice assistant with voice cloning, RAG pipeline, and LLM integration. Deployed as a production web app.',
-          tags: ['Python', 'FastAPI', 'LangChain', 'ChromaDB', 'Whisper', 'Claude', 'ElevenLabs'],
-          live: 'https://aime-voice-assistant-production.up.railway.app/',
+          tags: ['Python', 'FastAPI', 'Whisper', 'Claude', 'ElevenLabs', 'RAG'],
+          live: 'https://aime-voice-assistant-rw2z.vercel.app/',
           github: 'https://github.com/AbdulazizCsDev/aime-voice-assistant',
         },
         {
@@ -105,7 +105,7 @@ const translations = {
         {
           name: 'Cloud & DevOps',
           icon: '☁️',
-          skills: ['AWS (IAM, EC2, S3)', 'Docker', 'Railway', 'CI/CD'],
+          skills: ['AWS (IAM, EC2, S3)', 'Docker', 'Railway', 'Vercel', 'CI/CD'],
         },
         {
           name: 'Databases',
@@ -194,8 +194,8 @@ const translations = {
         {
           name: 'آيم — المساعد الصوتي',
           desc: 'مساعد صوتي ذكي يدعم العربية بالدرجة الأولى، مع استنساخ الصوت وتقنية RAG ونماذج اللغة الكبيرة. منشور كتطبيق ويب إنتاجي.',
-          tags: ['Python', 'FastAPI', 'LangChain', 'ChromaDB', 'Whisper', 'Claude', 'ElevenLabs'],
-          live: 'https://aime-voice-assistant-production.up.railway.app/',
+          tags: ['Python', 'FastAPI', 'Whisper', 'Claude', 'ElevenLabs', 'RAG'],
+          live: 'https://aime-voice-assistant-rw2z.vercel.app/',
           github: 'https://github.com/AbdulazizCsDev/aime-voice-assistant',
         },
         {
@@ -255,7 +255,7 @@ const translations = {
         {
           name: 'السحابة والـ DevOps',
           icon: '☁️',
-          skills: ['AWS (IAM, EC2, S3)', 'Docker', 'Railway', 'CI/CD'],
+          skills: ['AWS (IAM, EC2, S3)', 'Docker', 'Railway', 'Vercel', 'CI/CD'],
         },
         {
           name: 'قواعد البيانات',

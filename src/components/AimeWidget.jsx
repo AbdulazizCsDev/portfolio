@@ -2,7 +2,7 @@
 import { useLanguage } from '../context/LanguageContext';
 import './AimeWidget.css';
 
-const API = 'https://aime-voice-assistant-production.up.railway.app';
+const API = 'https://aime-voice-assistant-rw2z.vercel.app';
 
 // Detect which portfolio section the text is about
 function detectIntent(text) {

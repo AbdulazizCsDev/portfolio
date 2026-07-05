@@ -122,6 +122,12 @@
   flex-wrap: wrap;
 }
 
+.hero-stat-group {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
 .hero-stat {
   display: flex;
   align-items: baseline;

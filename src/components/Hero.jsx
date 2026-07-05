@@ -3,7 +3,7 @@ import { useLanguage } from '../context/LanguageContext';
 import './Hero.css';
 
 export default function Hero() {
-  const { t, lang } = useLanguage();
+  const { t } = useLanguage();
   const [titleIndex, setTitleIndex] = useState(0);
   const [displayed, setDisplayed] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
@@ -69,20 +69,15 @@ export default function Hero() {
           </p>
 
           <div className="hero-stats" data-reveal data-reveal-delay="4">
-            <span className="hero-stat">
-              <strong className="stat-num">5</strong>
-              <span>{lang === 'ar' ? 'مشاريع' : 'Projects'}</span>
-            </span>
-            <span className="stat-sep" aria-hidden="true">·</span>
-            <span className="hero-stat">
-              <strong className="stat-num">4.01</strong>
-              <span>GPA</span>
-            </span>
-            <span className="stat-sep" aria-hidden="true">·</span>
-            <span className="hero-stat">
-              <strong className="stat-num">3</strong>
-              <span>{lang === 'ar' ? 'شهادات' : 'Certs'}</span>
-            </span>
+            {t.hero.stats.map((stat, i) => (
+              <span key={stat.label} className="hero-stat-group">
+                {i > 0 && <span className="stat-sep" aria-hidden="true">·</span>}
+                <span className="hero-stat">
+                  <strong className="stat-num">{stat.value}</strong>
+                  <span>{stat.label}</span>
+                </span>
+              </span>
+            ))}
           </div>
 
           <div className="hero-cta" data-reveal data-reveal-delay="5">

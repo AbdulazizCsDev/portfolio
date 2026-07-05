@@ -39,6 +39,7 @@ export default function Projects() {
               data-reveal-delay={String((i % 3) + 1)}
             >
               <div className="project-number">0{i + 1}</div>
+              {project.award && <div className="project-award">{project.award}</div>}
               <h3 className="project-name">{project.name}</h3>
               <p className="project-desc">{project.desc}</p>
 
@@ -90,6 +91,71 @@ export default function Projects() {
             </div>
           ))}
         </div>
+
+        {t.projects.more?.length > 0 && (
+          <>
+            <h3 className="projects-more-title" data-reveal>
+              {t.projects.moreTitle}
+            </h3>
+            <div className="projects-more-grid">
+              {t.projects.more.map((project, i) => (
+                <div
+                  key={i}
+                  className="project-card project-card-small card-glass"
+                  data-reveal
+                  data-reveal-delay={String((i % 2) + 1)}
+                >
+                  <h4 className="project-name">{project.name}</h4>
+                  <p className="project-desc">{project.desc}</p>
+
+                  <div className="project-tags">
+                    {project.tags.map((tag) => (
+                      <span key={tag} className="tag">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="project-links">
+                    {project.live && (
+                      <a
+                        href={project.live}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="project-link link-live"
+                      >
+                        <ExternalIcon />
+                        {t.projects.live}
+                      </a>
+                    )}
+                    {project.docs && (
+                      <a
+                        href={project.docs}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="project-link link-live"
+                      >
+                        <ExternalIcon />
+                        {t.projects.docs}
+                      </a>
+                    )}
+                    {project.github && (
+                      <a
+                        href={project.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="project-link link-github"
+                      >
+                        <GithubIcon />
+                        {t.projects.github}
+                      </a>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
       </div>
     </section>
   );

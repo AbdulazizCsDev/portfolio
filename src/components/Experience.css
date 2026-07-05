@@ -1,0 +1,118 @@
+.exp-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 820px;
+}
+
+.exp-item {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.exp-marker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 1.9rem;
+  flex-shrink: 0;
+}
+
+.exp-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  border: 2px solid var(--bg-primary);
+  box-shadow: 0 0 0 2px var(--border-card);
+}
+
+.exp-dot.current {
+  background: var(--accent);
+  box-shadow: 0 0 0 2px var(--border-hover);
+  animation: pulse-glow 2.5s infinite;
+}
+
+.exp-line {
+  flex: 1;
+  width: 2px;
+  margin-top: 8px;
+  background: linear-gradient(180deg, var(--border-hover), transparent);
+}
+
+.exp-card {
+  padding: 1.75rem 2rem;
+  flex: 1;
+}
+
+.exp-head {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.exp-role {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.35;
+}
+
+.exp-current-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 12px;
+  border-radius: 100px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #4ade80;
+  background: rgba(74, 222, 128, 0.1);
+  border: 1px solid rgba(74, 222, 128, 0.3);
+}
+
+.exp-org {
+  font-size: 0.9rem;
+  color: var(--accent);
+  margin-top: 0.35rem;
+  font-weight: 600;
+}
+
+.exp-period {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
+.exp-points {
+  margin-top: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.exp-points li {
+  position: relative;
+  padding-inline-start: 1.15rem;
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.65;
+}
+
+.exp-points li::before {
+  content: '▹';
+  position: absolute;
+  inset-inline-start: 0;
+  color: var(--accent);
+}
+
+/* RTL */
+.rtl .exp-card { direction: rtl; }
+
+/* Responsive */
+@media (max-width: 640px) {
+  .exp-item { gap: 1rem; }
+  .exp-card { padding: 1.5rem; }
+}

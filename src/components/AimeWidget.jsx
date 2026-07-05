@@ -9,9 +9,15 @@ function detectIntent(text) {
   if (!text) return null;
   if (/cert|شهادة|شهادات|ibm|tensorflow|aws/i.test(text))
     return { section: 'about', highlight: 'certs' };
+  if (/now building|working on|currently|قيد البناء|يعمل حالياً|حالياً على/i.test(text))
+    return { section: 'now' };
+  if (/board.?room|hackathon|himmah|agrocure|هاكاثون|همة|همّة|مجلس الإدارة|أجروكيور/i.test(text))
+    return { section: 'projects', highlight: 'projects' };
   if (/project|مشروع|مشاريع|aime voice|spy|game|tweet|forecast|car.?wash/i.test(text))
     return { section: 'projects', highlight: 'projects' };
-  if (/skill|مهارة|مهارات|python|react|flutter|fastapi|backend|frontend/i.test(text))
+  if (/experience|bootcamp|quality assurance|خبرة|خبرات|معسكر|ضمان الجودة/i.test(text))
+    return { section: 'experience' };
+  if (/skill|مهارة|مهارات|python|react|flutter|fastapi|backend|frontend|pytorch|rag|llm/i.test(text))
     return { section: 'skills', highlight: 'skills' };
   if (/contact|email|linkedin|github|تواصل|ايميل|بريد/i.test(text))
     return { section: 'contact' };

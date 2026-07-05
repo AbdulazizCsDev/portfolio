@@ -4,7 +4,9 @@ import SplashScreen from './components/SplashScreen';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
+import Experience from './components/Experience';
 import Projects from './components/Projects';
+import NowBuilding from './components/NowBuilding';
 import Skills from './components/Skills';
 import Contact from './components/Contact';
 import AimeWidget from './components/AimeWidget';
@@ -48,7 +50,9 @@ function AppContent() {
       <main>
         <Hero />
         <About />
+        <Experience />
         <Projects />
+        <NowBuilding />
         <Skills />
         <Contact />
       </main>

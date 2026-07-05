@@ -81,8 +81,8 @@ const translations = {
           award: '🏆 1st Place — Himmah Digital Camps',
           desc: 'Multi-agent system that simulates a corporate advisory board: CFO, Legal Advisor, and Market Strategist agents deliberate, vote, and reach consensus synthesized by a Chairman agent — each grounded in company documents through a FAISS RAG layer.',
           tags: ['Python', 'LangChain', 'Multi-Agent', 'FAISS', 'FastAPI', 'React'],
-          live: null,
-          github: null,
+          live: 'https://ai-board-room-2wtb.onrender.com/',
+          github: 'https://github.com/AbdulazizCsDev/ai-board-room',
         },
         {
           name: 'Aime Voice Assistant',
@@ -97,8 +97,8 @@ const translations = {
           award: '👥 Led a 4-person team',
           desc: 'End-to-end plant-disease classification (ResNet50 transfer learning, 36+ classes, ~7,300 images) with a RAG advisory layer for rare classes and a custom in-house dataset. Deployed on a Raspberry Pi at 73 ms inference; experiments tracked with MLflow.',
           tags: ['PyTorch', 'ResNet50', 'FAISS', 'MLflow', 'Edge AI'],
-          live: null,
-          github: null,
+          live: 'https://abdulazizcsdev-agrocure-app.hf.space/',
+          github: 'https://github.com/AbdulazizCsDev/AgriCure-App',
         },
         {
           name: 'Between the Lines',
@@ -316,8 +316,8 @@ const translations = {
           award: '🏆 المركز الأول — معسكرات همّة الرقمية',
           desc: 'نظام متعدد الوكلاء يحاكي مجلساً استشارياً تنفيذياً: وكلاء متخصصون (مدير مالي، مستشار قانوني، خبير سوق) يتداولون ويصوّتون ويصلون إلى توصية موحّدة يصوغها وكيل «رئيس المجلس» — مع تأصيل كل رأي في وثائق الشركة عبر طبقة RAG بـ FAISS.',
           tags: ['Python', 'LangChain', 'Multi-Agent', 'FAISS', 'FastAPI', 'React'],
-          live: null,
-          github: null,
+          live: 'https://ai-board-room-2wtb.onrender.com/',
+          github: 'https://github.com/AbdulazizCsDev/ai-board-room',
         },
         {
           name: 'آيم — المساعد الصوتي',
@@ -332,8 +332,8 @@ const translations = {
           award: '👥 قيادة فريق من 4 مهندسين',
           desc: 'نظام متكامل لتصنيف أمراض النباتات (ResNet50 بنقل التعلم، +36 صنفاً، ~7,300 صورة) مع طبقة RAG استشارية للأصناف النادرة وبيانات مجمّعة ومصنّفة داخلياً. مُشغَّل على Raspberry Pi بزمن استدلال 73 مللي ثانية؛ مع تتبع التجارب بـ MLflow.',
           tags: ['PyTorch', 'ResNet50', 'FAISS', 'MLflow', 'Edge AI'],
-          live: null,
-          github: null,
+          live: 'https://abdulazizcsdev-agrocure-app.hf.space/',
+          github: 'https://github.com/AbdulazizCsDev/AgriCure-App',
         },
         {
           name: 'بين السطور — محلل أرشيف X',

@@ -37,6 +37,7 @@ export default function Projects() {
               className="project-card card-glass"
               data-reveal
               data-reveal-delay={String((i % 3) + 1)}
+              data-target-id={project.id}
             >
               <div className="project-number">0{i + 1}</div>
               {project.award && <div className="project-award">{project.award}</div>}
@@ -104,6 +105,7 @@ export default function Projects() {
                   className="project-card project-card-small card-glass"
                   data-reveal
                   data-reveal-delay={String((i % 2) + 1)}
+                  data-target-id={project.id}
                 >
                   <h4 className="project-name">{project.name}</h4>
                   <p className="project-desc">{project.desc}</p>

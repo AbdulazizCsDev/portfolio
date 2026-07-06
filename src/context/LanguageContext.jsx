@@ -14,16 +14,11 @@ const translations = {
       name: 'Abdulaziz Alhaidan',
       title: 'AI / Machine Learning Engineer',
       titles: ['AI / ML Engineer', 'LLM & Multi-Agent Systems', 'RAG & GenAI Engineer', 'Backend Engineer'],
-      bio: "AI / Machine Learning Engineer who designs, builds, and ships production-grade LLM and ML systems end-to-end — from data and training to RAG pipelines, multi-agent orchestration, and deployment. 1st-place winner at the Himmah Digital Camps hackathon.",
+      bio: "AI / Machine Learning Engineer who designs, builds, and ships production-grade LLM and ML systems end-to-end — from data and training to RAG pipelines, multi-agent orchestration, and deployment. Currently building trustworthy, Arabic-first AI for the Saudi market.",
       cta1: 'Talk to Aime',
       cta2: 'View Projects',
       cta3: 'Download CV',
       available: 'Available for opportunities',
-      stats: [
-        { value: '🏆 1st', label: 'Hackathon Win' },
-        { value: '73ms', label: 'Edge Inference' },
-        { value: '4.01', label: 'GPA / 5' },
-      ],
     },
     about: {
       title: 'About Me',
@@ -77,6 +72,7 @@ const translations = {
       moreTitle: 'More Projects',
       items: [
         {
+          id: 'board-room',
           name: 'AI Board Room',
           award: '🏆 1st Place — Himmah Digital Camps',
           desc: 'Multi-agent system that simulates a corporate advisory board: CFO, Legal Advisor, and Market Strategist agents deliberate, vote, and reach consensus synthesized by a Chairman agent — each grounded in company documents through a FAISS RAG layer.',
@@ -85,6 +81,7 @@ const translations = {
           github: 'https://github.com/AbdulazizCsDev/ai-board-room',
         },
         {
+          id: 'aime',
           name: 'Aime Voice Assistant',
           award: null,
           desc: "Production-deployed Arabic-first AI voice assistant: Whisper (speech-to-text), Claude (reasoning), and ElevenLabs (voice cloning), with a RAG pipeline for grounded answers. You're talking to it live on this site.",
@@ -93,6 +90,7 @@ const translations = {
           github: 'https://github.com/AbdulazizCsDev/aime-voice-assistant',
         },
         {
+          id: 'agrocure',
           name: 'AgroCure — Plant Disease Detection',
           award: '👥 Led a 4-person team',
           desc: 'End-to-end plant-disease classification (ResNet50 transfer learning, 36+ classes, ~7,300 images) with a RAG advisory layer for rare classes and a custom in-house dataset. Deployed on a Raspberry Pi at 73 ms inference; experiments tracked with MLflow.',
@@ -101,6 +99,7 @@ const translations = {
           github: 'https://github.com/AbdulazizCsDev/AgriCure-App',
         },
         {
+          id: 'lines',
           name: 'Between the Lines',
           award: null,
           desc: 'AI-powered X archive analyzer that reveals hidden engagement patterns and turns them into a ready-to-execute content strategy. ZIP parsing runs fully in-browser — your data never leaves your device.',
@@ -109,6 +108,7 @@ const translations = {
           github: 'https://github.com/AbdulazizCsDev/x-tweets-analyzer',
         },
         {
+          id: 'forecast',
           name: 'Weather-Driven Demand Forecasting',
           award: null,
           desc: 'End-to-end ML pipeline forecasting car wash demand in Riyadh from live weather data, served through a FastAPI REST API. Reduced prediction MAE by ~50%.',
@@ -119,6 +119,7 @@ const translations = {
       ],
       more: [
         {
+          id: 'carwash',
           name: 'Car Wash Management System',
           desc: 'Full-stack management platform with role-based access, real-time order tracking, and payment integration. Graduation project.',
           tags: ['Flutter', 'PHP', 'MySQL'],
@@ -127,6 +128,7 @@ const translations = {
           github: 'https://github.com/AbdulazizCsDev/carwash_system',
         },
         {
+          id: 'spy',
           name: 'Online Multiplayer Spy Game',
           desc: 'Real-time multiplayer party game with room management, voting, and reconnection handling.',
           tags: ['React', 'Node.js', 'Socket.IO'],
@@ -141,6 +143,7 @@ const translations = {
       startedLabel: 'Started',
       items: [
         {
+          id: 'board-room',
           name: 'AI Board Room — Trustworthy Edition',
           status: 'In Progress',
           started: '2026',
@@ -148,6 +151,7 @@ const translations = {
           focus: ['Arabic-first agents', 'Grounded citations', 'Evaluation & guardrails'],
         },
         {
+          id: 'agrocure',
           name: 'AgroCure — Saudi Agriculture',
           status: 'In Progress',
           started: '2026',
@@ -155,6 +159,7 @@ const translations = {
           focus: ['Saudi crops', 'Arabic advisory', 'Confidence & review flows'],
         },
         {
+          id: 'bootcamp',
           name: 'AI / ML Engineering Bootcamp',
           status: 'Ongoing',
           started: '2026',
@@ -228,11 +233,30 @@ const translations = {
       mute: 'Mute',
       unmute: 'Unmute',
       suggestions: [
+        { label: '🎯 Quick tour', tour: true },
+        {
+          label: 'Projects',
+          query: 'What are his projects?',
+          canned: 'These are his projects — any specific one you want to dig into?',
+          action: 'projects',
+        },
         { label: '🏆 Hackathon Win', query: 'Tell me about the AI Board Room hackathon win' },
-        { label: 'Projects', query: 'Tell me about the projects' },
         { label: 'Job Fit Check', query: "I'm a recruiter. I'll paste a job description, and I want you to analyze how well Abdulaziz fits it — matched skills, which of his projects prove each requirement, and honest gaps. Ready?" },
-        { label: 'Skills', query: 'What are his skills?' },
-        { label: 'Contact', query: 'How can I contact him?' },
+        {
+          label: 'Contact',
+          query: 'How can I contact him?',
+          canned: "Here's how to reach him — email or LinkedIn work best. Anything else you'd like to know first?",
+          action: 'contact',
+        },
+      ],
+      tour: [
+        { text: "Let me show you around. This is Abdulaziz — an AI/ML engineer who designs, builds, and ships LLM and ML systems end-to-end.", action: 'about' },
+        { text: 'His projects. Start with AI Board Room — a multi-agent advisory board that took 1st place at the Himmah Digital Camps hackathon.', action: 'projects.board-room' },
+        { text: 'AgroCure — plant-disease detection running at 73 ms on a Raspberry Pi. He led the four-person team behind it.', action: 'projects.agrocure' },
+        { text: "And Aime — that's me: Whisper, Claude, and ElevenLabs, deployed and talking to you right now.", action: 'projects.aime' },
+        { text: "What he's building now: hardening Board Room and AgroCure into trustworthy, Arabic-first systems for the Saudi market.", action: 'now' },
+        { text: 'The toolkit behind it all — GenAI, deep learning, and MLOps.', action: 'skills' },
+        { text: "And this is where to reach him. Ask me anything else — I'm here.", action: 'contact' },
       ],
     },
   },
@@ -249,16 +273,11 @@ const translations = {
       name: 'عبدالعزيز الحيدان',
       title: 'مهندس ذكاء اصطناعي وتعلّم آلة',
       titles: ['مهندس ذكاء اصطناعي / تعلّم آلة', 'أنظمة LLM والوكلاء المتعددين', 'مهندس RAG وذكاء توليدي', 'مهندس باك إند'],
-      bio: 'مهندس ذكاء اصطناعي وتعلّم آلة أصمّم وأبني وأطلق أنظمة LLM وتعلّم آلة بجودة إنتاجية من البداية إلى النهاية — من البيانات والتدريب إلى RAG وتنسيق الوكلاء المتعددين والنشر. حاصل على المركز الأول في هاكاثون معسكرات همّة الرقمية.',
+      bio: 'مهندس ذكاء اصطناعي وتعلّم آلة أصمّم وأبني وأطلق أنظمة LLM وتعلّم آلة بجودة إنتاجية من البداية إلى النهاية — من البيانات والتدريب إلى RAG وتنسيق الوكلاء المتعددين والنشر. أعمل حالياً على بناء ذكاء اصطناعي موثوق يتحدث العربية أولاً للسوق السعودي.',
       cta1: 'تحدث مع آيم',
       cta2: 'عرض المشاريع',
       cta3: 'تحميل السيرة الذاتية',
       available: 'متاح للفرص المهنية',
-      stats: [
-        { value: '🏆 الأول', label: 'فوز بالهاكاثون' },
-        { value: '73ms', label: 'استدلال على الحافة' },
-        { value: '4.01', label: 'المعدل من 5' },
-      ],
     },
     about: {
       title: 'عني',
@@ -312,6 +331,7 @@ const translations = {
       moreTitle: 'مشاريع أخرى',
       items: [
         {
+          id: 'board-room',
           name: 'مجلس الإدارة الذكي — AI Board Room',
           award: '🏆 المركز الأول — معسكرات همّة الرقمية',
           desc: 'نظام متعدد الوكلاء يحاكي مجلساً استشارياً تنفيذياً: وكلاء متخصصون (مدير مالي، مستشار قانوني، خبير سوق) يتداولون ويصوّتون ويصلون إلى توصية موحّدة يصوغها وكيل «رئيس المجلس» — مع تأصيل كل رأي في وثائق الشركة عبر طبقة RAG بـ FAISS.',
@@ -320,6 +340,7 @@ const translations = {
           github: 'https://github.com/AbdulazizCsDev/ai-board-room',
         },
         {
+          id: 'aime',
           name: 'آيم — المساعد الصوتي',
           award: null,
           desc: 'مساعد صوتي ذكي منشور إنتاجياً يدعم العربية أولاً: Whisper لتحويل الصوت إلى نص، وClaude للاستدلال، وElevenLabs لاستنساخ الصوت، مع نظام RAG لإجابات مؤصّلة. أنت تتحدث معه الآن على هذا الموقع.',
@@ -328,6 +349,7 @@ const translations = {
           github: 'https://github.com/AbdulazizCsDev/aime-voice-assistant',
         },
         {
+          id: 'agrocure',
           name: 'أجروكيور — كشف أمراض النباتات',
           award: '👥 قيادة فريق من 4 مهندسين',
           desc: 'نظام متكامل لتصنيف أمراض النباتات (ResNet50 بنقل التعلم، +36 صنفاً، ~7,300 صورة) مع طبقة RAG استشارية للأصناف النادرة وبيانات مجمّعة ومصنّفة داخلياً. مُشغَّل على Raspberry Pi بزمن استدلال 73 مللي ثانية؛ مع تتبع التجارب بـ MLflow.',
@@ -336,6 +358,7 @@ const translations = {
           github: 'https://github.com/AbdulazizCsDev/AgriCure-App',
         },
         {
+          id: 'lines',
           name: 'بين السطور — محلل أرشيف X',
           award: null,
           desc: 'محلل ذكي لأرشيف X يكشف أنماط التفاعل المخفية ويحوّلها إلى استراتيجية محتوى جاهزة للتنفيذ. معالجة الملفات تتم بالكامل داخل المتصفح — بياناتك لا تغادر جهازك.',
@@ -344,6 +367,7 @@ const translations = {
           github: 'https://github.com/AbdulazizCsDev/x-tweets-analyzer',
         },
         {
+          id: 'forecast',
           name: 'التنبؤ بالطلب المرتبط بالطقس',
           award: null,
           desc: 'نظام تعلّم آلة متكامل يتنبأ بالطلب على غسيل السيارات في الرياض من بيانات الطقس الحية، ويُقدَّم عبر واجهة FastAPI. خفّض خطأ التنبؤ بنسبة ~50%.',
@@ -354,6 +378,7 @@ const translations = {
       ],
       more: [
         {
+          id: 'carwash',
           name: 'نظام إدارة غسيل السيارات',
           desc: 'منصة متكاملة مع إدارة صلاحيات وتتبع طلبات فوري ودمج مدفوعات. مشروع التخرج.',
           tags: ['Flutter', 'PHP', 'MySQL'],
@@ -362,6 +387,7 @@ const translations = {
           github: 'https://github.com/AbdulazizCsDev/carwash_system',
         },
         {
+          id: 'spy',
           name: 'لعبة الجاسوس متعددة اللاعبين',
           desc: 'لعبة جماعية في الوقت الفعلي مع إدارة غرف ونظام تصويت وإعادة اتصال تلقائية.',
           tags: ['React', 'Node.js', 'Socket.IO'],
@@ -376,6 +402,7 @@ const translations = {
       startedLabel: 'البداية',
       items: [
         {
+          id: 'board-room',
           name: 'مجلس الإدارة الذكي — نسخة موثوقة',
           status: 'قيد التطوير',
           started: '2026',
@@ -383,6 +410,7 @@ const translations = {
           focus: ['وكلاء بالعربية أولاً', 'استشهادات مؤصّلة', 'تقييم وضوابط أمان'],
         },
         {
+          id: 'agrocure',
           name: 'أجروكيور — للزراعة السعودية',
           status: 'قيد التطوير',
           started: '2026',
@@ -390,6 +418,7 @@ const translations = {
           focus: ['محاصيل سعودية', 'إرشاد بالعربية', 'عتبات ثقة ومراجعة'],
         },
         {
+          id: 'bootcamp',
           name: 'معسكر هندسة الذكاء الاصطناعي',
           status: 'مستمر',
           started: '2026',
@@ -463,11 +492,30 @@ const translations = {
       mute: 'كتم الصوت',
       unmute: 'تشغيل الصوت',
       suggestions: [
+        { label: '🎯 جولة سريعة', tour: true },
+        {
+          label: 'المشاريع',
+          query: 'ما هي مشاريعه؟',
+          canned: 'هذه مشاريعه — هل يهمّك مشروع محدد؟',
+          action: 'projects',
+        },
         { label: '🏆 الفوز بالهاكاثون', query: 'أخبرني عن فوز مشروع مجلس الإدارة الذكي بالهاكاثون' },
-        { label: 'المشاريع', query: 'أخبرني عن المشاريع' },
         { label: 'ملاءمة وظيفية', query: 'أنا مسؤول توظيف. سألصق وصفاً وظيفياً وأريدك أن تحلل مدى ملاءمة عبدالعزيز له — المهارات المطابقة، والمشاريع التي تثبت كل متطلب، والفجوات بصراحة. جاهز؟' },
-        { label: 'المهارات', query: 'ما هي مهاراته؟' },
-        { label: 'تواصل', query: 'كيف أتواصل مع عبدالعزيز؟' },
+        {
+          label: 'تواصل',
+          query: 'كيف أتواصل مع عبدالعزيز؟',
+          canned: 'هكذا تصل إليه — البريد أو لينكدإن الأفضل. هل تريد معرفة شيء آخر أولاً؟',
+          action: 'contact',
+        },
+      ],
+      tour: [
+        { text: 'دعني آخذك في جولة. هذا عبدالعزيز — مهندس ذكاء اصطناعي يصمّم ويبني ويطلق أنظمة LLM وتعلّم آلة من البداية إلى النهاية.', action: 'about' },
+        { text: 'مشاريعه. لنبدأ بمجلس الإدارة الذكي — نظام استشاري متعدد الوكلاء حصد المركز الأول في هاكاثون معسكرات همّة الرقمية.', action: 'projects.board-room' },
+        { text: 'أجروكيور — كشف أمراض النباتات بزمن 73 مللي ثانية على Raspberry Pi، وقد قاد فريقه المكوّن من أربعة مهندسين.', action: 'projects.agrocure' },
+        { text: 'وآيم — هذا أنا: Whisper وClaude وElevenLabs، منشور ويتحدث معك الآن.', action: 'projects.aime' },
+        { text: 'ما يبنيه الآن: تطوير مجلس الإدارة وأجروكيور إلى أنظمة موثوقة تتحدث العربية أولاً للسوق السعودي.', action: 'now' },
+        { text: 'العدّة خلف كل ذلك — ذكاء توليدي وتعلّم عميق وMLOps.', action: 'skills' },
+        { text: 'وهنا تصل إليه. اسألني ما تشاء — أنا هنا.', action: 'contact' },
       ],
     },
   },

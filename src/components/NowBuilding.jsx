@@ -22,6 +22,7 @@ export default function NowBuilding() {
               className="now-card card-glass"
               data-reveal
               data-reveal-delay={String((i % 3) + 1)}
+              data-target-id={item.id}
             >
               <div className="now-card-top">
                 <span className="now-status">

@@ -111,41 +111,6 @@
   margin-bottom: 0;
 }
 
-/* Stats bar */
-.hero-stats {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  color: var(--text-muted);
-  flex-wrap: wrap;
-}
-
-.hero-stat-group {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.hero-stat {
-  display: flex;
-  align-items: baseline;
-  gap: 0.3rem;
-}
-
-.stat-num {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--accent);
-  letter-spacing: -0.02em;
-}
-
-.stat-sep {
-  color: var(--text-muted);
-  opacity: 0.35;
-}
-
 .hero-cta {
   display: flex;
   gap: 1rem;

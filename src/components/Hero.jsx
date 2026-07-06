@@ -68,18 +68,6 @@ export default function Hero() {
             {t.hero.bio}
           </p>
 
-          <div className="hero-stats" data-reveal data-reveal-delay="4">
-            {t.hero.stats.map((stat, i) => (
-              <span key={stat.label} className="hero-stat-group">
-                {i > 0 && <span className="stat-sep" aria-hidden="true">·</span>}
-                <span className="hero-stat">
-                  <strong className="stat-num">{stat.value}</strong>
-                  <span>{stat.label}</span>
-                </span>
-              </span>
-            ))}
-          </div>
-
           <div className="hero-cta" data-reveal data-reveal-delay="5">
             <button className="btn btn-primary" onClick={openAime}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

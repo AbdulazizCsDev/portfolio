@@ -44,6 +44,27 @@ function highlightSkills() {
   });
 }
 
+function clearSpotlight() {
+  document.querySelectorAll('.card-targeted').forEach((el) => el.classList.remove('card-targeted'));
+  document.querySelectorAll('.spotlight-dim').forEach((el) => el.classList.remove('spotlight-dim'));
+}
+
+function spotlightCard(section, targetId) {
+  const card = document.querySelector(`#${section} [data-target-id="${targetId}"]`);
+  if (!card) return;
+  clearSpotlight();
+  const grid = card.closest('.projects-grid, .projects-more-grid, .now-grid');
+  grid?.classList.add('spotlight-dim');
+  card.classList.add('card-targeted');
+  card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  setTimeout(() => {
+    card.classList.remove('card-targeted');
+    grid?.classList.remove('spotlight-dim');
+  }, 7000);
+}
+
+const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+
 export default function AimeWidget() {
   const { t, lang } = useLanguage();
 
@@ -72,6 +93,7 @@ export default function AimeWidget() {
   const audioCtxRef      = useRef(null);
   const silenceTimerRef  = useRef(null);
   const isRecordingRef   = useRef(false);
+  const tourRef          = useRef(false);
 
   useEffect(() => { isMutedRef.current = isMuted; }, [isMuted]);
   const isLangMountRef = useRef(true);
@@ -93,6 +115,7 @@ export default function AimeWidget() {
     setTimeout(() => speakTextRef.current?.(t.aime.greeting), 300);
   }, [lang]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // Resolves when playback finishes (or fails), so callers can sequence speech.
   const speakText = useCallback(async (text) => {
     if (isMutedRef.current) return;
     if (currentAudioRef.current) {
@@ -111,9 +134,11 @@ export default function AimeWidget() {
       const url = URL.createObjectURL(blob);
       const audio = new Audio(url);
       currentAudioRef.current = audio;
-      audio.onended = () => { setIsSpeaking(false); URL.revokeObjectURL(url); currentAudioRef.current = null; };
-      audio.onerror = () => { setIsSpeaking(false); currentAudioRef.current = null; };
-      await audio.play();
+      await new Promise((resolve) => {
+        audio.onended = () => { setIsSpeaking(false); URL.revokeObjectURL(url); currentAudioRef.current = null; resolve(); };
+        audio.onerror = () => { setIsSpeaking(false); currentAudioRef.current = null; resolve(); };
+        audio.play().catch(() => { setIsSpeaking(false); resolve(); });
+      });
     } catch {
       setIsSpeaking(false);
     }
@@ -144,11 +169,27 @@ export default function AimeWidget() {
     }, 400);
   }, []);
 
+  // Backend-driven navigation: "projects.board-room" scrolls to the section
+  // and spotlights the matching card; a bare section token just scrolls.
+  const applyAction = useCallback((token) => {
+    if (!token || token === 'none') return;
+    const [section, targetId] = token.split('.');
+    setTimeout(() => {
+      document.getElementById(section)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (targetId) {
+        setTimeout(() => spotlightCard(section, targetId), 700);
+      } else if (section === 'skills') {
+        setTimeout(highlightSkills, 500);
+      }
+    }, 350);
+  }, []);
+
   const sendMessage = useCallback(
     async (text) => {
       const trimmed = text.trim();
       if (!trimmed) return;
       setShowSuggestions(false);
+      tourRef.current = false; // the visitor takes over: stop any running tour
       // Cancel any pending greeting speak so it doesn't overlap
       pendingGreetRef.current = false;
 
@@ -181,17 +222,56 @@ export default function AimeWidget() {
         const data = await res.json();
         const reply = data.reply || data.message || t.aime.noBackend;
         setMessages((prev) => [...prev, { role: 'aime', content: reply }]);
-        // Navigate based on user message intent, or fall back to reply intent
-        navigateToSection(userIntent || detectIntent(reply));
-        await speakText(reply);
+        // Prefer the backend's navigation action; fall back to local intent detection
+        if (data.action) applyAction(data.action);
+        else navigateToSection(userIntent || detectIntent(reply));
+        speakText(reply);
       } catch {
         setMessages((prev) => [...prev, { role: 'aime', content: t.aime.noBackend }]);
       } finally {
         setIsLoading(false);
       }
     },
-    [messages, speakText, navigateToSection, t.aime.noBackend, lang]
+    [messages, speakText, navigateToSection, applyAction, t.aime.noBackend, lang]
   );
+
+  // ── Guided tour & canned answers ──────────────────────────────────────────
+  // Stop the tour if the panel is closed
+  useEffect(() => {
+    if (!isOpen) tourRef.current = false;
+  }, [isOpen]);
+
+  const runTour = useCallback(async () => {
+    if (tourRef.current) return;
+    setShowSuggestions(false);
+    tourRef.current = true;
+    for (const step of t.aime.tour) {
+      if (!tourRef.current) break;
+      setMessages((prev) => [...prev, { role: 'aime', content: step.text }]);
+      applyAction(step.action);
+      if (isMutedRef.current) {
+        await wait(4200);
+      } else {
+        await Promise.race([speakText(step.text), wait(25000)]);
+        await wait(900);
+      }
+    }
+    tourRef.current = false;
+  }, [t.aime.tour, applyAction, speakText]);
+
+  // Instant answers for common questions: no LLM round-trip, the page itself
+  // is the content — Aime just navigates and adds one line.
+  const handleCanned = useCallback((s) => {
+    tourRef.current = false;
+    setShowSuggestions(false);
+    setMessages((prev) => [
+      ...prev,
+      { role: 'user', content: s.query },
+      { role: 'aime', content: s.canned },
+    ]);
+    applyAction(s.action);
+    speakText(s.canned);
+  }, [applyAction, speakText]);
 
   // ── Smart VAD recording ────────────────────────────────────────────────────
   const SILENCE_THRESHOLD = 0.012; // RMS below this = silence
@@ -410,7 +490,11 @@ export default function AimeWidget() {
                 <button
                   key={s.label}
                   className="suggestion-chip"
-                  onClick={() => sendMessage(s.query)}
+                  onClick={() => {
+                    if (s.tour) runTour();
+                    else if (s.canned) handleCanned(s);
+                    else sendMessage(s.query);
+                  }}
                 >
                   {s.label}
                 </button>

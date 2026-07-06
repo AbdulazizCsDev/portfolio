@@ -243,6 +243,34 @@ section { padding: var(--section-pad) 2rem; position: relative; }
   50%       { opacity: 0; }
 }
 
+/* ─── Aime Card Spotlight ───────────────────────────────── */
+/* Applied by the Aime widget when it targets a specific card:
+   siblings dim and shrink, the targeted card lifts and pulses. */
+.spotlight-dim > * {
+  transition: opacity 0.5s ease, transform 0.5s ease, filter 0.5s ease;
+}
+.spotlight-dim > *:not(.card-targeted) {
+  opacity: 0.28;
+  filter: saturate(0.4);
+  transform: scale(0.97);
+}
+.card-targeted {
+  position: relative;
+  z-index: 5;
+  transform: scale(1.05) !important;
+  border-color: var(--accent) !important;
+  background: var(--bg-glass-hover) !important;
+  animation: targeted-pulse 1.8s ease-in-out infinite;
+}
+@keyframes targeted-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 1px var(--accent), 0 0 28px var(--accent-glow), var(--shadow-glow-lg);
+  }
+  50% {
+    box-shadow: 0 0 0 2px var(--accent), 0 0 64px var(--accent-glow), var(--shadow-glow-lg);
+  }
+}
+
 /* ─── Code-style Section Label ──────────────────────────── */
 .section-label {
   display: block;

@@ -105,6 +105,15 @@ export default function AimeWidget() {
     return () => document.removeEventListener('openAime', handler);
   }, []);
 
+  // Shift the page aside while the panel is open so it never covers content
+  useEffect(() => {
+    document.body.classList.toggle('aime-open', isOpen);
+    document.body.classList.toggle('aime-expanded', isOpen && isExpanded);
+    return () => {
+      document.body.classList.remove('aime-open', 'aime-expanded');
+    };
+  }, [isOpen, isExpanded]);
+
   // Reset greeting when language changes (skip on first mount)
   useEffect(() => {
     if (isLangMountRef.current) { isLangMountRef.current = false; return; }

@@ -658,3 +658,24 @@
   }
   [dir='rtl'] .aime-panel { right: 1rem; left: 1rem; }
 }
+
+/* ── Page shift while panel is open ─────────────────────────── */
+/* The panel sits at the inline-end edge (right in LTR, left in RTL).
+   On desktop the page yields that space so Aime never covers content,
+   and 3-column grids drop to 2 columns to stay readable. */
+@media (min-width: 1100px) {
+  main {
+    transition: padding 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  body.aime-open main {
+    padding-inline-end: 470px;
+  }
+  body.aime-open.aime-expanded main {
+    padding-inline-end: min(750px, 56vw);
+  }
+  body.aime-open .projects-grid,
+  body.aime-open .now-grid,
+  body.aime-open .skills-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

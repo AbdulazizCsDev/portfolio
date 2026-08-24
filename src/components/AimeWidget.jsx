@@ -87,9 +87,7 @@ export default function AimeWidget() {
   const hasGreetedRef    = useRef(false);
   const inputRef         = useRef(null);
   const isMutedRef       = useRef(false);
-  const pendingGreetRef  = useRef(false);
   const speakTextRef     = useRef(null);
-  const bubbleTextRef    = useRef('');
   const audioCtxRef      = useRef(null);
   const silenceTimerRef  = useRef(null);
   const isRecordingRef   = useRef(false);
@@ -118,7 +116,6 @@ export default function AimeWidget() {
   useEffect(() => {
     if (isLangMountRef.current) { isLangMountRef.current = false; return; }
     hasGreetedRef.current = false;
-    pendingGreetRef.current = false;
     setMessages([{ role: 'aime', content: t.aime.greeting }]);
     setShowSuggestions(true);
     setTimeout(() => speakTextRef.current?.(t.aime.greeting), 300);
@@ -154,7 +151,6 @@ export default function AimeWidget() {
   }, []);
   // Keep refs in sync so early-bound effects can call the latest version
   useEffect(() => { speakTextRef.current = speakText; });
-  useEffect(() => { bubbleTextRef.current = t.aime.bubbleGreet; }, [t.aime.bubbleGreet]);
 
   // Show greeting in chat on first open (text only, no sound - lang effect handles sound)
   useEffect(() => {
@@ -199,8 +195,6 @@ export default function AimeWidget() {
       if (!trimmed) return;
       setShowSuggestions(false);
       tourRef.current = false; // the visitor takes over: stop any running tour
-      // Cancel any pending greeting speak so it doesn't overlap
-      pendingGreetRef.current = false;
 
       const userIntent = detectIntent(trimmed);
       setMessages((prev) => [...prev, { role: 'user', content: trimmed }]);

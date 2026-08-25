@@ -4,7 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Abdulaziz Alhaidan — AI / Machine Learning Engineer in Riyadh. Ships production-grade LLM and ML systems end-to-end: multi-agent orchestration, RAG pipelines, and edge deployment. 1st-place winner, Himmah Digital Camps hackathon." />
-    <meta name="theme-color" content="#06060f" />
+    <meta name="theme-color" content="#090c0b" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f4f0e6" media="(prefers-color-scheme: light)" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Abdulaziz Alhaidan | AI / Machine Learning Engineer" />
     <meta property="og:description" content="AI/ML Engineer shipping production LLM & ML systems — multi-agent orchestration, RAG, and edge AI. 1st-place hackathon winner. Talk to Aime, his Arabic-first AI assistant, live on the site." />
@@ -13,6 +14,19 @@
     <meta name="twitter:description" content="AI/ML Engineer shipping production LLM & ML systems — multi-agent orchestration, RAG, and edge AI. 1st-place hackathon winner." />
     <title>Abdulaziz Alhaidan | AI / Machine Learning Engineer</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%2306060f'/><text y='.9em' font-size='70' font-family='Inter,sans-serif' font-weight='800' fill='%2300d4ff'>A</text></svg>" />
+    <script>
+      // Stamp the mode before first paint so the page never flashes the wrong
+      // ground. Stored choice wins; otherwise follow the OS. Dark is default.
+      (function () {
+        try {
+          var m = localStorage.getItem('portfolio-mode');
+          if (!m) m = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+          document.documentElement.dataset.mode = m;
+        } catch (e) {
+          document.documentElement.dataset.mode = 'dark';
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

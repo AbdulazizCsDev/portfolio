@@ -1,9 +1,28 @@
 import { useState, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
+import { useTheme } from '../context/ThemeContext';
 import './Navbar.css';
+
+function InkIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
+      <path d="M12 3.5c3.6 3.2 5.5 5.9 5.5 8.4a5.5 5.5 0 0 1-11 0c0-2.5 1.9-5.2 5.5-8.4z" />
+    </svg>
+  );
+}
+
+function PaperIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
+      <rect x="4.5" y="3.5" width="15" height="17" rx="2" />
+      <path d="M8 8.5h8M8 12h8M8 15.5h5" />
+    </svg>
+  );
+}
 
 export default function Navbar() {
   const { lang, toggle, t } = useLanguage();
+  const { mode, toggle: toggleMode } = useTheme();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [active, setActive] = useState('hero');
@@ -70,6 +89,14 @@ export default function Navbar() {
         </ul>
 
         <div className="nav-actions">
+          <button
+            className="mode-btn"
+            onClick={toggleMode}
+            aria-label={mode === 'dark' ? 'التبديل إلى الوضع الفاتح' : 'التبديل إلى الوضع الداكن'}
+            title={mode === 'dark' ? 'ورق' : 'حبر'}
+          >
+            {mode === 'dark' ? <PaperIcon /> : <InkIcon />}
+          </button>
           <button className="lang-btn" onClick={toggle} title="Toggle language">
             {lang === 'en' ? 'عربي' : 'EN'}
           </button>

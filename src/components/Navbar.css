@@ -107,6 +107,25 @@
   box-shadow: 0 0 20px var(--accent-glow);
 }
 
+/* Mode toggle — same weight as the language button, icon instead of text. */
+.mode-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  background: transparent;
+  transition: var(--transition);
+}
+.mode-btn:hover {
+  color: var(--mark);
+  border-color: var(--border-strong);
+  background: var(--mark-soft);
+}
+
 /* Hamburger */
 .hamburger {
   display: none;

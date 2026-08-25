@@ -1,45 +1,144 @@
 ﻿@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Cairo:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
-/* ─── CSS Variables ─────────────────────────────────────── */
+/* ─── Design Tokens — docs/DESIGN-SPEC.md §2 ────────────── */
+/* مادتان فقط: حبر وذهب. الصبغة ثابتة، القيمة تنقلب حسب الوضع. */
 :root {
-  --bg-primary:     #06060f;
-  --bg-secondary:   #0c0c1a;
-  --bg-card:        #0f0f1e;
-  --bg-card-hover:  #141428;
-  --bg-glass:       rgba(255, 255, 255, 0.03);
-  --bg-glass-hover: rgba(255, 255, 255, 0.06);
+  /* الحبر — الأرضية في الوضع الداكن */
+  --ink-900: #090c0b;
+  --ink-800: #111614;
+  --ink-700: #1a211e;
 
-  --accent:         #00d4ff;
-  --accent-dim:     rgba(0, 212, 255, 0.15);
-  --accent-glow:    rgba(0, 212, 255, 0.25);
-  --accent-purple:  #7b2fff;
-  --accent-purple-dim: rgba(123, 47, 255, 0.15);
+  /* الورق — الأرضية في الوضع الفاتح */
+  --paper-100: #f4f0e6;
+  --paper-200: #ebe5d7;
+  --paper-300: #ded7c5;
 
-  --text-primary:   #e4e4f0;
-  --text-secondary: #9090b0;
-  --text-muted:     #50507a;
+  /* الذهب — قيمتان لنفس الصبغة */
+  --gold-light: #d9ad48;   /* على الحبر */
+  --gold-dark:  #6b5312;   /* على الورق */
 
-  --border:         rgba(0, 212, 255, 0.12);
-  --border-card:    rgba(255, 255, 255, 0.06);
-  --border-hover:   rgba(0, 212, 255, 0.35);
+  /* المسافات — شبكة 8pt */
+  --space-1: 0.25rem; --space-2: 0.5rem;  --space-3: 0.75rem;
+  --space-4: 1rem;    --space-6: 1.5rem;  --space-8: 2rem;
+  --space-12: 3rem;   --space-16: 4rem;   --space-24: 6rem;
 
+  /* القياس النصي */
+  --text-sm: 0.875rem; --text-base: 1rem;  --text-lg: 1.125rem;
+  --text-xl: 1.5rem;   --text-2xl: 2rem;
+  --text-hero: clamp(2.25rem, 6vw, 4rem);
+
+  --radius-sm: 0.5rem; --radius-lg: 1rem; --radius-full: 9999px;
+
+  /* الحركة — §4 */
+  --ease-settle: cubic-bezier(0.22, 1.08, 0.36, 1);
+  --ease-linear-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur-fast: 140ms;
+  --dur-base: 320ms;
+  --dur-heavy: 520ms;
+
+  /* الخطوط — تُقلَّم في م2 */
   --font-en: 'Inter', system-ui, -apple-system, sans-serif;
   --font-ar: 'Cairo', 'Tajawal', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
 
-  --radius:    12px;
-  --radius-lg: 20px;
-  --radius-xl: 28px;
-
-  --transition:      all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-fast: all 0.15s ease;
-
-  --shadow-card:    0 4px 24px rgba(0, 0, 0, 0.4);
-  --shadow-glow:    0 0 40px rgba(0, 212, 255, 0.12);
-  --shadow-glow-lg: 0 0 80px rgba(0, 212, 255, 0.18);
-
-  --section-pad: 120px;
+  --section-pad: var(--space-24);
   --content-max: 1200px;
+}
+
+/* الوضع الداكن — الافتراضي. منطقة الآلة: حقل حبري ورسم بالذهب. */
+:root,
+[data-mode="dark"] {
+  --bg: var(--ink-900);
+  --surface: var(--ink-800);
+  --surface-raised: var(--ink-700);
+  --text: #ece5d5;
+  --text-muted: #9a9384;
+  --text-dim: #625d52;
+  --mark: var(--gold-light);
+  --border: rgba(236, 229, 213, 0.10);
+  --border-strong: rgba(236, 229, 213, 0.20);
+  --trace: rgba(217, 173, 72, 0.05);
+
+  /* مشتقات الذهب — نفس الصبغة بشفافيات متدرّجة */
+  --mark-dim:  rgba(217, 173, 72, 0.14);
+  --mark-soft: rgba(217, 173, 72, 0.07);
+  --mark-glow: rgba(217, 173, 72, 0.22);
+  --mark-contrast: var(--ink-900);   /* النص فوق أرضية ذهبية صلبة */
+
+  /* أرضية شبه شفافة للأشرطة واللوحات العائمة */
+  --overlay: rgba(9, 12, 11, 0.85);
+  --overlay-solid: rgba(9, 12, 11, 0.97);
+
+  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.4);
+  --shadow-glow: 0 0 40px rgba(217, 173, 72, 0.10);
+  --shadow-glow-lg: 0 0 80px rgba(217, 173, 72, 0.14);
+}
+
+/* الوضع الفاتح — منطقة الإنسان: ورق دافئ ورسم بالحبر. */
+[data-mode="light"] {
+  --bg: var(--paper-100);
+  --surface: var(--paper-200);
+  --surface-raised: var(--paper-300);
+  --text: #171310;
+  --text-muted: #5a5449;
+  --text-dim: #8a8377;
+  --mark: var(--gold-dark);
+  --border: rgba(23, 19, 16, 0.12);
+  --border-strong: rgba(23, 19, 16, 0.24);
+  --trace: rgba(23, 19, 16, 0.05);
+
+  --mark-dim:  rgba(107, 83, 18, 0.12);
+  --mark-soft: rgba(107, 83, 18, 0.06);
+  --mark-glow: rgba(107, 83, 18, 0.18);
+  --mark-contrast: var(--paper-100);
+
+  --overlay: rgba(244, 240, 230, 0.88);
+  --overlay-solid: rgba(244, 240, 230, 0.97);
+
+  --shadow-card: 0 4px 24px rgba(23, 19, 16, 0.10);
+  --shadow-glow: 0 0 40px rgba(107, 83, 18, 0.08);
+  --shadow-glow-lg: 0 0 80px rgba(107, 83, 18, 0.10);
+}
+
+/* ─── Compatibility aliases ─────────────────────────────── */
+/* الأسماء القديمة تشير للطبقة الجديدة حتى تُستبدل تدريجياً في م2.
+   تُحلّ عند نقطة الاستخدام، فتتبع الوضع النشط تلقائياً.
+   لا يوجد لون ثالث: البنفسجي كان لوناً ثانياً وصار هو الذهب نفسه. */
+:root {
+  --bg-primary:     var(--bg);
+  --bg-secondary:   var(--surface);
+  --bg-card:        var(--surface);
+  --bg-card-hover:  var(--surface-raised);
+  --bg-glass:       var(--surface);
+  --bg-glass-hover: var(--surface-raised);
+
+  --accent:            var(--mark);
+  --accent-dim:        var(--mark-dim);
+  --accent-glow:       var(--mark-glow);
+  --accent-purple:     var(--mark);
+  --accent-purple-dim: var(--mark-dim);
+
+  --text-primary:   var(--text);
+  --text-secondary: var(--text-muted);
+
+  --border-card:  var(--border);
+  --border-hover: var(--border-strong);
+
+  --radius:    var(--radius-sm);
+  --radius-xl: var(--radius-lg);
+
+  --transition:      all var(--dur-base) var(--ease-linear-out);
+  --transition-fast: all var(--dur-fast) var(--ease-linear-out);
+}
+
+/* §2 — وقت التبديل: background-color و color فقط، لا شيء غيرهما. */
+[data-mode-switching],
+[data-mode-switching] *,
+[data-mode-switching] *::before,
+[data-mode-switching] *::after {
+  transition: background-color var(--dur-base) var(--ease-linear-out),
+              color            var(--dur-base) var(--ease-linear-out),
+              border-color     var(--dur-base) var(--ease-linear-out) !important;
 }
 
 /* ─── Reset ─────────────────────────────────────────────── */

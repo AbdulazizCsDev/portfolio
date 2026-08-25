@@ -1,5 +1,6 @@
 ﻿import { useEffect, useState } from 'react';
 import { LanguageProvider, useLanguage } from './context/LanguageContext';
+import { ThemeProvider } from './context/ThemeContext';
 import SplashScreen from './components/SplashScreen';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
@@ -64,8 +65,10 @@ function AppContent() {
 
 export default function App() {
   return (
-    <LanguageProvider>
-      <AppContent />
-    </LanguageProvider>
+    <ThemeProvider>
+      <LanguageProvider>
+        <AppContent />
+      </LanguageProvider>
+    </ThemeProvider>
   );
 }

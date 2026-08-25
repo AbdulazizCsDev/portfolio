@@ -44,7 +44,7 @@ export default function Contact() {
       value: t.contact.linkedinVal,
       href: `https://${t.contact.linkedinVal}`,
       icon: <LinkedInIcon />,
-      color: '#0a66c2',
+      color: 'var(--mark)',
     },
     {
       label: t.contact.github,

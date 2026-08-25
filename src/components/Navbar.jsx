@@ -63,8 +63,8 @@ export default function Navbar() {
           <svg width="20" height="24" viewBox="0 0 100 120" fill="none" aria-hidden="true">
             <defs>
               <linearGradient id="nav-grad" x1="50" y1="2" x2="50" y2="118" gradientUnits="userSpaceOnUse">
-                <stop offset="0%"   stopColor="#00d4ff" />
-                <stop offset="100%" stopColor="#7b2fff" />
+                <stop offset="0%"   stopColor="var(--mark)" />
+                <stop offset="100%" stopColor="var(--mark)" />
               </linearGradient>
             </defs>
             <path

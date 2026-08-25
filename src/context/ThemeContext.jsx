@@ -15,9 +15,7 @@ export function ThemeProvider({ children }) {
   const [mode, setMode] = useState(initialMode);
 
   useEffect(() => {
-    const root = document.documentElement;
-    root.dataset.mode = mode;
-    try { localStorage.setItem(STORAGE_KEY, mode); } catch { /* حفظ معطّل — الوضع يبقى للجلسة فقط */ }
+    document.documentElement.dataset.mode = mode;
   }, [mode]);
 
   // Follow the OS only while the visitor has not chosen for themselves.
@@ -32,11 +30,18 @@ export function ThemeProvider({ children }) {
     return () => mq.removeEventListener('change', onChange);
   }, []);
 
+  // Persisting happens here and nowhere else: writing on mount would make
+  // every visitor look like they had chosen, and the OS listener above would
+  // never fire again.
   // §2 — only background-color/color/border-color may move during the switch.
   const toggle = () => {
     const root = document.documentElement;
     root.setAttribute('data-mode-switching', '');
-    setMode((m) => (m === 'dark' ? 'light' : 'dark'));
+    setMode((m) => {
+      const next = m === 'dark' ? 'light' : 'dark';
+      try { localStorage.setItem(STORAGE_KEY, next); } catch { /* حفظ معطّل — الاختيار للجلسة فقط */ }
+      return next;
+    });
     setTimeout(() => root.removeAttribute('data-mode-switching'), 360);
   };
 

@@ -3,7 +3,7 @@
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background: #06060f;
+  background: var(--bg);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -33,7 +33,7 @@
 .splash-svg {
   width: 96px;
   height: 115px;
-  filter: drop-shadow(0 0 24px rgba(0, 212, 255, 0.25));
+  filter: drop-shadow(0 0 24px var(--mark-glow));
 }
 
 /* ── Stroke draw-in layer ──────────────────────────────────── */
@@ -76,13 +76,13 @@
   font-weight: 300;
   letter-spacing: 0.45em;
   text-transform: uppercase;
-  color: rgba(160, 160, 185, 0);
+  color: transparent;
   opacity: 0;
   transition: color 0.7s ease 0.1s, opacity 0.7s ease 0.1s;
 }
 
 .splash.reveal .splash-name,
 .splash.out    .splash-name {
-  color: rgba(160, 160, 185, 0.65);
+  color: var(--text-dim);
   opacity: 1;
 }

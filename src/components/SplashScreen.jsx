@@ -30,8 +30,8 @@ export default function SplashScreen({ onDone }) {
               x1="50" y1="2" x2="50" y2="118"
               gradientUnits="userSpaceOnUse"
             >
-              <stop offset="0%"   stopColor="#00d4ff" />
-              <stop offset="100%" stopColor="#7b2fff" />
+              <stop offset="0%"   stopColor="var(--mark)" />
+              <stop offset="100%" stopColor="var(--mark)" />
             </linearGradient>
           </defs>
 

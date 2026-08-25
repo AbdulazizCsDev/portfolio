@@ -45,16 +45,16 @@
   border-radius: 100px;
   font-size: 0.74rem;
   font-weight: 700;
-  color: #4ade80;
-  background: rgba(74, 222, 128, 0.1);
-  border: 1px solid rgba(74, 222, 128, 0.3);
+  color: var(--mark);
+  background: var(--mark-dim);
+  border: 1px solid var(--border-strong);
 }
 
 .now-status-dot {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #4ade80;
+  background: var(--mark);
   animation: pulse-glow 2s infinite;
 }
 

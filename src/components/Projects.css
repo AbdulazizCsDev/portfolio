@@ -50,9 +50,9 @@
   font-size: 0.76rem;
   font-weight: 700;
   letter-spacing: 0.02em;
-  color: #ffd166;
-  background: rgba(255, 209, 102, 0.1);
-  border: 1px solid rgba(255, 209, 102, 0.35);
+  color: var(--mark);
+  background: var(--mark-dim);
+  border: 1px solid var(--border-strong);
 }
 
 .projects-more-title {
@@ -128,7 +128,7 @@
 }
 .link-live:hover {
   background: var(--accent);
-  color: #fff;
+  color: var(--mark-contrast);
   border-color: var(--accent);
   box-shadow: 0 4px 16px var(--accent-glow);
 }

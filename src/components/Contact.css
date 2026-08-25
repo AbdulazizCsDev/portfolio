@@ -1,5 +1,5 @@
 #contact {
-  background: linear-gradient(180deg, transparent 0%, rgba(0, 212, 255, 0.03) 50%, transparent 100%);
+  background: linear-gradient(180deg, transparent 0%, var(--mark-soft) 50%, transparent 100%);
   padding-bottom: 60px;
 }
 
@@ -42,7 +42,7 @@
 
 .contact-card:hover {
   border-color: var(--contact-color, var(--border-hover));
-  box-shadow: 0 0 30px rgba(0, 212, 255, 0.08);
+  box-shadow: 0 0 30px var(--mark-dim);
 }
 
 .contact-icon {

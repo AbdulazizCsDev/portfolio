@@ -1,5 +1,5 @@
 #skills {
-  background: linear-gradient(180deg, transparent 0%, rgba(123, 47, 255, 0.03) 50%, transparent 100%);
+  background: linear-gradient(180deg, transparent 0%, var(--mark-soft) 50%, transparent 100%);
 }
 
 .skills-grid {
@@ -23,7 +23,7 @@
 
 .skill-cat-icon {
   font-size: 1.5rem;
-  filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.25));
+  filter: drop-shadow(0 0 8px var(--mark-glow));
 }
 
 .skill-cat-name {
@@ -57,7 +57,7 @@
   color: var(--accent);
   border-color: var(--border);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 212, 255, 0.1);
+  box-shadow: 0 4px 12px var(--mark-dim);
 }
 
 /* RTL */
@@ -67,7 +67,7 @@
 /* Aime interactive spotlight */
 .skill-spotlight {
   border-color: var(--accent) !important;
-  box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.3), 0 0 28px rgba(0, 212, 255, 0.15) !important;
+  box-shadow: 0 0 0 2px var(--mark-glow), 0 0 28px var(--mark-glow) !important;
   transform: translateY(-4px) scale(1.02) !important;
   transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease !important;
 }

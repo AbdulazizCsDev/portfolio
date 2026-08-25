@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { tokenHexInt, onModeChange } from '../lib/tokens';
 
 const LOGO_LINES = [
   // Outer diamond
@@ -58,6 +59,10 @@ export default function NeuralLogo3D({ splashDone }) {
     import('three').then((THREE) => {
       if (cancelled || !container) return;
 
+      const MARK = tokenHexInt('--mark');
+      // Every material made here is registered so a mode flip can recolour it.
+      const markMats = [];
+
       const W = container.clientWidth  || 400;
       const H = container.clientHeight || 400;
 
@@ -79,12 +84,13 @@ export default function NeuralLogo3D({ splashDone }) {
       const logoGeo = new THREE.BufferGeometry();
       logoGeo.setAttribute('position', new THREE.Float32BufferAttribute(LOGO_LINES, 3));
       const logoMat = new THREE.LineBasicMaterial({
-        color: 0x00d4ff,
+        color: MARK,
         transparent: true,
         opacity: 0,
         blending: THREE.AdditiveBlending,
         depthWrite: false,
       });
+      markMats.push(logoMat);
       group.add(new THREE.LineSegments(logoGeo, logoMat));
 
       // ── Neural nodes — start at origin, fly to targets ─
@@ -96,17 +102,18 @@ export default function NeuralLogo3D({ splashDone }) {
           blending: THREE.AdditiveBlending,
           depthWrite: false,
         });
+        markMats.push(mat);
         const mesh = new THREE.Mesh(new THREE.SphereGeometry(size, 8, 8), mat);
         mesh.position.set(0, 0, 0);
         group.add(mesh);
         nodes.push({ mesh, phase: Math.random() * Math.PI * 2, isLogo, tx, ty, tz });
       };
 
-      LOGO_VERTS.forEach(([x, y, z]) => mkNode(x, y, z, 0x00d4ff, 0.095, true));
+      LOGO_VERTS.forEach(([x, y, z]) => mkNode(x, y, z, MARK, 0.095, true));
 
       for (let i = 0; i < 26; i++) {
         const [x, y, z] = randSpherePoint(2.6, 4.5);
-        mkNode(x, y, z, i % 3 === 0 ? 0x00d4ff : 0x7b2fff, 0.058, false);
+        mkNode(x, y, z, MARK, 0.058, false);
       }
 
       // ── Connection lines (built from target positions) ─
@@ -127,13 +134,19 @@ export default function NeuralLogo3D({ splashDone }) {
       const connGeo = new THREE.BufferGeometry();
       connGeo.setAttribute('position', new THREE.Float32BufferAttribute(connPts, 3));
       const connMat = new THREE.LineBasicMaterial({
-        color: 0x00d4ff,
+        color: MARK,
         transparent: true,
         opacity: 0,
         blending: THREE.AdditiveBlending,
         depthWrite: false,
       });
+      markMats.push(connMat);
       group.add(new THREE.LineSegments(connGeo, connMat));
+
+      const stopWatching = onModeChange(() => {
+        const next = tokenHexInt('--mark');
+        markMats.forEach((m) => m.color.setHex(next));
+      });
 
       // ── Interaction ────────────────────────────────────
       let targetMX = 0, targetMY = 0, autoY = 0, scrollY = 0, scrollVel = 0, lastScrollY = 0;
@@ -205,6 +218,7 @@ export default function NeuralLogo3D({ splashDone }) {
 
       cleanupFn = () => {
         cancelAnimationFrame(raf);
+        stopWatching();
         window.removeEventListener('mousemove', onMouseMove);
         window.removeEventListener('scroll',    onScroll);
         window.removeEventListener('resize',    onResize);

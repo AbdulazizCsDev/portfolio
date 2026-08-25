@@ -69,6 +69,10 @@
   --overlay: rgba(9, 12, 11, 0.85);
   --overlay-solid: rgba(9, 12, 11, 0.97);
 
+  /* الظل — لون فقط، الأنصاف تبقى عند موضع الاستخدام */
+  --shade: rgba(0, 0, 0, 0.40);
+  --shade-strong: rgba(0, 0, 0, 0.70);
+
   --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.4);
   --shadow-glow: 0 0 40px rgba(217, 173, 72, 0.10);
   --shadow-glow-lg: 0 0 80px rgba(217, 173, 72, 0.14);
@@ -94,6 +98,9 @@
 
   --overlay: rgba(244, 240, 230, 0.88);
   --overlay-solid: rgba(244, 240, 230, 0.97);
+
+  --shade: rgba(23, 19, 16, 0.12);
+  --shade-strong: rgba(23, 19, 16, 0.22);
 
   --shadow-card: 0 4px 24px rgba(23, 19, 16, 0.10);
   --shadow-glow: 0 0 40px rgba(107, 83, 18, 0.08);

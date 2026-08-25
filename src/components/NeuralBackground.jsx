@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { tokenRgb, onModeChange } from '../lib/tokens';
 
 export default function NeuralBackground() {
   const canvasRef = useRef(null);
@@ -8,6 +9,8 @@ export default function NeuralBackground() {
     const ctx = canvas.getContext('2d');
     let animId;
     let particles = [];
+    let [mr, mg, mb] = tokenRgb('--mark');
+    const stopWatching = onModeChange(() => { [mr, mg, mb] = tokenRgb('--mark'); });
 
     const resize = () => {
       canvas.width = window.innerWidth;
@@ -61,7 +64,7 @@ export default function NeuralBackground() {
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = `rgba(0, 212, 255, ${opacity})`;
+            ctx.strokeStyle = `rgba(${mr}, ${mg}, ${mb}, ${opacity})`;
             ctx.lineWidth = 0.6;
             ctx.stroke();
           }
@@ -73,7 +76,7 @@ export default function NeuralBackground() {
         p.move();
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(0, 212, 255, ${p.alpha})`;
+        ctx.fillStyle = `rgba(${mr}, ${mg}, ${mb}, ${p.alpha})`;
         ctx.fill();
       });
 
@@ -87,6 +90,7 @@ export default function NeuralBackground() {
     window.addEventListener('resize', handleResize);
     return () => {
       cancelAnimationFrame(animId);
+      stopWatching();
       window.removeEventListener('resize', handleResize);
     };
   }, []);

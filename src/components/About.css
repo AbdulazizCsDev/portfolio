@@ -1,5 +1,5 @@
 #about {
-  background: linear-gradient(180deg, transparent 0%, rgba(0, 212, 255, 0.02) 50%, transparent 100%);
+  background: linear-gradient(180deg, transparent 0%, var(--mark-soft) 50%, transparent 100%);
 }
 
 .about-header {
@@ -50,7 +50,7 @@
   font-size: 2rem;
   line-height: 1;
   flex-shrink: 0;
-  filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.3));
+  filter: drop-shadow(0 0 8px var(--mark-glow));
 }
 
 .edu-info h4 {
@@ -101,7 +101,7 @@
   justify-content: center;
   font-size: 0.85rem;
   font-weight: 700;
-  color: #fff;
+  color: var(--mark-contrast);
   flex-shrink: 0;
   box-shadow: 0 4px 16px var(--accent-glow);
 }
@@ -128,7 +128,7 @@
 /* Spotlight highlight triggered by Aime chat */
 .cert-spotlight {
   border-color: var(--accent) !important;
-  box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.35), 0 0 28px rgba(0, 212, 255, 0.2) !important;
+  box-shadow: 0 0 0 2px var(--mark-glow), 0 0 28px var(--mark-glow) !important;
   transform: scale(1.025) !important;
   transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease !important;
 }

@@ -156,14 +156,15 @@ html { scroll-behavior: smooth; overflow-x: hidden; }
 body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
-  font-family: var(--font-en);
+  font-family: var(--font-ar);
   font-size: 16px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
 
-body.rtl { font-family: var(--font-ar); direction: rtl; }
+body.rtl { direction: rtl; }
+body:not(.rtl) { font-family: var(--font-en); }
 
 img, svg { display: block; max-width: 100%; }
 a { color: inherit; text-decoration: none; }

@@ -524,7 +524,7 @@ const translations = {
 const LanguageContext = createContext();
 
 export function LanguageProvider({ children }) {
-  const [lang, setLang] = useState('en');
+  const [lang, setLang] = useState('ar');
   const toggle = () => setLang((l) => (l === 'en' ? 'ar' : 'en'));
   return (
     <LanguageContext.Provider value={{ lang, toggle, t: translations[lang] }}>

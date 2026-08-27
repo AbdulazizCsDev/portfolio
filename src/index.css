@@ -1,4 +1,4 @@
-﻿@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Cairo:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+﻿@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Cairo:wght@400;600&family=JetBrains+Mono:wght@400&display=swap');
 
 /* ─── Design Tokens — docs/DESIGN-SPEC.md §2 ────────────── */
 /* مادتان فقط: حبر وذهب. الصبغة ثابتة، القيمة تنقلب حسب الوضع. */
@@ -195,113 +195,103 @@ input, textarea { font-family: inherit; }
 ::selection { background: var(--accent-dim); color: var(--accent); }
 
 /* ─── Typography ────────────────────────────────────────── */
-h1, h2, h3, h4, h5 { font-weight: 700; line-height: 1.2; letter-spacing: -0.02em; }
+h1, h2, h3, h4, h5 { font-weight: 400; line-height: 1.2; letter-spacing: -0.02em; }
 
 .section-title {
-  font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 800;
-  margin-bottom: 0.5rem;
-  background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  margin-bottom: var(--space-2);
+  color: var(--text);
   display: inline-block;
 }
 
 .section-subtitle {
-  color: var(--text-secondary);
-  font-size: 1.05rem;
-  margin-bottom: 3.5rem;
-  max-width: 560px;
+  color: var(--text-muted);
+  font-size: var(--text-base);
+  margin-bottom: var(--space-12);
+  max-width: 60ch;
 }
 
 /* ─── Section Layout ────────────────────────────────────── */
-section { padding: var(--section-pad) 2rem; position: relative; }
+section { padding: var(--section-pad) var(--space-6); position: relative; }
 .section-inner { max-width: var(--content-max); margin: 0 auto; }
 .title-line {
-  width: 60px;
-  height: 3px;
-  background: linear-gradient(90deg, var(--accent), var(--accent-purple));
-  border-radius: 3px;
-  margin-top: 0.75rem;
-  margin-bottom: 3.5rem;
+  width: 48px;
+  height: 1px;
+  background: var(--border-strong);
+  margin-top: var(--space-3);
+  margin-bottom: var(--space-12);
 }
 /* ─── Utility ───────────────────────────────────────────── */
-.accent { color: var(--accent); }
+.accent { color: var(--mark); }
 
 .tag {
   display: inline-flex;
   align-items: center;
-  padding: 4px 12px;
-  border-radius: 100px;
-  font-size: 0.75rem;
-  font-weight: 500;
-  background: var(--accent-dim);
-  color: var(--accent);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  font-weight: 400;
+  background: transparent;
+  color: var(--text-muted);
   border: 1px solid var(--border);
   white-space: nowrap;
 }
 
 .card-glass {
-  background: var(--bg-glass);
-  border: 1px solid var(--border-card);
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  transition: var(--transition);
+  transition: border-color var(--dur-base) var(--ease-settle),
+              transform var(--dur-heavy) var(--ease-settle);
 }
 .card-glass:hover {
-  background: var(--bg-glass-hover);
-  border-color: var(--border-hover);
-  box-shadow: var(--shadow-glow);
-  transform: translateY(-4px);
+  border-color: var(--border-strong);
+  transform: translateY(-2px);
 }
 
 /* ─── Buttons ───────────────────────────────────────────── */
 .btn {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 14px 28px;
-  border-radius: var(--radius);
-  font-size: 0.95rem;
-  font-weight: 600;
-  transition: var(--transition);
-  overflow: hidden;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-base);
+  font-weight: 400;
+  transition: background-color var(--dur-fast) var(--ease-linear-out),
+              color var(--dur-fast) var(--ease-linear-out),
+              border-color var(--dur-fast) var(--ease-linear-out),
+              transform var(--dur-fast) var(--ease-settle);
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-purple) 100%);
-  color: #fff;
-  box-shadow: 0 4px 24px var(--accent-glow);
+  background: var(--mark);
+  color: var(--mark-contrast);
 }
 .btn-primary:hover {
-  box-shadow: 0 6px 36px var(--accent-glow), var(--shadow-glow-lg);
-  transform: translateY(-2px);
+  transform: translateY(-1px);
 }
 
 .btn-secondary {
-  background: var(--bg-glass);
-  color: var(--text-primary);
-  border: 1px solid var(--border-card);
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border-strong);
 }
 .btn-secondary:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-  background: var(--accent-dim);
+  border-color: var(--text-muted);
 }
 
 .btn-cv {
   background: transparent;
-  color: var(--text-secondary);
-  border: 1px solid var(--border-card);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
   text-decoration: none;
-  gap: 0.5rem;
+  gap: var(--space-2);
 }
 .btn-cv:hover {
-  border-color: var(--accent-purple);
-  color: var(--accent-purple);
-  background: rgba(123, 47, 255, 0.08);
+  border-color: var(--text-muted);
+  color: var(--text);
 }
 
 /* ─── Neural Background ─────────────────────────────────── */
@@ -370,10 +360,10 @@ section { padding: var(--section-pad) 2rem; position: relative; }
 }
 @keyframes targeted-pulse {
   0%, 100% {
-    box-shadow: 0 0 0 1px var(--accent), 0 0 28px var(--accent-glow), var(--shadow-glow-lg);
+    box-shadow: 0 0 0 1px var(--accent);
   }
   50% {
-    box-shadow: 0 0 0 2px var(--accent), 0 0 64px var(--accent-glow), var(--shadow-glow-lg);
+    box-shadow: 0 0 0 2px var(--accent);
   }
 }
 
@@ -382,9 +372,9 @@ section { padding: var(--section-pad) 2rem; position: relative; }
   display: block;
   font-family: var(--font-mono);
   font-size: 0.72rem;
-  font-weight: 500;
-  color: var(--accent);
-  opacity: 0.55;
+  font-weight: 400;
+  color: var(--text-dim);
+  opacity: 1;
   letter-spacing: 0.09em;
   margin-bottom: 0.6rem;
 }

@@ -33,7 +33,6 @@
 .splash-svg {
   width: 96px;
   height: 115px;
-  filter: drop-shadow(0 0 24px var(--mark-glow));
 }
 
 /* ── Stroke draw-in layer ──────────────────────────────────── */
@@ -73,7 +72,7 @@
 .splash-name {
   font-family: 'Inter', sans-serif;
   font-size: 0.7rem;
-  font-weight: 300;
+  font-weight: 400;
   letter-spacing: 0.45em;
   text-transform: uppercase;
   color: transparent;

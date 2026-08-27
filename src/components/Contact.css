@@ -1,5 +1,5 @@
 #contact {
-  background: linear-gradient(180deg, transparent 0%, var(--mark-soft) 50%, transparent 100%);
+  background: none;
   padding-bottom: 60px;
 }
 
@@ -29,11 +29,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    90deg,
-    color-mix(in srgb, var(--contact-color, var(--accent)) 8%, transparent) 0%,
-    transparent 60%
-  );
+  background: var(--surface-raised);
   opacity: 0;
   transition: var(--transition);
   pointer-events: none;
@@ -74,7 +70,7 @@
 
 .contact-label {
   font-size: 0.8rem;
-  font-weight: 600;
+  font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--text-muted);
@@ -83,7 +79,7 @@
 .contact-value {
   font-size: 0.95rem;
   color: var(--text-secondary);
-  font-weight: 500;
+  font-weight: 600;
   transition: var(--transition);
 }
 

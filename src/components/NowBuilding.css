@@ -25,7 +25,7 @@
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(90deg, var(--accent), var(--accent-purple));
+  background: var(--mark);
   opacity: 0.7;
 }
 
@@ -44,7 +44,7 @@
   padding: 4px 12px;
   border-radius: 100px;
   font-size: 0.74rem;
-  font-weight: 700;
+  font-weight: 400;
   color: var(--mark);
   background: var(--mark-dim);
   border: 1px solid var(--border-strong);
@@ -66,7 +66,7 @@
 
 .now-name {
   font-size: 1.05rem;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--text-primary);
   line-height: 1.35;
 }

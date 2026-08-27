@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
+import Bidi from '../lib/Bidi';
 import './Hero.css';
 
 export default function Hero() {
@@ -59,13 +60,13 @@ export default function Hero() {
 
           <div className="hero-title-wrap" data-reveal data-reveal-delay="3">
             <span className="hero-title-static">
-              {displayed}
+              <Bidi>{displayed}</Bidi>
               <span className="cursor" />
             </span>
           </div>
 
           <p className="hero-bio" data-reveal data-reveal-delay="4">
-            {t.hero.bio}
+            <Bidi>{t.hero.bio}</Bidi>
           </p>
 
           <div className="hero-cta" data-reveal data-reveal-delay="5">

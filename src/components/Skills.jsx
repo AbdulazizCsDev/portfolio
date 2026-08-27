@@ -1,4 +1,5 @@
 import { useLanguage } from '../context/LanguageContext';
+import Bidi from '../lib/Bidi';
 import './Skills.css';
 
 export default function Skills() {
@@ -22,12 +23,12 @@ export default function Skills() {
             >
               <div className="skill-cat-header">
                 <span className="skill-cat-icon">{cat.icon}</span>
-                <h3 className="skill-cat-name">{cat.name}</h3>
+                <h3 className="skill-cat-name"><Bidi>{cat.name}</Bidi></h3>
               </div>
               <div className="skill-tags">
                 {cat.skills.map((skill) => (
                   <span key={skill} className="skill-pill">
-                    {skill}
+                    <Bidi>{skill}</Bidi>
                   </span>
                 ))}
               </div>

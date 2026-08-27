@@ -30,7 +30,7 @@
   --radius-sm: 0.5rem; --radius-lg: 1rem; --radius-full: 9999px;
 
   /* الحركة — §4 */
-  --ease-settle: cubic-bezier(0.22, 1.08, 0.36, 1);
+  --ease-settle: cubic-bezier(0.22, 1.28, 0.36, 1);   /* تجاوز 2.5% — نيّة §4، انظر docs/DESIGN-SPEC.md */
   --ease-linear-out: cubic-bezier(0.4, 0, 0.2, 1);
   --dur-fast: 140ms;
   --dur-base: 320ms;

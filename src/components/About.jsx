@@ -1,4 +1,5 @@
 import { useLanguage } from '../context/LanguageContext';
+import Bidi from '../lib/Bidi';
 import './About.css';
 
 export default function About() {
@@ -15,8 +16,8 @@ export default function About() {
         <div className="about-grid">
           {/* Bio */}
           <div className="about-bio" data-reveal data-reveal-delay="1">
-            <p>{t.about.p1}</p>
-            <p>{t.about.p2}</p>
+            <p><Bidi>{t.about.p1}</Bidi></p>
+            <p><Bidi>{t.about.p2}</Bidi></p>
 
             {/* Education */}
             <div className="about-edu">
@@ -24,11 +25,11 @@ export default function About() {
               <div className="edu-card card-glass">
                 <div className="edu-icon">🎓</div>
                 <div className="edu-info">
-                  <h4>{t.about.university}</h4>
-                  <p>{t.about.degree}</p>
+                  <h4><Bidi>{t.about.university}</Bidi></h4>
+                  <p><Bidi>{t.about.degree}</Bidi></p>
                   <div className="edu-meta">
-                    <span className="tag">{t.about.gpa}</span>
-                    <span className="tag">{t.about.period}</span>
+                    <span className="tag"><Bidi>{t.about.gpa}</Bidi></span>
+                    <span className="tag"><Bidi>{t.about.period}</Bidi></span>
                   </div>
                 </div>
               </div>
@@ -49,9 +50,9 @@ export default function About() {
                 >
                   <div className="cert-badge">✓</div>
                   <div className="cert-info">
-                    <h4>{cert.name}</h4>
-                    <p>{cert.issuer}</p>
-                    <span className="cert-year">{cert.year}</span>
+                    <h4><Bidi>{cert.name}</Bidi></h4>
+                    <p><Bidi>{cert.issuer}</Bidi></p>
+                    <span className="cert-year"><Bidi>{cert.year}</Bidi></span>
                   </div>
                 </div>
               ))}

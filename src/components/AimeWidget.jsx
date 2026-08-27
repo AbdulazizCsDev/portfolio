@@ -13,7 +13,7 @@ function detectIntent(text) {
     return { section: 'now' };
   if (/board.?room|hackathon|himmah|agrocure|هاكاثون|همة|همّة|مجلس الإدارة|أجروكيور/i.test(text))
     return { section: 'projects', highlight: 'projects' };
-  if (/project|مشروع|مشاريع|aime voice|spy|game|tweet|forecast|car.?wash/i.test(text))
+  if (/project|مشروع|مشاريع|aime voice/i.test(text))
     return { section: 'projects', highlight: 'projects' };
   if (/experience|bootcamp|quality assurance|خبرة|خبرات|معسكر|ضمان الجودة/i.test(text))
     return { section: 'experience' };
@@ -53,7 +53,7 @@ function spotlightCard(section, targetId) {
   const card = document.querySelector(`#${section} [data-target-id="${targetId}"]`);
   if (!card) return;
   clearSpotlight();
-  const grid = card.closest('.projects-grid, .projects-more-grid, .now-grid');
+  const grid = card.closest('.projects-grid, .now-grid');
   grid?.classList.add('spotlight-dim');
   card.classList.add('card-targeted');
   card.scrollIntoView({ behavior: 'smooth', block: 'center' });

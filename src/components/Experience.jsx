@@ -1,4 +1,5 @@
 import { useLanguage } from '../context/LanguageContext';
+import Bidi from '../lib/Bidi';
 import './Experience.css';
 
 export default function Experience() {
@@ -27,16 +28,16 @@ export default function Experience() {
 
               <div className="exp-card card-glass">
                 <div className="exp-head">
-                  <h3 className="exp-role">{item.role}</h3>
+                  <h3 className="exp-role"><Bidi>{item.role}</Bidi></h3>
                   {item.current && (
                     <span className="exp-current-badge">{t.experience.current}</span>
                   )}
                 </div>
-                <p className="exp-org">{item.org}</p>
-                <span className="exp-period">{item.period}</span>
+                <p className="exp-org"><Bidi>{item.org}</Bidi></p>
+                <span className="exp-period"><Bidi>{item.period}</Bidi></span>
                 <ul className="exp-points">
                   {item.points.map((p) => (
-                    <li key={p}>{p}</li>
+                    <li key={p}><Bidi>{p}</Bidi></li>
                   ))}
                 </ul>
               </div>

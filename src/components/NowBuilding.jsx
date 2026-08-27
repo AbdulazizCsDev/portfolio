@@ -1,4 +1,5 @@
 import { useLanguage } from '../context/LanguageContext';
+import Bidi from '../lib/Bidi';
 import './NowBuilding.css';
 
 export default function NowBuilding() {
@@ -18,7 +19,7 @@ export default function NowBuilding() {
         <div className="now-grid">
           {t.now.items.map((item, i) => (
             <div
-              key={item.name}
+              key={item.id}
               className="now-card card-glass"
               data-reveal
               data-reveal-delay={String((i % 3) + 1)}
@@ -30,17 +31,17 @@ export default function NowBuilding() {
                   {item.status}
                 </span>
                 <span className="now-started">
-                  {t.now.startedLabel} {item.started}
+                  {t.now.startedLabel} <Bidi>{item.started}</Bidi>
                 </span>
               </div>
 
-              <h3 className="now-name">{item.name}</h3>
-              <p className="now-desc">{item.desc}</p>
+              <h3 className="now-name"><Bidi>{item.name}</Bidi></h3>
+              <p className="now-desc"><Bidi>{item.desc}</Bidi></p>
 
               <div className="now-focus">
                 {item.focus.map((f) => (
                   <span key={f} className="tag">
-                    {f}
+                    <Bidi>{f}</Bidi>
                   </span>
                 ))}
               </div>

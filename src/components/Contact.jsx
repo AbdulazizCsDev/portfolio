@@ -1,4 +1,5 @@
 import { useLanguage } from '../context/LanguageContext';
+import Bidi from '../lib/Bidi';
 import './Contact.css';
 
 function EmailIcon() {
@@ -77,7 +78,7 @@ export default function Contact() {
               <div className="contact-icon">{icon}</div>
               <div className="contact-info">
                 <span className="contact-label">{label}</span>
-                <span className="contact-value">{value}</span>
+                <span className="contact-value"><Bidi>{value}</Bidi></span>
               </div>
               <div className="contact-arrow">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

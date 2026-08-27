@@ -23,13 +23,13 @@
   height: 12px;
   border-radius: 50%;
   background: var(--text-muted);
-  border: 2px solid var(--bg-primary);
-  box-shadow: 0 0 0 2px var(--border-card);
+  border: 2px solid var(--bg);
+  box-shadow: 0 0 0 2px var(--border);
 }
 
 .exp-dot.current {
-  background: var(--accent);
-  box-shadow: 0 0 0 2px var(--border-hover);
+  background: var(--mark);
+  box-shadow: 0 0 0 2px var(--border-strong);
   animation: pulse-glow 2.5s infinite;
 }
 
@@ -55,7 +55,7 @@
 .exp-role {
   font-size: 1.05rem;
   font-weight: 600;
-  color: var(--text-primary);
+  color: var(--text);
   line-height: 1.35;
 }
 
@@ -73,7 +73,7 @@
 
 .exp-org {
   font-size: 0.9rem;
-  color: var(--accent);
+  color: var(--mark);
   margin-top: 0.35rem;
   font-weight: 400;
 }
@@ -97,7 +97,7 @@
   position: relative;
   padding-inline-start: 1.15rem;
   font-size: 0.88rem;
-  color: var(--text-secondary);
+  color: var(--text-muted);
   line-height: 1.65;
 }
 
@@ -105,7 +105,7 @@
   content: '▹';
   position: absolute;
   inset-inline-start: 0;
-  color: var(--accent);
+  color: var(--mark);
 }
 
 /* RTL */

@@ -39,7 +39,7 @@
 @keyframes fab-attention {
   0%   { box-shadow: 0 2px 8px var(--shade); transform: scale(1); }
   25%  { box-shadow: 0 0 0 10px var(--mark-glow), 0 6px 50px var(--mark-glow); transform: scale(1.12); }
-  55%  { box-shadow: 0 0 0 22px var(--mark-soft), 0 6px 30px var(--accent-glow); transform: scale(1); }
+  55%  { box-shadow: 0 0 0 22px var(--mark-soft), 0 6px 30px var(--mark-glow); transform: scale(1); }
   100% { box-shadow: 0 2px 8px var(--shade); transform: scale(1); }
 }
 
@@ -49,7 +49,7 @@
 }
 
 .aime-fab.open {
-  background: var(--bg-card);
+  background: var(--surface);
   border: 1px solid var(--border);
   box-shadow: var(--shadow-card);
 }
@@ -61,14 +61,14 @@
   inset-inline-end: 1.5rem;
   z-index: 199;
   max-width: 240px;
-  background: var(--bg-card);
-  border: 1px solid var(--border-card);
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 18px 18px 4px 18px;
   padding: 0.75rem 1rem;
   box-shadow: 0 8px 32px var(--shade), 0 0 0 1px var(--mark-dim);
   font-size: 0.82rem;
   line-height: 1.5;
-  color: var(--text-primary);
+  color: var(--text);
   display: flex;
   align-items: flex-start;
   gap: 0.5rem;
@@ -78,7 +78,7 @@
 }
 
 .aime-bubble:hover {
-  border-color: var(--accent);
+  border-color: var(--mark);
   box-shadow: 0 8px 32px var(--shade), 0 0 0 1px var(--mark-glow);
   transform: translateY(-2px);
 }
@@ -92,7 +92,7 @@
 
 .bubble-tap-hint {
   font-size: 0.7rem;
-  color: var(--accent);
+  color: var(--mark);
   opacity: 0.8;
   font-weight: 400;
   animation: hint-pulse 1.6s ease-in-out infinite;
@@ -120,7 +120,7 @@
   height: 0;
   border-inline-start: 8px solid transparent;
   border-inline-end: 8px solid transparent;
-  border-top: 8px solid var(--bg-card);
+  border-top: 8px solid var(--surface);
 }
 
 
@@ -142,7 +142,7 @@
 
 .bubble-close:hover {
   background: var(--surface-raised);
-  color: var(--text-primary);
+  color: var(--text);
 }
 
 .fab-label {
@@ -272,7 +272,7 @@
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  border: 1.5px solid var(--accent);
+  border: 1.5px solid var(--mark);
   animation: glow-ring 1s ease-out infinite;
 }
 .avatar-rings span:nth-child(2) { inset: -5px; animation-delay: 0.2s; opacity: 0.6; }
@@ -281,7 +281,7 @@
 .aime-header h4 {
   font-size: 0.95rem;
   font-weight: 600;
-  color: var(--text-primary);
+  color: var(--text);
   margin-bottom: 2px;
 }
 
@@ -302,9 +302,9 @@
 }
 
 .aime-status.online .status-dot { background: var(--mark); }
-.aime-status.listening .status-dot { background: var(--accent); animation: pulse-glow 0.6s ease-in-out infinite; }
+.aime-status.listening .status-dot { background: var(--mark); animation: pulse-glow 0.6s ease-in-out infinite; }
 .aime-status.thinking .status-dot { background: var(--mark); animation: pulse-glow 0.6s ease-in-out infinite; }
-.aime-status.speaking .status-dot { background: var(--accent-purple); animation: pulse-glow 0.6s ease-in-out infinite; }
+.aime-status.speaking .status-dot { background: var(--mark); animation: pulse-glow 0.6s ease-in-out infinite; }
 
 .aime-close-btn {
   width: 32px;
@@ -318,7 +318,7 @@
   transition: var(--transition);
 }
 .aime-close-btn svg { width: 16px; height: 16px; }
-.aime-close-btn:hover { background: var(--bg-glass-hover); color: var(--text-primary); }
+.aime-close-btn:hover { background: var(--surface-raised); color: var(--text); }
 
 /* Header action buttons group */
 .aime-header-actions {
@@ -339,8 +339,8 @@
   transition: var(--transition);
 }
 .header-icon-btn svg { width: 16px; height: 16px; }
-.header-icon-btn:hover { background: var(--bg-glass-hover); color: var(--text-primary); }
-.header-icon-btn.active { color: var(--accent); }
+.header-icon-btn:hover { background: var(--surface-raised); color: var(--text); }
+.header-icon-btn.active { color: var(--mark); }
 .header-icon-btn.muted { color: var(--text-muted); }
 
 /* ── Messages ─────────────────────────────────────────────── */
@@ -395,7 +395,7 @@
 .msg-row.aime .msg-bubble {
   background: var(--surface);
   border: 1px solid var(--mark-dim);
-  color: var(--text-primary);
+  color: var(--text);
   border-end-start-radius: 4px;
 }
 
@@ -417,7 +417,7 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: var(--accent);
+  background: var(--mark);
   animation: bounce-dot 1.2s ease-in-out infinite;
 }
 .msg-bubble.typing span:nth-child(2) { animation-delay: 0.2s; }
@@ -433,13 +433,13 @@
   padding: 0 1rem;
   flex-shrink: 0;
   background: var(--mark-soft);
-  border-top: 1px solid var(--border-card);
+  border-top: 1px solid var(--border);
 }
 
 .wave-bar {
   width: 3px;
   border-radius: 3px;
-  background: var(--accent);
+  background: var(--mark);
   opacity: 0.7;
   animation: wave-bar 0.9s ease-in-out infinite;
   animation-delay: calc(var(--i) * 0.05s);
@@ -479,7 +479,7 @@
   flex: 1;
   background: transparent;
   border: none;
-  color: var(--text-primary);
+  color: var(--text);
   font-size: 0.875rem;
   outline: none;
   padding: 6px 0;
@@ -519,9 +519,9 @@
 }
 .mic-btn-inline svg { width: 18px; height: 18px; }
 .mic-btn-inline:not(:disabled):hover {
-  background: var(--accent-dim);
+  background: var(--mark-dim);
   border-color: var(--mark-glow);
-  color: var(--accent);
+  color: var(--mark);
 }
 .mic-btn-inline.recording {
   background: var(--surface-raised);
@@ -541,12 +541,12 @@
   justify-content: center;
   background: var(--mark-dim);
   border: 1px solid var(--border-strong);
-  color: var(--accent-purple);
+  color: var(--mark);
   transition: var(--transition);
   flex-shrink: 0;
 }
 .stop-btn svg { width: 12px; height: 12px; }
-.stop-btn:hover { background: var(--accent-purple-dim); }
+.stop-btn:hover { background: var(--mark-dim); }
 
 /* Send button */
 .send-btn {
@@ -575,7 +575,7 @@
 
 /* ── Header name ──────────────────────────────────────────────── */
 .name-ai {
-  color: var(--accent);
+  color: var(--mark);
   font-weight: 600;
   letter-spacing: -0.02em;
 }
@@ -598,16 +598,16 @@
   border-radius: 100px;
   font-size: 0.78rem;
   font-weight: 400;
-  background: var(--bg-card);
-  color: var(--accent);
+  background: var(--surface);
+  color: var(--mark);
   border: 1px solid var(--mark-glow);
   cursor: pointer;
   transition: var(--transition);
   white-space: nowrap;
 }
 .suggestion-chip:hover {
-  background: var(--accent-dim);
-  border-color: var(--accent);
+  background: var(--mark-dim);
+  border-color: var(--mark);
   transform: translateY(-1px);
 }
 

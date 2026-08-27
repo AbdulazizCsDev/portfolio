@@ -107,33 +107,8 @@
   --shadow-glow-lg: 0 0 80px rgba(107, 83, 18, 0.10);
 }
 
-/* ─── Compatibility aliases ─────────────────────────────── */
-/* الأسماء القديمة تشير للطبقة الجديدة حتى تُستبدل تدريجياً في م2.
-   تُحلّ عند نقطة الاستخدام، فتتبع الوضع النشط تلقائياً.
-   لا يوجد لون ثالث: البنفسجي كان لوناً ثانياً وصار هو الذهب نفسه. */
+/* الحركة — تُستبدل بمنحنيات §4 في م3 */
 :root {
-  --bg-primary:     var(--bg);
-  --bg-secondary:   var(--surface);
-  --bg-card:        var(--surface);
-  --bg-card-hover:  var(--surface-raised);
-  --bg-glass:       var(--surface);
-  --bg-glass-hover: var(--surface-raised);
-
-  --accent:            var(--mark);
-  --accent-dim:        var(--mark-dim);
-  --accent-glow:       var(--mark-glow);
-  --accent-purple:     var(--mark);
-  --accent-purple-dim: var(--mark-dim);
-
-  --text-primary:   var(--text);
-  --text-secondary: var(--text-muted);
-
-  --border-card:  var(--border);
-  --border-hover: var(--border-strong);
-
-  --radius:    var(--radius-sm);
-  --radius-xl: var(--radius-lg);
-
   --transition:      all var(--dur-base) var(--ease-linear-out);
   --transition-fast: all var(--dur-fast) var(--ease-linear-out);
 }
@@ -154,8 +129,8 @@
 html { scroll-behavior: smooth; overflow-x: hidden; }
 
 body {
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
+  background-color: var(--bg);
+  color: var(--text);
   font-family: var(--font-ar);
   font-size: 16px;
   line-height: 1.6;
@@ -188,12 +163,12 @@ input, textarea { font-family: inherit; }
 
 /* ─── Scrollbar ─────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--bg-primary); }
+::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: rgba(0, 212, 255, 0.3); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+::-webkit-scrollbar-thumb:hover { background: var(--mark); }
 
 /* ─── Selection ─────────────────────────────────────────── */
-::selection { background: var(--accent-dim); color: var(--accent); }
+::selection { background: var(--mark-dim); color: var(--mark); }
 
 /* ─── Typography ────────────────────────────────────────── */
 h1, h2, h3, h4, h5 { font-weight: 400; line-height: 1.2; letter-spacing: -0.02em; }
@@ -315,7 +290,7 @@ section { padding: var(--section-pad) var(--space-6); position: relative; }
   to   { opacity: 1; }
 }
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 0 0 var(--accent-glow); }
+  0%, 100% { box-shadow: 0 0 0 0 var(--mark-glow); }
   50%       { box-shadow: 0 0 0 12px rgba(0, 212, 255, 0); }
 }
 @keyframes spin-slow { to { transform: rotate(360deg); } }
@@ -355,16 +330,16 @@ section { padding: var(--section-pad) var(--space-6); position: relative; }
   position: relative;
   z-index: 5;
   transform: scale(1.05) !important;
-  border-color: var(--accent) !important;
-  background: var(--bg-glass-hover) !important;
+  border-color: var(--mark) !important;
+  background: var(--surface-raised) !important;
   animation: targeted-pulse 1.8s ease-in-out infinite;
 }
 @keyframes targeted-pulse {
   0%, 100% {
-    box-shadow: 0 0 0 1px var(--accent);
+    box-shadow: 0 0 0 1px var(--mark);
   }
   50% {
-    box-shadow: 0 0 0 2px var(--accent);
+    box-shadow: 0 0 0 2px var(--mark);
   }
 }
 

@@ -25,6 +25,15 @@
         } catch (e) {
           document.documentElement.dataset.mode = 'dark';
         }
+        // §5 — decide before first paint whether this session calibrates, so
+        // the drift is present in the very first frame instead of jumping in.
+        try {
+          var still = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+          if (still && !sessionStorage.getItem('portfolio-calibrated')) {
+            sessionStorage.setItem('portfolio-calibrated', '1');
+            document.documentElement.setAttribute('data-calibrating', '');
+          }
+        } catch (e) { /* بلا تخزين: تُعرض الحالة النهائية مباشرة */ }
       })();
     </script>
   </head>

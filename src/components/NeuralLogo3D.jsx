@@ -34,19 +34,16 @@ function randSpherePoint(rMin, rMax) {
   ];
 }
 
-export default function NeuralLogo3D({ splashDone }) {
+export default function NeuralLogo3D() {
   const containerRef = useRef(null);
   const introStartRef = useRef(null);
 
-  // Trigger Three.js intro when splash is done
+  // Nothing blocks the page any more, so the intro starts on mount.
   useEffect(() => {
-    if (splashDone && introStartRef.current === null) {
-      introStartRef.current = Date.now();
-      if (containerRef.current) {
-        containerRef.current.classList.add('active');
-      }
-    }
-  }, [splashDone]);
+    if (introStartRef.current !== null) return;
+    introStartRef.current = Date.now();
+    containerRef.current?.classList.add('active');
+  }, []);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -178,7 +175,7 @@ export default function NeuralLogo3D({ splashDone }) {
         raf = requestAnimationFrame(animate);
         const t = Date.now() * 0.001;
 
-        // Intro progress: 0 before splashDone, 0→1 over INTRO_DUR ms after
+        // Intro progress: 0→1 over INTRO_DUR ms from mount
         const introRaw = introStartRef.current === null
           ? 0
           : Math.min(1, (Date.now() - introStartRef.current) / INTRO_DUR);

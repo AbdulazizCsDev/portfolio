@@ -1,0 +1,39 @@
+/* §5 — the readout. Small, monospace, out of the way, and gone once stable. */
+.calibration {
+  position: fixed;
+  bottom: var(--space-4);
+  inset-inline-start: var(--space-4);
+  z-index: 50;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  pointer-events: none;
+  transition: opacity var(--t-heavy), color var(--t-base);
+}
+
+.calibration.stable {
+  color: var(--mark);
+  opacity: 0;
+}
+
+/* The drift itself. Transform only — the text never loses opacity, so the
+   largest element is painted and readable in the first frame. Each element
+   starts further into the animation than the last, so they settle at
+   different moments and the rhythm reads uneven before it evens out. */
+[data-calibrating] [data-calibrate] {
+  animation: calibrate var(--dur-calibrate, 2200ms) var(--ease-settle) both;
+  animation-delay: calc(var(--cal-i, 0) * -180ms);
+}
+
+@keyframes calibrate {
+  0%   { transform: translate3d(6px, 5px, 0); }
+  30%  { transform: translate3d(-4px, -2px, 0); }
+  55%  { transform: translate3d(3px, 2px, 0); }
+  80%  { transform: translate3d(-1px, 1px, 0); }
+  100% { transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-calibrating] [data-calibrate] { animation: none; }
+}

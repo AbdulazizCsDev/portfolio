@@ -45,31 +45,31 @@ export default function Hero() {
     <section id="hero" className="hero">
       <div className="hero-inner">
         <div className="hero-content">
-          <div className="hero-badge" data-reveal>
+          <div className="hero-badge" data-calibrate style={{ '--cal-i': 0 }}>
             <span className="badge-pulse" />
             {t.hero.available}
           </div>
 
-          <p className="hero-greeting" data-reveal data-reveal-delay="1">
+          <p className="hero-greeting" data-calibrate style={{ '--cal-i': 1 }}>
             {t.hero.greeting}
           </p>
 
-          <h1 className="hero-name" data-reveal data-reveal-delay="2">
+          <h1 className="hero-name" data-calibrate style={{ '--cal-i': 2 }}>
             {t.hero.name}
           </h1>
 
-          <div className="hero-title-wrap" data-reveal data-reveal-delay="3">
+          <div className="hero-title-wrap" data-calibrate style={{ '--cal-i': 3 }}>
             <span className="hero-title-static">
               <Bidi>{displayed}</Bidi>
               <span className="cursor" />
             </span>
           </div>
 
-          <p className="hero-bio" data-reveal data-reveal-delay="4">
+          <p className="hero-bio" data-calibrate style={{ '--cal-i': 4 }}>
             <Bidi>{t.hero.bio}</Bidi>
           </p>
 
-          <div className="hero-cta" data-reveal data-reveal-delay="5">
+          <div className="hero-cta" data-calibrate style={{ '--cal-i': 5 }}>
             <button className="btn btn-primary" onClick={openAime}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />

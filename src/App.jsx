@@ -1,7 +1,6 @@
-﻿import { useEffect, useState } from 'react';
+﻿import { useEffect } from 'react';
 import { LanguageProvider, useLanguage } from './context/LanguageContext';
 import { ThemeProvider } from './context/ThemeContext';
-import SplashScreen from './components/SplashScreen';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -13,13 +12,13 @@ import Contact from './components/Contact';
 import AimeWidget from './components/AimeWidget';
 import NeuralBackground from './components/NeuralBackground';
 import NeuralLogo3D from './components/NeuralLogo3D';
+import Calibration from './components/Calibration';
 import ProjectPage from './components/ProjectPage';
 import { useRoute, matchProject } from './lib/router';
 import './App.css';
 
 function AppContent() {
   const { lang } = useLanguage();
-  const [splashDone, setSplashDone] = useState(false);
   const path = useRoute();
   const projectId = matchProject(path);
 
@@ -46,10 +45,9 @@ function AppContent() {
 
   return (
     <>
-      {!splashDone && <SplashScreen onDone={() => setSplashDone(true)} />}
       <div className={`app ${lang === 'ar' ? 'rtl' : 'ltr'}`}>
       <NeuralBackground />
-      <NeuralLogo3D splashDone={splashDone} />
+      <NeuralLogo3D />
       <div className="scanline-overlay" aria-hidden="true" />
       <Navbar />
       {projectId ? (
@@ -66,6 +64,7 @@ function AppContent() {
         </main>
       )}
       <AimeWidget />
+      <Calibration />
       </div>
     </>
   );

@@ -1,8 +1,8 @@
 /* ── FAB ──────────────────────────────────────────────────── */
 .aime-fab {
   position: fixed;
-  bottom: 2rem;
-  inset-inline-end: 2rem;
+  bottom: 1.25rem;
+  inset-inline-end: 1.25rem;
   z-index: 200;
   width: 62px;
   height: 62px;
@@ -179,10 +179,10 @@
 /* ── Panel ─────────────────────────────────────────────────── */
 .aime-panel {
   position: fixed;
-  bottom: 6rem;
-  inset-inline-end: 2rem;
+  bottom: 5.5rem;
+  inset-inline: var(--space-4);
   z-index: 199;
-  width: 420px;
+  width: auto;
   max-height: 640px;
   border-radius: 20px;
   background: var(--overlay-solid);
@@ -630,12 +630,13 @@
 [dir='rtl'] .aime-header-left { direction: rtl; }
 
 /* ── Responsive ─────────────────────────────────────────────── */
-@media (max-width: 480px) {
-  .aime-fab { bottom: 1.25rem; inset-inline-end: 1.25rem; }
+@media (min-width: 480px) {
+  .aime-fab { bottom: 2rem; inset-inline-end: 2rem; }
   .aime-panel {
-    inset-inline: 1rem;
-    width: auto;
-    bottom: 5.5rem;
+    inset-inline: auto;
+    inset-inline-end: 2rem;
+    width: 420px;
+    bottom: 6rem;
   }
 }
 

@@ -3,7 +3,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 100px 2rem 60px;
+  padding: 90px var(--space-5) 60px;
   position: relative;
   overflow: hidden;
 }
@@ -19,7 +19,8 @@
 .hero-content {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  align-items: center;
+  gap: var(--space-5);
 }
 
 .hero-badge {
@@ -85,10 +86,11 @@
 }
 
 .hero-bio {
-  font-size: 1.05rem;
-  color: var(--text-secondary);
-  max-width: 480px;
+  font-size: var(--text-base);
+  color: var(--text-muted);
+  max-width: 60ch;
   line-height: 1.7;
+  text-align: center;
 }
 
 /* Hero code label */
@@ -100,9 +102,12 @@
 
 .hero-cta {
   display: flex;
-  gap: 1rem;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--space-4);
   flex-wrap: wrap;
-  margin-top: 0.5rem;
+  margin-top: var(--space-2);
+  justify-content: center;
 }
 
 
@@ -157,15 +162,13 @@
 .rtl .hero-bio { direction: rtl; }
 
 /* ── Responsive ─── */
-@media (max-width: 1024px) {
-  .hero-content { align-items: center; }
-  .hero-bio { text-align: center; }
-  .hero-cta { justify-content: center; }
+@media (min-width: 480px) {
+  .hero-cta { flex-direction: row; align-items: center; }
 }
 
-@media (max-width: 480px) {
-  .hero { padding: 90px 1.25rem 60px; }
-  .hero-name { font-size: 2.4rem; }
-  .hero-cta { flex-direction: column; align-items: stretch; }
-  .avatar-container { width: 220px; height: 220px; }
+@media (min-width: 1024px) {
+  .hero { padding: 100px var(--space-8) 60px; }
+  .hero-content { align-items: start; }
+  .hero-bio { text-align: start; }
+  .hero-cta { justify-content: start; }
 }

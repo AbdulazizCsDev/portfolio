@@ -7,7 +7,7 @@
 
 .exp-item {
   display: flex;
-  gap: 1.5rem;
+  gap: var(--space-4);
 }
 
 .exp-marker {
@@ -41,7 +41,7 @@
 }
 
 .exp-card {
-  padding: 1.75rem 2rem;
+  padding: var(--space-6);
   flex: 1;
 }
 
@@ -112,7 +112,7 @@
 .rtl .exp-card { direction: rtl; }
 
 /* Responsive */
-@media (max-width: 640px) {
-  .exp-item { gap: 1rem; }
-  .exp-card { padding: 1.5rem; }
+@media (min-width: 640px) {
+  .exp-item { gap: var(--space-6); }
+  .exp-card { padding: var(--space-8); }
 }

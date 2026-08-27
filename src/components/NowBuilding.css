@@ -5,7 +5,7 @@
 
 .now-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
   gap: 1.5rem;
 }
 
@@ -93,11 +93,9 @@
 .rtl .now-card { direction: rtl; }
 
 /* Responsive */
-@media (max-width: 1100px) {
-  .now-grid { grid-template-columns: repeat(2, 1fr); }
-}
+/* موبايل أولاً */
+.now-card { padding: var(--space-6); }
 
-@media (max-width: 640px) {
-  .now-grid { grid-template-columns: 1fr; }
-  .now-card { padding: 1.5rem; }
+@media (min-width: 640px) {
+  .now-card { padding: var(--space-8); }
 }

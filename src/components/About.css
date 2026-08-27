@@ -8,7 +8,7 @@
 
 .about-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 4rem;
   align-items: start;
 }
@@ -138,13 +138,13 @@
 .rtl .cert-card { direction: rtl; }
 
 /* Responsive */
-@media (max-width: 900px) {
-  .about-grid {
-    grid-template-columns: 1fr;
-    gap: 2.5rem;
-  }
+/* موبايل أولاً: عمود واحد وبطاقة رأسية، ثم تتفرّع مع المساحة */
+.edu-card { flex-direction: column; }
+
+@media (min-width: 480px) {
+  .edu-card { flex-direction: row; }
 }
 
-@media (max-width: 480px) {
-  .edu-card { flex-direction: column; }
+@media (min-width: 900px) {
+  .about-grid { grid-template-columns: 1fr 1fr; }
 }

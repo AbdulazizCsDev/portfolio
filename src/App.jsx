@@ -10,8 +10,7 @@ import NowBuilding from './components/NowBuilding';
 import Skills from './components/Skills';
 import Contact from './components/Contact';
 import AimeWidget from './components/AimeWidget';
-import NeuralBackground from './components/NeuralBackground';
-import NeuralLogo3D from './components/NeuralLogo3D';
+import TraceField from './components/TraceField';
 import Calibration from './components/Calibration';
 import ProjectPage from './components/ProjectPage';
 import { useRoute, matchProject } from './lib/router';
@@ -46,8 +45,7 @@ function AppContent() {
   return (
     <>
       <div className={`app ${lang === 'ar' ? 'rtl' : 'ltr'}`}>
-      <NeuralBackground />
-      <NeuralLogo3D />
+      <TraceField />
       <div className="scanline-overlay" aria-hidden="true" />
       <Navbar />
       {projectId ? (

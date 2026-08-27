@@ -6,7 +6,7 @@
 /* Fixed 3D neural logo — floats behind page content, reacts to scroll */
 .neural-logo-fixed {
   position: fixed;
-  right: 3%;
+  inset-inline-end: 3%;
   top: 50%;
   transform: translateY(-50%);
   width: 380px;
@@ -21,21 +21,12 @@
   opacity: 1;
 }
 
-/* RTL — flip to left side */
-.rtl .neural-logo-fixed {
-  right: auto;
-  left: 3%;
-}
 
 @media (max-width: 1280px) {
   .neural-logo-fixed {
     width: 300px;
     height: 300px;
-    right: 1%;
-  }
-  .rtl .neural-logo-fixed {
-    right: auto;
-    left: 1%;
+    inset-inline-end: 1%;
   }
 }
 
@@ -43,11 +34,7 @@
   .neural-logo-fixed {
     width: 220px;
     height: 220px;
-    right: 0;
-  }
-  .rtl .neural-logo-fixed {
-    right: auto;
-    left: 0;
+    inset-inline-end: 0;
   }
   .neural-logo-fixed.active {
     opacity: 0.5;

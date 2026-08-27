@@ -8,16 +8,6 @@
   overflow: hidden;
 }
 
-.hero::before {
-  content: '';
-  position: absolute;
-  top: -20%;
-  left: -10%;
-  width: 60%;
-  height: 70%;
-  background: none;
-  pointer-events: none;
-}
 
 .hero-inner {
   max-width: var(--content-max);
@@ -88,7 +78,7 @@
   width: 2px;
   height: 1.2em;
   background: var(--accent);
-  margin-left: 2px;
+  margin-inline-start: 2px;
   vertical-align: middle;
   border-radius: 1px;
   animation: typewriter-cursor 0.8s ease infinite;
@@ -120,8 +110,9 @@
 .scroll-indicator {
   position: absolute;
   bottom: 2.5rem;
-  left: 50%;
-  transform: translateX(-50%);
+  inset-inline: 0;
+  margin-inline: auto;
+  width: fit-content;
   display: flex;
   flex-direction: column;
   align-items: center;

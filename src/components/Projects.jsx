@@ -88,7 +88,6 @@ export default function Projects() {
                 )}
               </div>
 
-              <div className="project-glow" />
             </div>
           ))}
         </div>

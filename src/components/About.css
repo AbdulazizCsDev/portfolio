@@ -133,7 +133,7 @@
 }
 
 /* RTL */
-.rtl .title-line { margin-right: 0; }
+.rtl .title-line { margin-inline-end: 0; }
 .rtl .edu-card,
 .rtl .cert-card { direction: rtl; }
 

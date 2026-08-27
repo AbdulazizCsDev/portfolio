@@ -15,7 +15,7 @@
   align-items: center;
   justify-content: center;
   gap: 3px;
-  transition: var(--transition);
+  transition: color var(--t-fast), background-color var(--t-fast), border-color var(--t-fast), transform var(--t-fast);
   cursor: pointer;
 }
 
@@ -27,20 +27,21 @@
 
 .aime-fab:not(.open):not(.recording) {
   animation:
-    fab-idle-glow 3.5s ease-in-out infinite,
+    fab-idle 3.5s var(--ease-linear-out) infinite,
     fab-attention  1.3s ease-out 3.2s 3;
 }
 
-@keyframes fab-idle-glow {
-  0%, 100% { box-shadow: 0 2px 8px var(--shade); }
-  50%       { box-shadow: 0 2px 8px var(--shade); }
+@keyframes fab-idle {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.02); }
 }
 
+/* §4 — لفت انتباه بتجاوز ~2% لا بارتداد: مفصل يتعدّى هدفه قليلاً ثم يستقر */
 @keyframes fab-attention {
-  0%   { box-shadow: 0 2px 8px var(--shade); transform: scale(1); }
-  25%  { box-shadow: 0 0 0 10px var(--mark-glow), 0 6px 50px var(--mark-glow); transform: scale(1.12); }
-  55%  { box-shadow: 0 0 0 22px var(--mark-soft), 0 6px 30px var(--mark-glow); transform: scale(1); }
-  100% { box-shadow: 0 2px 8px var(--shade); transform: scale(1); }
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.025); }
+  70%  { transform: scale(0.995); }
+  100% { transform: scale(1); }
 }
 
 .aime-fab:hover {
@@ -72,9 +73,9 @@
   display: flex;
   align-items: flex-start;
   gap: 0.5rem;
-  animation: bubble-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  animation: bubble-in var(--dur-base) var(--ease-settle) forwards;
   cursor: pointer;
-  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+  transition: border-color var(--t-fast), transform var(--t-fast);
 }
 
 .aime-bubble:hover {
@@ -136,7 +137,7 @@
   line-height: 18px;
   text-align: center;
   cursor: pointer;
-  transition: var(--transition);
+  transition: color var(--t-fast), background-color var(--t-fast), border-color var(--t-fast), transform var(--t-fast);
   padding: 0;
 }
 
@@ -198,7 +199,7 @@
   opacity: 0;
   transform: translateY(20px) scale(0.95);
   pointer-events: none;
-  transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: opacity var(--t-base), transform var(--t-base);
   transform-origin: bottom right;
 }
 
@@ -315,7 +316,7 @@
   justify-content: center;
   color: var(--text-muted);
   background: transparent;
-  transition: var(--transition);
+  transition: color var(--t-fast), background-color var(--t-fast), border-color var(--t-fast), transform var(--t-fast);
 }
 .aime-close-btn svg { width: 16px; height: 16px; }
 .aime-close-btn:hover { background: var(--surface-raised); color: var(--text); }
@@ -336,7 +337,7 @@
   justify-content: center;
   color: var(--text-muted);
   background: transparent;
-  transition: var(--transition);
+  transition: color var(--t-fast), background-color var(--t-fast), border-color var(--t-fast), transform var(--t-fast);
 }
 .header-icon-btn svg { width: 16px; height: 16px; }
 .header-icon-btn:hover { background: var(--surface-raised); color: var(--text); }
@@ -467,7 +468,7 @@
   border: 1px solid var(--mark-dim);
   border-radius: 14px;
   padding: 6px 6px 6px 14px;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: border-color var(--t-fast);
 }
 
 .aime-input-bar:focus-within {
@@ -514,7 +515,7 @@
   background: transparent;
   border: 1px solid transparent;
   color: var(--text-muted);
-  transition: var(--transition);
+  transition: color var(--t-fast), background-color var(--t-fast), border-color var(--t-fast), transform var(--t-fast);
   flex-shrink: 0;
 }
 .mic-btn-inline svg { width: 18px; height: 18px; }
@@ -542,7 +543,7 @@
   background: var(--mark-dim);
   border: 1px solid var(--border-strong);
   color: var(--mark);
-  transition: var(--transition);
+  transition: color var(--t-fast), background-color var(--t-fast), border-color var(--t-fast), transform var(--t-fast);
   flex-shrink: 0;
 }
 .stop-btn svg { width: 12px; height: 12px; }
@@ -558,7 +559,7 @@
   justify-content: center;
   background: var(--mark);
   color: var(--mark-contrast);
-  transition: var(--transition);
+  transition: color var(--t-fast), background-color var(--t-fast), border-color var(--t-fast), transform var(--t-fast);
   flex-shrink: 0;
 }
 .send-btn svg { width: 15px; height: 15px; }
@@ -602,7 +603,7 @@
   color: var(--mark);
   border: 1px solid var(--mark-glow);
   cursor: pointer;
-  transition: var(--transition);
+  transition: color var(--t-fast), background-color var(--t-fast), border-color var(--t-fast), transform var(--t-fast);
   white-space: nowrap;
 }
 .suggestion-chip:hover {
@@ -646,7 +647,6 @@
    and 3-column grids drop to 2 columns to stay readable. */
 @media (min-width: 1100px) {
   main {
-    transition: padding 0.45s cubic-bezier(0.4, 0, 0.2, 1);
   }
   body.aime-open main {
     padding-inline-end: 470px;

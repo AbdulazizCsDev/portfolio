@@ -46,7 +46,7 @@
   background: var(--surface);
   color: var(--text-muted);
   border: 1px solid var(--border);
-  transition: var(--transition);
+  transition: color var(--t-fast), background-color var(--t-fast), border-color var(--t-fast), transform var(--t-fast);
   cursor: default;
   white-space: nowrap;
 }
@@ -68,7 +68,7 @@
   border-color: var(--mark) !important;
   box-shadow: 0 0 0 2px var(--mark-glow) !important;
   transform: translateY(-4px) scale(1.02) !important;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease !important;
+  transition: border-color var(--t-base), transform var(--t-base) !important;
 }
 
 /* Responsive */

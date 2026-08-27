@@ -31,7 +31,7 @@
   inset: 0;
   background: var(--surface-raised);
   opacity: 0;
-  transition: var(--transition);
+  transition: opacity var(--t-base);
   pointer-events: none;
 }
 .contact-card:hover::before { opacity: 1; }
@@ -52,7 +52,7 @@
   justify-content: center;
   color: var(--contact-color, var(--mark));
   flex-shrink: 0;
-  transition: var(--transition);
+  transition: color var(--t-fast), background-color var(--t-fast), border-color var(--t-fast), transform var(--t-fast);
 }
 
 .contact-card:hover .contact-icon {
@@ -80,7 +80,7 @@
   font-size: 0.95rem;
   color: var(--text-muted);
   font-weight: 600;
-  transition: var(--transition);
+  transition: color var(--t-fast), background-color var(--t-fast), border-color var(--t-fast);
 }
 
 .contact-card:hover .contact-value {
@@ -89,7 +89,7 @@
 
 .contact-arrow {
   color: var(--text-muted);
-  transition: var(--transition);
+  transition: color var(--t-fast), background-color var(--t-fast), border-color var(--t-fast), transform var(--t-fast);
   flex-shrink: 0;
 }
 

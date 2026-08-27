@@ -15,7 +15,7 @@
   z-index: 0;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.5s ease;
+  transition: opacity var(--t-heavy);
 }
 
 .neural-logo-fixed.active {

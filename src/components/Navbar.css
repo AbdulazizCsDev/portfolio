@@ -4,7 +4,7 @@
   inset-inline: 0;
   z-index: 100;
   padding: 0 var(--space-4);
-  transition: var(--transition);
+  transition: color var(--t-fast), background-color var(--t-fast), border-color var(--t-fast), transform var(--t-heavy);
 }
 
 .navbar.scrolled {
@@ -29,7 +29,7 @@
   font-weight: 400;
   letter-spacing: 0.05em;
   color: var(--text);
-  transition: var(--transition);
+  transition: color var(--t-fast), background-color var(--t-fast), border-color var(--t-fast), transform var(--t-fast);
   display: flex;
   align-items: center;
   gap: 2px;
@@ -52,7 +52,7 @@
   font-size: 0.9rem;
   font-weight: 600;
   color: var(--text-muted);
-  transition: var(--transition);
+  transition: color var(--t-fast), background-color var(--t-fast), border-color var(--t-fast);
   position: relative;
 }
 
@@ -67,7 +67,7 @@
   height: 2px;
   background: var(--mark);
   border-radius: 2px;
-  transition: var(--transition);
+  transition: transform var(--t-fast);
 }
 
 .nav-link:hover,
@@ -95,7 +95,7 @@
   color: var(--text-muted);
   border: 1px solid var(--border);
   background: transparent;
-  transition: var(--transition);
+  transition: color var(--t-fast), background-color var(--t-fast), border-color var(--t-fast);
   letter-spacing: 0.03em;
 }
 .lang-btn:hover {
@@ -115,7 +115,7 @@
   color: var(--text-muted);
   border: 1px solid var(--border);
   background: transparent;
-  transition: var(--transition);
+  transition: color var(--t-fast), background-color var(--t-fast), border-color var(--t-fast);
 }
 .mode-btn:hover {
   color: var(--mark);
@@ -135,7 +135,7 @@
   border-radius: 8px;
   border: 1px solid var(--border);
   background: var(--surface);
-  transition: var(--transition);
+  transition: color var(--t-fast), background-color var(--t-fast), border-color var(--t-fast), transform var(--t-fast);
 }
 .hamburger:hover { border-color: var(--mark); }
 .hamburger span {
@@ -144,7 +144,7 @@
   height: 2px;
   background: var(--text);
   border-radius: 2px;
-  transition: var(--transition);
+  transition: transform var(--t-fast), opacity var(--t-fast);
 }
 .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
 .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
@@ -167,7 +167,7 @@
   color: var(--text-muted);
   text-align: start;
   border-bottom: 1px solid var(--border);
-  transition: var(--transition);
+  transition: color var(--t-fast), background-color var(--t-fast), border-color var(--t-fast), transform var(--t-fast);
 }
 .mobile-link:last-child { border-bottom: none; }
 .mobile-link:hover,

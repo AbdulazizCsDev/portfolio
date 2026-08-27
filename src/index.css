@@ -107,10 +107,13 @@
   --shadow-glow-lg: 0 0 80px rgba(107, 83, 18, 0.10);
 }
 
-/* الحركة — تُستبدل بمنحنيات §4 في م3 */
+/* §4 — الوزن له فيزياء. المدة تُختار حسب كتلة العنصر لا توحَّد.
+   تُكتب دائماً بخاصية صريحة: transition: transform var(--t-heavy);
+   لا "all" — لأنها تجرّ معها خصائص تخطيط لا يجوز تحريكها. */
 :root {
-  --transition:      all var(--dur-base) var(--ease-linear-out);
-  --transition-fast: all var(--dur-fast) var(--ease-linear-out);
+  --t-fast:  var(--dur-fast) var(--ease-settle);
+  --t-base:  var(--dur-base) var(--ease-settle);
+  --t-heavy: var(--dur-heavy) var(--ease-settle);
 }
 
 /* §2 — وقت التبديل: background-color و color فقط، لا شيء غيرهما. */
@@ -151,15 +154,14 @@ input, textarea { font-family: inherit; }
 [data-reveal] {
   opacity: 0;
   transform: translateY(32px);
-  transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1),
-              transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity var(--t-heavy), transform var(--t-heavy);
 }
 [data-reveal].in-view { opacity: 1; transform: none; }
-[data-reveal-delay="1"] { transition-delay: 0.1s; }
-[data-reveal-delay="2"] { transition-delay: 0.2s; }
-[data-reveal-delay="3"] { transition-delay: 0.3s; }
-[data-reveal-delay="4"] { transition-delay: 0.4s; }
-[data-reveal-delay="5"] { transition-delay: 0.5s; }
+[data-reveal-delay="1"] { transition-delay: 80ms; }
+[data-reveal-delay="2"] { transition-delay: 160ms; }
+[data-reveal-delay="3"] { transition-delay: 240ms; }
+[data-reveal-delay="4"] { transition-delay: 320ms; }
+[data-reveal-delay="5"] { transition-delay: 400ms; }
 
 /* ─── Scrollbar ─────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 6px; }
@@ -218,8 +220,7 @@ section { padding: var(--section-pad) var(--space-6); position: relative; }
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  transition: border-color var(--dur-base) var(--ease-settle),
-              transform var(--dur-heavy) var(--ease-settle);
+  transition: border-color var(--t-base), transform var(--t-heavy);
 }
 .card-glass:hover {
   border-color: var(--border-strong);
@@ -235,10 +236,8 @@ section { padding: var(--section-pad) var(--space-6); position: relative; }
   border-radius: var(--radius-sm);
   font-size: var(--text-base);
   font-weight: 400;
-  transition: background-color var(--dur-fast) var(--ease-linear-out),
-              color var(--dur-fast) var(--ease-linear-out),
-              border-color var(--dur-fast) var(--ease-linear-out),
-              transform var(--dur-fast) var(--ease-settle);
+  transition: background-color var(--t-fast), color var(--t-fast),
+              border-color var(--t-fast), transform var(--t-fast);
 }
 
 .btn-primary {
@@ -290,8 +289,8 @@ section { padding: var(--section-pad) var(--space-6); position: relative; }
   to   { opacity: 1; }
 }
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 0 0 var(--mark-glow); }
-  50%       { box-shadow: 0 0 0 12px rgba(0, 212, 255, 0); }
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.45; }
 }
 @keyframes spin-slow { to { transform: rotate(360deg); } }
 @keyframes wave-bar {
@@ -319,28 +318,24 @@ section { padding: var(--section-pad) var(--space-6); position: relative; }
 /* Applied by the Aime widget when it targets a specific card:
    siblings dim and shrink, the targeted card lifts and pulses. */
 .spotlight-dim > * {
-  transition: opacity 0.5s ease, transform 0.5s ease, filter 0.5s ease;
+  transition: opacity var(--t-base), transform var(--t-base);
 }
 .spotlight-dim > *:not(.card-targeted) {
   opacity: 0.28;
-  filter: saturate(0.4);
   transform: scale(0.97);
 }
 .card-targeted {
   position: relative;
   z-index: 5;
-  transform: scale(1.05) !important;
+  transform: scale(1.03) !important;
   border-color: var(--mark) !important;
   background: var(--surface-raised) !important;
-  animation: targeted-pulse 1.8s ease-in-out infinite;
+  animation: targeted-pulse 1.8s var(--ease-linear-out) infinite;
 }
+/* §4 — النبض بالتحجيم لا بالظل: transform فقط */
 @keyframes targeted-pulse {
-  0%, 100% {
-    box-shadow: 0 0 0 1px var(--mark);
-  }
-  50% {
-    box-shadow: 0 0 0 2px var(--mark);
-  }
+  0%, 100% { transform: scale(1.03); }
+  50%      { transform: scale(1.045); }
 }
 
 /* ─── Code-style Section Label ──────────────────────────── */

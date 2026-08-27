@@ -7,7 +7,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: opacity 0.7s ease, transform 0.7s ease;
+  transition: opacity var(--t-heavy), transform var(--t-heavy);
 }
 
 .splash.out {
@@ -21,7 +21,7 @@
   flex-direction: column;
   align-items: center;
   gap: 2rem;
-  transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease 0.1s;
+  transition: transform var(--t-heavy), opacity var(--t-base) 100ms;
 }
 
 .splash.out .splash-inner {
@@ -39,7 +39,7 @@
 .s-stroke {
   stroke-dasharray: 500;
   /* default stroke-dashoffset is 0 → fully visible when no animation */
-  transition: opacity 0.5s ease;
+  transition: opacity var(--t-heavy);
 }
 
 .splash.draw .s-stroke {
@@ -60,7 +60,7 @@
 /* ── Fill fade-in layer ────────────────────────────────────── */
 .s-fill {
   opacity: 0;
-  transition: opacity 0.65s ease;
+  transition: opacity var(--t-heavy);
 }
 
 .splash.reveal .s-fill,
@@ -77,7 +77,7 @@
   text-transform: uppercase;
   color: transparent;
   opacity: 0;
-  transition: color 0.7s ease 0.1s, opacity 0.7s ease 0.1s;
+  transition: color var(--t-heavy) 100ms, opacity var(--t-heavy) 100ms;
 }
 
 .splash.reveal .splash-name,

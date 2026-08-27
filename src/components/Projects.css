@@ -102,7 +102,7 @@
   font-weight: 400;
   padding: 6px 14px;
   border-radius: 8px;
-  transition: var(--transition);
+  transition: color var(--t-fast), background-color var(--t-fast), border-color var(--t-fast), transform var(--t-fast);
 }
 
 .link-live {

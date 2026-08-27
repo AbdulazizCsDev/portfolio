@@ -1,5 +1,6 @@
 ﻿import { useState, useRef, useEffect, useCallback } from 'react';
 import { useLanguage } from '../context/LanguageContext';
+import { navigate } from '../lib/router';
 import './AimeWidget.css';
 
 const API = 'https://aime-voice-assistant-rw2z.vercel.app';
@@ -171,11 +172,13 @@ export default function AimeWidget() {
 
   const navigateToSection = useCallback((intent) => {
     if (!intent) return;
+    const away = window.location.pathname !== '/';
+    if (away) navigate('/');
     setTimeout(() => {
       document.getElementById(intent.section)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       if (intent.highlight === 'certs')    setTimeout(highlightCerts, 700);
       if (intent.highlight === 'skills')   setTimeout(highlightSkills, 500);
-    }, 400);
+    }, away ? 550 : 400);
   }, []);
 
   // Backend-driven navigation: "projects.board-room" scrolls to the section
@@ -183,6 +186,9 @@ export default function AimeWidget() {
   const applyAction = useCallback((token) => {
     if (!token || token === 'none') return;
     const [section, targetId] = token.split('.');
+    // Sections live on the home page; route there first if we are elsewhere.
+    const away = window.location.pathname !== '/';
+    if (away) navigate('/');
     setTimeout(() => {
       document.getElementById(section)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       if (targetId) {
@@ -190,7 +196,7 @@ export default function AimeWidget() {
       } else if (section === 'skills') {
         setTimeout(highlightSkills, 500);
       }
-    }, 350);
+    }, away ? 500 : 350);
   }, []);
 
   const sendMessage = useCallback(

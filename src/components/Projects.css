@@ -59,6 +59,16 @@
   border-top: 1px solid var(--border);
 }
 
+/* §7 — the way into the project's own page. The card itself stays flat. */
+.project-open {
+  align-self: start;
+  margin-top: var(--space-4);
+  font-size: var(--text-sm);
+  color: var(--mark);
+  transition: color var(--t-fast), opacity var(--t-fast);
+}
+.project-open:hover { opacity: 0.75; }
+
 @media (min-width: 640px) {
   .project-card { padding: var(--space-8); }
 }

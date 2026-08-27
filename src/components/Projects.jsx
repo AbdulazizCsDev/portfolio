@@ -1,5 +1,7 @@
 import { useLanguage } from '../context/LanguageContext';
 import Bidi from '../lib/Bidi';
+import Link from '../lib/Link';
+import { projectPath } from '../lib/router';
 import './Projects.css';
 
 export default function Projects() {
@@ -32,6 +34,10 @@ export default function Projects() {
               <p className="project-summary"><Bidi>{project.summary}</Bidi></p>
 
               <p className="project-broke"><Bidi>{project.broke}</Bidi></p>
+
+              <Link to={projectPath(project.id)} className="project-open">
+                {t.projects.open} <span aria-hidden="true">→</span>
+              </Link>
             </article>
           ))}
         </div>

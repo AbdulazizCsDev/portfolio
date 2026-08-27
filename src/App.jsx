@@ -13,11 +13,15 @@ import Contact from './components/Contact';
 import AimeWidget from './components/AimeWidget';
 import NeuralBackground from './components/NeuralBackground';
 import NeuralLogo3D from './components/NeuralLogo3D';
+import ProjectPage from './components/ProjectPage';
+import { useRoute, matchProject } from './lib/router';
 import './App.css';
 
 function AppContent() {
   const { lang } = useLanguage();
   const [splashDone, setSplashDone] = useState(false);
+  const path = useRoute();
+  const projectId = matchProject(path);
 
   useEffect(() => {
     document.body.classList.toggle('rtl', lang === 'ar');
@@ -38,7 +42,7 @@ function AppContent() {
       document.querySelectorAll('[data-reveal]').forEach((el) => observer.observe(el));
     }, 60);
     return () => { clearTimeout(timer); observer?.disconnect(); };
-  }, [lang]);
+  }, [lang, path]);
 
   return (
     <>
@@ -48,15 +52,19 @@ function AppContent() {
       <NeuralLogo3D splashDone={splashDone} />
       <div className="scanline-overlay" aria-hidden="true" />
       <Navbar />
-      <main>
-        <Hero />
-        <About />
-        <Experience />
-        <Projects />
-        <NowBuilding />
-        <Skills />
-        <Contact />
-      </main>
+      {projectId ? (
+        <ProjectPage id={projectId} />
+      ) : (
+        <main>
+          <Hero />
+          <About />
+          <Experience />
+          <Projects />
+          <NowBuilding />
+          <Skills />
+          <Contact />
+        </main>
+      )}
       <AimeWidget />
       </div>
     </>

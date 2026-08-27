@@ -66,6 +66,9 @@ const translations = {
     },
     projects: {
       title: 'Projects',
+      backToProjects: 'Projects',
+      open: 'Open project',
+      notFound: 'No such project.',
       // §7 — three projects, four elements each. Nothing else belongs on a card.
       // Fields marked TODO are §11 decisions: the owner writes them, not the build.
       items: [
@@ -77,6 +80,16 @@ const translations = {
           summary:
             '[[ TODO — one or two sentences: what this actually does, not what it is built with. Plain enough for a non-technical reader, precise enough to respect a technical one. ]]',
           broke: '[[ TODO — what did not work, and what it taught you ]]',
+          detail: {
+            sections: [
+              { heading: 'Architecture', body: '[[ TODO — how the pieces fit, and what talks to what ]]' },
+              { heading: 'Decisions', body: '[[ TODO — the calls you made and why you made them ]]' },
+              { heading: 'Metrics', body: '[[ TODO — the full numbers, not just the headline one ]]' },
+              { heading: 'Limits', body: '[[ TODO — where it stops working, and what it does not claim ]]' },
+              { heading: 'Tried and failed', body: '[[ TODO — what you attempted that did not work ]]' },
+              { heading: 'Code', body: '[[ TODO — link, or say it is closed ]]' },
+            ],
+          },
         },
         {
           id: 'aime',
@@ -85,6 +98,16 @@ const translations = {
           numberNote: '[[ TODO — what the number counts ]]',
           summary: '[[ TODO — one or two sentences, same rules ]]',
           broke: '[[ TODO — what broke, and what it taught you ]]',
+          detail: {
+            sections: [
+              { heading: 'Architecture', body: '[[ TODO — how the pieces fit, and what talks to what ]]' },
+              { heading: 'Decisions', body: '[[ TODO — the calls you made and why you made them ]]' },
+              { heading: 'Metrics', body: '[[ TODO — the full numbers, not just the headline one ]]' },
+              { heading: 'Limits', body: '[[ TODO — where it stops working, and what it does not claim ]]' },
+              { heading: 'Tried and failed', body: '[[ TODO — what you attempted that did not work ]]' },
+              { heading: 'Code', body: '[[ TODO — link, or say it is closed ]]' },
+            ],
+          },
         },
         {
           id: 'agrocure',
@@ -93,6 +116,16 @@ const translations = {
           numberNote: '[[ TODO — what the number counts ]]',
           summary: '[[ TODO — one or two sentences, same rules ]]',
           broke: '[[ TODO — what broke, and what it taught you ]]',
+          detail: {
+            sections: [
+              { heading: 'Architecture', body: '[[ TODO — how the pieces fit, and what talks to what ]]' },
+              { heading: 'Decisions', body: '[[ TODO — the calls you made and why you made them ]]' },
+              { heading: 'Metrics', body: '[[ TODO — the full numbers, not just the headline one ]]' },
+              { heading: 'Limits', body: '[[ TODO — where it stops working, and what it does not claim ]]' },
+              { heading: 'Tried and failed', body: '[[ TODO — what you attempted that did not work ]]' },
+              { heading: 'Code', body: '[[ TODO — link, or say it is closed ]]' },
+            ],
+          },
         },
       ],
     },
@@ -284,6 +317,9 @@ const translations = {
     },
     projects: {
       title: 'المشاريع',
+      backToProjects: 'المشاريع',
+      open: 'افتح المشروع',
+      notFound: 'لا يوجد مشروع بهذا الاسم.',
       // §7 — ثلاثة مشاريع، أربعة عناصر لكل بطاقة. لا شيء غيرها.
       // الحقول المعلَّمة TODO قرارات §11: يكتبها المالك، لا البناء.
       items: [
@@ -295,6 +331,16 @@ const translations = {
           summary:
             '[[ يُملأ — جملة أو جملتان: ماذا يفعل المشروع فعلاً، لا التقنيات المستخدمة فيه. يفهمه غير التقني، ويحترم عقل التقني. ]]',
           broke: '[[ يُملأ — ما الذي لم ينجح، وماذا تعلّمت منه ]]',
+          detail: {
+            sections: [
+              { heading: 'المعمارية', body: '[[ يُملأ — كيف تتركّب القطع، وما الذي يتحدث مع ماذا ]]' },
+              { heading: 'القرارات', body: '[[ يُملأ — ما الذي قرّرته، ولماذا قرّرته ]]' },
+              { heading: 'المقاييس', body: '[[ يُملأ — الأرقام كاملة، لا الرقم الواجهة فقط ]]' },
+              { heading: 'الحدود', body: '[[ يُملأ — أين يتوقف عن العمل، وما الذي لا يدّعيه ]]' },
+              { heading: 'ما جُرّب وفشل', body: '[[ يُملأ — ما حاولته ولم ينجح ]]' },
+              { heading: 'الكود', body: '[[ يُملأ — رابط، أو قل إنه مغلق ]]' },
+            ],
+          },
         },
         {
           id: 'aime',
@@ -303,6 +349,16 @@ const translations = {
           numberNote: '[[ يُملأ — ماذا يقيس هذا الرقم ]]',
           summary: '[[ يُملأ — جملة أو جملتان، بنفس الشروط ]]',
           broke: '[[ يُملأ — ما الذي انكسر، وماذا تعلّمت منه ]]',
+          detail: {
+            sections: [
+              { heading: 'المعمارية', body: '[[ يُملأ — كيف تتركّب القطع، وما الذي يتحدث مع ماذا ]]' },
+              { heading: 'القرارات', body: '[[ يُملأ — ما الذي قرّرته، ولماذا قرّرته ]]' },
+              { heading: 'المقاييس', body: '[[ يُملأ — الأرقام كاملة، لا الرقم الواجهة فقط ]]' },
+              { heading: 'الحدود', body: '[[ يُملأ — أين يتوقف عن العمل، وما الذي لا يدّعيه ]]' },
+              { heading: 'ما جُرّب وفشل', body: '[[ يُملأ — ما حاولته ولم ينجح ]]' },
+              { heading: 'الكود', body: '[[ يُملأ — رابط، أو قل إنه مغلق ]]' },
+            ],
+          },
         },
         {
           id: 'agrocure',
@@ -311,6 +367,16 @@ const translations = {
           numberNote: '[[ يُملأ — ماذا يقيس هذا الرقم ]]',
           summary: '[[ يُملأ — جملة أو جملتان، بنفس الشروط ]]',
           broke: '[[ يُملأ — ما الذي انكسر، وماذا تعلّمت منه ]]',
+          detail: {
+            sections: [
+              { heading: 'المعمارية', body: '[[ يُملأ — كيف تتركّب القطع، وما الذي يتحدث مع ماذا ]]' },
+              { heading: 'القرارات', body: '[[ يُملأ — ما الذي قرّرته، ولماذا قرّرته ]]' },
+              { heading: 'المقاييس', body: '[[ يُملأ — الأرقام كاملة، لا الرقم الواجهة فقط ]]' },
+              { heading: 'الحدود', body: '[[ يُملأ — أين يتوقف عن العمل، وما الذي لا يدّعيه ]]' },
+              { heading: 'ما جُرّب وفشل', body: '[[ يُملأ — ما حاولته ولم ينجح ]]' },
+              { heading: 'الكود', body: '[[ يُملأ — رابط، أو قل إنه مغلق ]]' },
+            ],
+          },
         },
       ],
     },

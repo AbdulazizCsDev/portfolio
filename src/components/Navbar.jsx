@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { useTheme } from '../context/ThemeContext';
+import { navigate } from '../lib/router';
 import './Navbar.css';
 
 function InkIcon() {
@@ -30,6 +31,7 @@ export default function Navbar() {
   useEffect(() => {
     const onScroll = () => {
       setScrolled(window.scrollY > 60);
+      if (window.location.pathname !== '/') return;
       const sections = ['hero', 'about', 'experience', 'projects', 'now', 'skills', 'contact'];
       for (const id of [...sections].reverse()) {
         const el = document.getElementById(id);
@@ -43,9 +45,14 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  // Section ids only exist on the home page, so from a project page the nav
+  // routes home first and scrolls once the section has mounted.
   const scrollTo = (id) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
     setMenuOpen(false);
+    const target = () => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    if (window.location.pathname === '/') { target(); return; }
+    navigate('/');
+    requestAnimationFrame(() => requestAnimationFrame(target));
   };
 
   const navItems = [

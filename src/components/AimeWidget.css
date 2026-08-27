@@ -482,7 +482,6 @@
   border: none;
   color: var(--text);
   font-size: 0.875rem;
-  outline: none;
   padding: 6px 0;
   min-width: 0;
 }

@@ -340,6 +340,30 @@ section { padding: var(--section-pad) var(--space-6); position: relative; }
   margin-bottom: 0.6rem;
 }
 
+/* ─── Focus & Skip link — §9 ────────────────────────────── */
+/* One rule so every interactive element is covered, including the ones
+   inside the assistant that had no ring of their own. */
+:is(a, button, input, textarea, select, [tabindex]):focus-visible {
+  outline: 2px solid var(--mark);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+.skip-link {
+  position: fixed;
+  top: var(--space-2);
+  inset-inline-start: var(--space-2);
+  z-index: 300;
+  padding: var(--space-2) var(--space-4);
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  transform: translateY(-200%);
+  transition: transform var(--t-fast);
+}
+.skip-link:focus-visible { transform: none; }
+
 /* ─── Reduced Motion ────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

@@ -45,13 +45,14 @@ function AppContent() {
   return (
     <>
       <div className={`app ${lang === 'ar' ? 'rtl' : 'ltr'}`}>
+      <a className="skip-link" href="#main">{lang === 'ar' ? 'تخطَّ إلى المحتوى' : 'Skip to content'}</a>
       <TraceField />
       <div className="scanline-overlay" aria-hidden="true" />
       <Navbar />
       {projectId ? (
         <ProjectPage id={projectId} />
       ) : (
-        <main>
+        <main id="main">
           <Hero />
           <About />
           <Experience />

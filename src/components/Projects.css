@@ -21,8 +21,9 @@
 }
 
 .project-name {
+  font-family: var(--font-display);
   font-size: var(--t-mid);
-  font-weight: 400;
+  font-weight: 700;
   line-height: 0.95;
   letter-spacing: -0.04em;
   color: var(--text);

@@ -68,7 +68,7 @@
 
 .lang-btn {
   padding: var(--space-2) var(--space-4);
-  font-size: var(--text-sm);
+  font-size: var(--t-note);
   font-weight: 400;
   color: var(--text-muted);
   background: transparent;

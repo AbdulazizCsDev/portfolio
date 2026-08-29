@@ -11,7 +11,7 @@
 
 .project-back {
   display: inline-block;
-  font-size: var(--text-sm);
+  font-size: var(--t-note);
   color: var(--text-muted);
   margin-bottom: var(--space-12);
   transition: color var(--t-fast);
@@ -24,15 +24,16 @@
 }
 
 .project-page-name {
-  font-size: var(--text-hero);
-  font-weight: 600;
-  line-height: 1.1;
+  font-family: var(--font-display);
+  font-size: var(--t-max);
+  font-weight: 700;
+  line-height: 0.9;
   color: var(--text);
   letter-spacing: -0.02em;
 }
 
 .project-page-summary {
-  font-size: var(--text-lg);
+  font-size: var(--t-body);
   color: var(--text);
   line-height: 1.75;
   margin-top: var(--space-6);
@@ -41,7 +42,7 @@
 .project-section + .project-section { margin-top: var(--space-12); }
 
 .project-section-heading {
-  font-size: var(--text-sm);
+  font-size: var(--t-note);
   font-weight: 400;
   font-family: var(--font-mono);
   letter-spacing: 0.08em;
@@ -51,13 +52,13 @@
 }
 
 .project-section-body {
-  font-size: var(--text-base);
+  font-size: var(--t-body);
   color: var(--text);
   line-height: 1.8;
 }
 
 .project-page-missing {
-  font-size: var(--text-lg);
+  font-size: var(--t-body);
   color: var(--text-muted);
   margin-bottom: var(--space-6);
 }

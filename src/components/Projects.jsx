@@ -10,34 +10,33 @@ export default function Projects() {
   return (
     <section id="projects">
       <div className="section-inner">
-        <div data-reveal>
-          <h2 className="section-title">{t.projects.title}</h2>
-          <div className="title-line" />
-        </div>
+        <h2 className="section-title">
+          <Bidi>{t.projects.title}</Bidi>
+        </h2>
 
-        <div className="projects-grid">
+        <div className="projects-list">
           {t.projects.items.map((project, i) => (
             <article
+              className="project-row"
               key={project.id}
-              className="project-card"
-              data-reveal
-              data-reveal-delay={String(i + 1)}
               data-target-id={project.id}
             >
-              <h3 className="project-name"><Bidi>{project.name}</Bidi></h3>
+              <div>
+                <p className="project-index" dir="ltr">{String(i + 1).padStart(2, '0')}</p>
+                <h3 className="project-name"><Bidi>{project.name}</Bidi></h3>
+                <p className="project-number"><Bidi>{project.number}</Bidi></p>
+                <p className="project-number-note"><Bidi>{project.numberNote}</Bidi></p>
+              </div>
 
-              {/* The one number: hardest or strangest, never largest. Bidi
-                  isolates the figure so it holds its order in Arabic — §8. */}
-              <p className="project-number"><Bidi>{project.number}</Bidi></p>
-              <p className="project-number-note"><Bidi>{project.numberNote}</Bidi></p>
-
-              <p className="project-summary"><Bidi>{project.summary}</Bidi></p>
-
-              <p className="project-broke"><Bidi>{project.broke}</Bidi></p>
-
-              <Link to={projectPath(project.id)} className="project-open">
-                {t.projects.open} <span aria-hidden="true">→</span>
-              </Link>
+              <div>
+                <p className="project-summary"><Bidi>{project.summary}</Bidi></p>
+                {/* What broke. The most valuable line on the page, so it is
+                    never the faint layer. */}
+                <p className="project-broke"><Bidi>{project.broke}</Bidi></p>
+                <Link to={projectPath(project.id)} className="project-open">
+                  {t.projects.open}
+                </Link>
+              </div>
             </article>
           ))}
         </div>

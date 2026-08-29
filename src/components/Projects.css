@@ -1,73 +1,88 @@
-.projects-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
-  gap: var(--space-6);
-}
-
-/* §7 — four elements, nothing expandable. Mobile padding is the base. */
-.project-card {
-  padding: var(--space-6);
+/* صفوف بعرض الصفحة لا أعمدة متساوية: كل مشروع يأخذ وزنه كاملاً. */
+.projects-list {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
-  position: relative;
-  cursor: default;
+  gap: calc(var(--space-24) * 2);
+}
+
+.project-row {
+  display: grid;
+  gap: var(--space-6);
+  align-items: start;
+}
+
+/* الترتيب في الطبقة الغائبة — بنية تُرى ولا تُقرأ. */
+.project-index {
+  font-family: var(--font-mono);
+  font-size: var(--t-mid);
+  line-height: 0.8;
+  color: var(--absent);
+  letter-spacing: -0.04em;
 }
 
 .project-name {
-  font-size: var(--text-lg);
-  font-weight: 600;
+  font-size: var(--t-mid);
+  font-weight: 400;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
   color: var(--text);
-  line-height: 1.3;
+  margin-top: var(--space-4);
 }
 
-/* The single number carries the only gold on the card. */
+/* الرقم الواحد هو الموضع الذهبي الوحيد في هذا القسم. */
 .project-number {
   font-family: var(--font-mono);
-  font-size: var(--text-2xl);
-  font-weight: 400;
-  line-height: 1.1;
+  font-size: var(--t-body);
+  line-height: 1;
   color: var(--mark);
   font-variant-numeric: tabular-nums;
-  letter-spacing: -0.01em;
-  margin-top: var(--space-2);
+  letter-spacing: 0.02em;
+  margin-top: var(--space-8);
 }
 
 .project-number-note {
-  font-size: var(--text-sm);
-  color: var(--text-muted);
-  line-height: 1.5;
-  margin-top: calc(var(--space-1) * -1);
+  font-size: var(--t-note);
+  font-family: var(--font-mono);
+  color: var(--text);
+  margin-top: var(--space-2);
+  letter-spacing: 0.04em;
 }
 
 .project-summary {
-  font-size: var(--text-base);
-  color: var(--text);
+  font-size: var(--t-body);
   line-height: 1.75;
-  margin-top: var(--space-2);
+  color: var(--text);
+  max-width: 46ch;
 }
 
-/* "What broke". §7 asks for --text-dim, but that measures 2.79:1 on the card
-   surface and this line carries the site's thesis, so §9's 4.5:1 floor wins.
-   --text-muted keeps it quieter than the summary at 5.97:1. */
+/* أثمن سطر في الصفحة — حاضر بتباين كامل، لا خافت. */
 .project-broke {
-  font-size: var(--text-sm);
-  color: var(--text-muted);
-  line-height: 1.7;
-  margin-top: auto;
-  padding-top: var(--space-4);
+  font-size: var(--t-body);
+  line-height: 1.75;
+  color: var(--text);
+  max-width: 46ch;
+  margin-top: var(--space-6);
+  padding-inline-start: var(--space-4);
+  box-shadow: inset 2px 0 0 0 var(--absent);
 }
+.rtl .project-broke { box-shadow: inset -2px 0 0 0 var(--absent); }
 
-/* §7 — the way into the project's own page. The card itself stays flat. */
 .project-open {
-  align-self: start;
-  margin-top: var(--space-4);
-  font-size: var(--text-sm);
-  color: var(--mark);
-  transition: color var(--t-fast), opacity var(--t-fast);
+  display: inline-block;
+  margin-top: var(--space-8);
+  font-size: var(--t-note);
+  font-family: var(--font-mono);
+  letter-spacing: 0.06em;
+  color: var(--text);
+  transition: opacity var(--t-fast);
 }
-.project-open:hover { opacity: 0.75; }
+.project-open:hover { opacity: 0.55; }
 
-@media (min-width: 640px) {
-  .project-card { padding: var(--space-8); }
+@media (min-width: 900px) {
+  /* عدم تماثل: العنوان والرقم على جانب، النص على الآخر، وفراغ بينهما. */
+  .project-row {
+    grid-template-columns: 1fr 1.15fr;
+    gap: var(--space-24);
+  }
+  .project-row > :first-child { position: sticky; top: var(--space-16); }
 }

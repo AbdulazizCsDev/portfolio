@@ -8,6 +8,7 @@ import NowBuilding from './components/NowBuilding';
 import Contact from './components/Contact';
 import AimeWidget from './components/AimeWidget';
 import Calibration from './components/Calibration';
+import Measure from './components/Measure';
 import ProjectPage from './components/ProjectPage';
 import { useRoute, matchProject } from './lib/router';
 import './App.css';
@@ -23,26 +24,13 @@ function AppContent() {
     document.documentElement.lang = lang;
   }, [lang]);
 
-  useEffect(() => {
-    let observer;
-    const timer = setTimeout(() => {
-      observer = new IntersectionObserver(
-        (entries) =>
-          entries.forEach((e) =>
-            e.target.classList.toggle('in-view', e.isIntersecting)
-          ),
-        { threshold: 0.1 }
-      );
-      document.querySelectorAll('[data-reveal]').forEach((el) => observer.observe(el));
-    }, 60);
-    return () => { clearTimeout(timer); observer?.disconnect(); };
-  }, [lang, path]);
 
   return (
     <>
       <div className={`app ${lang === 'ar' ? 'rtl' : 'ltr'}`}>
       <a className="skip-link" href="#main">{lang === 'ar' ? 'تخطَّ إلى المحتوى' : 'Skip to content'}</a>
       <div className="scanline-overlay" aria-hidden="true" />
+      <Measure />
       <Navbar />
       {projectId ? (
         <ProjectPage id={projectId} />

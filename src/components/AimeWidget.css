@@ -6,6 +6,7 @@
   z-index: 200;
   width: 62px;
   height: 62px;
+  border-radius: 50%;
   background: var(--mark);
   color: var(--mark-contrast);
   display: flex;
@@ -168,6 +169,7 @@
   bottom: 5.5rem;
   inset-inline: var(--space-4);
   z-index: 199;
+  border-radius: var(--radius-lg);
   width: auto;
   max-height: 640px;
   background: var(--overlay-solid);

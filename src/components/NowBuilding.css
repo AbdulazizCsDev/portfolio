@@ -1,97 +1,42 @@
-.now-subtitle {
-  margin-top: -2.5rem;
-  margin-bottom: 3rem;
-}
-
-.now-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
-  gap: 1.5rem;
-}
-
-.now-card {
-  padding: 1.75rem;
+.now-list {
   display: flex;
   flex-direction: column;
-  gap: 0.9rem;
-  position: relative;
-  overflow: hidden;
+  gap: var(--space-16);
 }
 
-.now-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  inset-inline: 0;
-  height: 2px;
-  background: var(--mark);
-  opacity: 0.7;
+/* التاريخ في الطبقة الغائبة؛ الاسم والوصف حاضران. */
+.now-row {
+  display: grid;
+  gap: var(--space-3);
 }
 
-.now-card-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-}
-
-.now-status {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 4px 12px;
-  font-size: 0.74rem;
-  font-weight: 400;
-  color: var(--mark);
-  background: var(--mark-dim);
-}
-
-.now-status-dot {
-  width: 7px;
-  height: 7px;
-  background: var(--mark);
-  animation: pulse-glow 2s infinite;
-}
-
-.now-started {
+.now-meta {
   font-family: var(--font-mono);
-  font-size: 0.72rem;
-  color: var(--text-muted);
+  font-size: var(--t-note);
+  letter-spacing: 0.08em;
+  color: var(--text);
 }
 
 .now-name {
-  font-size: 1.05rem;
+  font-size: var(--t-body);
   font-weight: 600;
   color: var(--text);
-  line-height: 1.35;
+  letter-spacing: 0;
+  line-height: 1.4;
 }
 
 .now-desc {
-  font-size: 0.88rem;
-  color: var(--text-muted);
-  line-height: 1.7;
-  flex: 1;
+  margin-top: var(--space-3);
+  font-size: var(--t-body);
+  line-height: 1.75;
+  color: var(--text);
+  max-width: 52ch;
 }
 
-.now-focus {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  padding-top: 0.25rem;
-}
-
-.now-focus .tag {
-  margin-top: 0.6rem;
-}
-
-/* RTL */
-.rtl .now-card { direction: rtl; }
-
-/* Responsive */
-/* موبايل أولاً */
-.now-card { padding: var(--space-6); }
-
-@media (min-width: 640px) {
-  .now-card { padding: var(--space-8); }
+@media (min-width: 900px) {
+  .now-row {
+    grid-template-columns: 8rem 1fr;
+    gap: var(--space-12);
+    align-items: baseline;
+  }
 }

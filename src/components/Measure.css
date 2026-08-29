@@ -1,0 +1,33 @@
+/* على حافة البداية، خلف كل شيء، ولا يعترض مؤشراً. */
+.measure {
+  position: fixed;
+  inset-block: 0;
+  inset-inline-start: 0;
+  width: var(--space-12);
+  z-index: 0;
+  pointer-events: none;
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-block: var(--space-8);
+}
+
+/* الارتجاف يخفت كلما نزلت: المقياس نفسه ينضبط أثناء القراءة. */
+.tick {
+  display: block;
+  height: 1px;
+  width: var(--space-3);
+  background: var(--absent);
+  margin-inline-start: var(--jitter, 0);
+  transition: width var(--t-base), background-color var(--t-base);
+}
+
+/* علامة واحدة تأخذ الذهب، وهي التي تقول أين أنت. */
+.tick.marked {
+  width: var(--space-8);
+  background: var(--mark);
+}
+
+@media (min-width: 900px) {
+  .measure { display: flex; }
+}

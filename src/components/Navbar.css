@@ -53,28 +53,11 @@
   position: relative;
 }
 
-.nav-link::after {
-  content: '';
-  position: absolute;
-  bottom: 4px;
-  inset-inline: 0;
-  margin-inline: auto;
-  transform: scaleX(0);
-  width: 20px;
-  height: 2px;
-  background: var(--mark);
-  transition: transform var(--t-fast);
-}
 
-.nav-link:hover,
-.nav-link.active {
-  color: var(--mark);
-  background: var(--mark-dim);
-}
+.nav-link { color: var(--text); }
+.nav-link:hover { opacity: 0.6; }
+.nav-link.active { color: var(--mark); }
 
-.nav-link.active::after {
-  transform: scaleX(1);
-}
 
 /* Actions */
 .nav-actions {

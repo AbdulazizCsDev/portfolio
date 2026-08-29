@@ -3,14 +3,10 @@ import { LanguageProvider, useLanguage } from './context/LanguageContext';
 import { ThemeProvider } from './context/ThemeContext';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import About from './components/About';
-import Experience from './components/Experience';
 import Projects from './components/Projects';
 import NowBuilding from './components/NowBuilding';
-import Skills from './components/Skills';
 import Contact from './components/Contact';
 import AimeWidget from './components/AimeWidget';
-import TraceField from './components/TraceField';
 import Calibration from './components/Calibration';
 import ProjectPage from './components/ProjectPage';
 import { useRoute, matchProject } from './lib/router';
@@ -46,7 +42,6 @@ function AppContent() {
     <>
       <div className={`app ${lang === 'ar' ? 'rtl' : 'ltr'}`}>
       <a className="skip-link" href="#main">{lang === 'ar' ? 'تخطَّ إلى المحتوى' : 'Skip to content'}</a>
-      <TraceField />
       <div className="scanline-overlay" aria-hidden="true" />
       <Navbar />
       {projectId ? (
@@ -54,11 +49,8 @@ function AppContent() {
       ) : (
         <main id="main">
           <Hero />
-          <About />
-          <Experience />
           <Projects />
           <NowBuilding />
-          <Skills />
           <Contact />
         </main>
       )}

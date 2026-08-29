@@ -32,7 +32,7 @@ export default function Navbar() {
     const onScroll = () => {
       setScrolled(window.scrollY > 60);
       if (window.location.pathname !== '/') return;
-      const sections = ['hero', 'about', 'experience', 'projects', 'now', 'skills', 'contact'];
+      const sections = ['hero', 'projects', 'now', 'contact'];
       for (const id of [...sections].reverse()) {
         const el = document.getElementById(id);
         if (el && window.scrollY >= el.offsetTop - 120) {
@@ -56,10 +56,8 @@ export default function Navbar() {
   };
 
   const navItems = [
-    { id: 'about', label: t.nav.about },
     { id: 'projects', label: t.nav.projects },
     { id: 'now', label: t.nav.now },
-    { id: 'skills', label: t.nav.skills },
     { id: 'contact', label: t.nav.contact },
   ];
 

@@ -8,42 +8,18 @@ const API = 'https://aime-voice-assistant-rw2z.vercel.app';
 // Detect which portfolio section the text is about
 function detectIntent(text) {
   if (!text) return null;
-  if (/cert|شهادة|شهادات|ibm|tensorflow|aws/i.test(text))
-    return { section: 'about', highlight: 'certs' };
   if (/now building|working on|currently|قيد البناء|يعمل حالياً|حالياً على/i.test(text))
     return { section: 'now' };
   if (/board.?room|hackathon|himmah|agrocure|هاكاثون|همة|همّة|مجلس الإدارة|أجروكيور/i.test(text))
     return { section: 'projects', highlight: 'projects' };
   if (/project|مشروع|مشاريع|aime voice/i.test(text))
     return { section: 'projects', highlight: 'projects' };
-  if (/experience|bootcamp|quality assurance|خبرة|خبرات|معسكر|ضمان الجودة/i.test(text))
-    return { section: 'experience' };
-  if (/skill|مهارة|مهارات|python|react|flutter|fastapi|backend|frontend|pytorch|rag|llm/i.test(text))
-    return { section: 'skills', highlight: 'skills' };
   if (/contact|email|linkedin|github|تواصل|ايميل|بريد/i.test(text))
     return { section: 'contact' };
-  if (/about|education|university|gpa|عني|تعليم|جامع|درجة|معدل/i.test(text))
-    return { section: 'about' };
   return null;
 }
 
-function highlightCerts() {
-  document.querySelectorAll('[data-cert-index]').forEach((card, i) => {
-    setTimeout(() => {
-      card.classList.add('cert-spotlight');
-      setTimeout(() => card.classList.remove('cert-spotlight'), 2200);
-    }, i * 900);
-  });
-}
 
-function highlightSkills() {
-  document.querySelectorAll('.skill-category').forEach((card, i) => {
-    setTimeout(() => {
-      card.classList.add('skill-spotlight');
-      setTimeout(() => card.classList.remove('skill-spotlight'), 2000);
-    }, i * 200);
-  });
-}
 
 function clearSpotlight() {
   document.querySelectorAll('.card-targeted').forEach((el) => el.classList.remove('card-targeted'));
@@ -176,8 +152,6 @@ export default function AimeWidget() {
     if (away) navigate('/');
     setTimeout(() => {
       document.getElementById(intent.section)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      if (intent.highlight === 'certs')    setTimeout(highlightCerts, 700);
-      if (intent.highlight === 'skills')   setTimeout(highlightSkills, 500);
     }, away ? 550 : 400);
   }, []);
 
@@ -193,8 +167,6 @@ export default function AimeWidget() {
       document.getElementById(section)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       if (targetId) {
         setTimeout(() => spotlightCard(section, targetId), 700);
-      } else if (section === 'skills') {
-        setTimeout(highlightSkills, 500);
       }
     }, away ? 500 : 350);
   }, []);
@@ -595,7 +567,7 @@ export default function AimeWidget() {
           <p className="input-hint">
             {isRecording
               ? (lang === 'en' ? 'Listening… tap mic again to stop' : 'يستمع… اضغط المايك للإيقاف')
-              : (lang === 'en' ? 'Type a message or tap 🎤 to speak' : 'اكتب رسالة أو اضغط 🎤 للتحدث')}
+              : (lang === 'en' ? 'Type a message or tap the mic to speak' : 'اكتب رسالة أو اضغط المايك للتحدث')}
           </p>
         </div>
       </div>

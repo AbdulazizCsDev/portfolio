@@ -37,16 +37,12 @@
 .contact-card:hover::before { opacity: 1; }
 
 .contact-card:hover {
-  border-color: var(--contact-color, var(--border-strong));
-  box-shadow: 0 0 30px var(--mark-dim);
 }
 
 .contact-icon {
   width: 56px;
   height: 56px;
-  border-radius: 14px;
   background: var(--surface);
-  border: 1px solid var(--border);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -56,9 +52,7 @@
 }
 
 .contact-card:hover .contact-icon {
-  border-color: var(--contact-color, var(--mark));
   background: color-mix(in srgb, var(--contact-color, var(--mark)) 10%, transparent);
-  box-shadow: 0 0 20px color-mix(in srgb, var(--contact-color, var(--mark)) 30%, transparent);
 }
 
 .contact-info {
@@ -103,7 +97,6 @@
 
 /* Footer */
 .site-footer {
-  border-top: 1px solid var(--border);
   padding-top: 2rem;
   text-align: center;
 }

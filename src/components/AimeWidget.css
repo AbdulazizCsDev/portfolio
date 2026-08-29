@@ -6,10 +6,8 @@
   z-index: 200;
   width: 62px;
   height: 62px;
-  border-radius: 50%;
   background: var(--mark);
   color: var(--mark-contrast);
-  box-shadow: 0 2px 8px var(--shade);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -46,13 +44,10 @@
 
 .aime-fab:hover {
   transform: scale(1.08) translateY(-2px);
-  box-shadow: 0 4px 12px var(--shade);
 }
 
 .aime-fab.open {
   background: var(--surface);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow-card);
 }
 
 /* ── Greeting bubble ──────────────────────────────────────── */
@@ -63,10 +58,7 @@
   z-index: 199;
   max-width: 240px;
   background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 18px 18px 4px 18px;
   padding: 0.75rem 1rem;
-  box-shadow: 0 8px 32px var(--shade), 0 0 0 1px var(--mark-dim);
   font-size: 0.82rem;
   line-height: 1.5;
   color: var(--text);
@@ -79,8 +71,6 @@
 }
 
 .aime-bubble:hover {
-  border-color: var(--mark);
-  box-shadow: 0 8px 32px var(--shade), 0 0 0 1px var(--mark-glow);
   transform: translateY(-2px);
 }
 
@@ -119,9 +109,6 @@
   inset-inline-end: 20px;
   width: 0;
   height: 0;
-  border-inline-start: 8px solid transparent;
-  border-inline-end: 8px solid transparent;
-  border-top: 8px solid var(--surface);
 }
 
 
@@ -130,7 +117,6 @@
   margin-inline-start: auto;
   width: 18px;
   height: 18px;
-  border-radius: 50%;
   background: var(--surface);
   color: var(--text-muted);
   font-size: 0.85rem;
@@ -164,7 +150,6 @@
 .fab-wave span {
   display: block;
   width: 3px;
-  border-radius: 3px;
   background: var(--mark-contrast);
   animation: wave-bar 0.8s ease-in-out infinite;
   animation-delay: calc(var(--i) * 0.1s);
@@ -185,9 +170,7 @@
   z-index: 199;
   width: auto;
   max-height: 640px;
-  border-radius: 20px;
   background: var(--overlay-solid);
-  border: 1px solid var(--mark-dim);
   box-shadow:
     0 32px 80px var(--shade-strong),
     0 0 0 1px var(--mark-soft),
@@ -210,7 +193,6 @@
   top: 0; left: 0; right: 0;
   height: 2px;
   background: var(--mark);
-  border-radius: 20px 20px 0 0;
   z-index: 1;
 }
 
@@ -233,7 +215,6 @@
   align-items: center;
   justify-content: space-between;
   padding: 1rem 1.25rem;
-  border-bottom: 1px solid var(--mark-dim);
   flex-shrink: 0;
   background: var(--mark-soft);
 }
@@ -247,7 +228,6 @@
 .aime-avatar {
   width: 40px;
   height: 40px;
-  border-radius: 50%;
   background: var(--mark);
   display: flex;
   align-items: center;
@@ -257,7 +237,6 @@
   color: var(--mark-contrast);
   position: relative;
   flex-shrink: 0;
-  box-shadow: none;
 }
 
 .aime-avatar.speaking {
@@ -272,8 +251,6 @@
 .avatar-rings span {
   position: absolute;
   inset: 0;
-  border-radius: 50%;
-  border: 1.5px solid var(--mark);
   animation: glow-ring 1s ease-out infinite;
 }
 .avatar-rings span:nth-child(2) { inset: -5px; animation-delay: 0.2s; opacity: 0.6; }
@@ -297,7 +274,6 @@
 .status-dot {
   width: 6px;
   height: 6px;
-  border-radius: 50%;
   background: var(--text-muted);
   flex-shrink: 0;
 }
@@ -310,7 +286,6 @@
 .aime-close-btn {
   width: 32px;
   height: 32px;
-  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -331,7 +306,6 @@
 .header-icon-btn {
   width: 32px;
   height: 32px;
-  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -373,7 +347,6 @@
 .msg-icon {
   width: 28px;
   height: 28px;
-  border-radius: 50%;
   background: var(--mark);
   display: flex;
   align-items: center;
@@ -382,20 +355,17 @@
   font-weight: 400;
   color: var(--mark-contrast);
   flex-shrink: 0;
-  box-shadow: none;
 }
 
 .msg-bubble {
   max-width: 82%;
   padding: 10px 14px;
-  border-radius: 16px;
   font-size: 0.875rem;
   line-height: 1.6;
 }
 
 .msg-row.aime .msg-bubble {
   background: var(--surface);
-  border: 1px solid var(--mark-dim);
   color: var(--text);
   border-end-start-radius: 4px;
 }
@@ -404,7 +374,6 @@
   background: var(--mark);
   color: var(--mark-contrast);
   border-end-end-radius: 4px;
-  box-shadow: none;
 }
 
 /* Typing indicator */
@@ -417,7 +386,6 @@
 .msg-bubble.typing span {
   width: 7px;
   height: 7px;
-  border-radius: 50%;
   background: var(--mark);
   animation: bounce-dot 1.2s ease-in-out infinite;
 }
@@ -434,12 +402,10 @@
   padding: 0 1rem;
   flex-shrink: 0;
   background: var(--mark-soft);
-  border-top: 1px solid var(--border);
 }
 
 .wave-bar {
   width: 3px;
-  border-radius: 3px;
   background: var(--mark);
   opacity: 0.7;
   animation: wave-bar 0.9s ease-in-out infinite;
@@ -451,7 +417,6 @@
 /* ── Input Area ────────────────────────────────────────────── */
 .aime-input-area {
   padding: 0.875rem 1rem;
-  border-top: 1px solid var(--mark-soft);
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -465,21 +430,16 @@
   align-items: center;
   gap: 0.375rem;
   background: var(--surface);
-  border: 1px solid var(--mark-dim);
-  border-radius: 14px;
   padding: 6px 6px 6px 14px;
   transition: border-color var(--t-fast);
 }
 
 .aime-input-bar:focus-within {
-  border-color: var(--mark-glow);
-  box-shadow: 0 0 0 3px var(--mark-soft);
 }
 
 .aime-input-bar input {
   flex: 1;
   background: transparent;
-  border: none;
   color: var(--text);
   font-size: 0.875rem;
   padding: 6px 0;
@@ -497,7 +457,6 @@
 .mic-recording-anim span {
   width: 4px;
   height: 4px;
-  border-radius: 50%;
   background: var(--text-muted);
   animation: bounce-dot 0.8s ease-in-out infinite;
   animation-delay: calc(var(--i) * 0.15s);
@@ -507,12 +466,10 @@
 .mic-btn-inline {
   width: 36px;
   height: 36px;
-  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   background: transparent;
-  border: 1px solid transparent;
   color: var(--text-muted);
   transition: color var(--t-fast), background-color var(--t-fast), border-color var(--t-fast), transform var(--t-fast);
   flex-shrink: 0;
@@ -520,12 +477,10 @@
 .mic-btn-inline svg { width: 18px; height: 18px; }
 .mic-btn-inline:not(:disabled):hover {
   background: var(--mark-dim);
-  border-color: var(--mark-glow);
   color: var(--mark);
 }
 .mic-btn-inline.recording {
   background: var(--surface-raised);
-  border-color: var(--border-strong);
   color: var(--text-muted);
   animation: pulse-glow 0.6s ease-in-out infinite;
 }
@@ -535,12 +490,10 @@
 .stop-btn {
   width: 32px;
   height: 32px;
-  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   background: var(--mark-dim);
-  border: 1px solid var(--border-strong);
   color: var(--mark);
   transition: color var(--t-fast), background-color var(--t-fast), border-color var(--t-fast), transform var(--t-fast);
   flex-shrink: 0;
@@ -552,7 +505,6 @@
 .send-btn {
   width: 36px;
   height: 36px;
-  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -595,19 +547,16 @@
 
 .suggestion-chip {
   padding: 5px 14px;
-  border-radius: 100px;
   font-size: 0.78rem;
   font-weight: 400;
   background: var(--surface);
   color: var(--mark);
-  border: 1px solid var(--mark-glow);
   cursor: pointer;
   transition: color var(--t-fast), background-color var(--t-fast), border-color var(--t-fast), transform var(--t-fast);
   white-space: nowrap;
 }
 .suggestion-chip:hover {
   background: var(--mark-dim);
-  border-color: var(--mark);
   transform: translateY(-1px);
 }
 
@@ -616,8 +565,6 @@
   color: var(--text-muted);
   padding: 6px 10px;
   background: var(--surface);
-  border-radius: 8px;
-  border: 1px solid var(--border-strong);
 }
 
 /* ── RTL ────────────────────────────────────────────────────── */

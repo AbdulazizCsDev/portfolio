@@ -28,8 +28,6 @@
   align-items: center;
   gap: 10px;
   padding: 8px 18px;
-  border-radius: 100px;
-  border: 1px solid var(--border);
   background: var(--surface);
   font-size: 0.82rem;
   font-weight: 400;
@@ -41,7 +39,6 @@
 .badge-pulse {
   width: 8px;
   height: 8px;
-  border-radius: 50%;
   background: var(--mark);
   animation: pulse-glow 2s ease-in-out infinite;
   flex-shrink: 0;
@@ -81,7 +78,6 @@
   background: var(--mark);
   margin-inline-start: 2px;
   vertical-align: middle;
-  border-radius: 1px;
   animation: typewriter-cursor 0.8s ease infinite;
 }
 
@@ -136,8 +132,6 @@
 .scroll-mouse {
   width: 22px;
   height: 34px;
-  border: 2px solid var(--text-muted);
-  border-radius: 12px;
   display: flex;
   justify-content: center;
   padding-top: 5px;
@@ -147,7 +141,6 @@
   width: 3px;
   height: 8px;
   background: var(--text-muted);
-  border-radius: 2px;
   animation: scroll-wheel 1.5s ease-in-out infinite;
 }
 

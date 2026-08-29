@@ -19,7 +19,7 @@ export default function Projects() {
           {t.projects.items.map((project, i) => (
             <article
               key={project.id}
-              className="project-card card-glass"
+              className="project-card"
               data-reveal
               data-reveal-delay={String(i + 1)}
               data-target-id={project.id}

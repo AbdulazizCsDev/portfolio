@@ -20,7 +20,7 @@ export default function NowBuilding() {
           {t.now.items.map((item, i) => (
             <div
               key={item.id}
-              className="now-card card-glass"
+              className="now-card"
               data-reveal
               data-reveal-delay={String((i % 3) + 1)}
               data-target-id={item.id}

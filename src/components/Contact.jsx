@@ -72,7 +72,7 @@ export default function Contact() {
               href={href}
               target={href.startsWith('mailto') ? undefined : '_blank'}
               rel="noopener noreferrer"
-              className="contact-card card-glass"
+              className="contact-card"
               style={{ '--contact-color': color }}
             >
               <div className="contact-icon">{icon}</div>

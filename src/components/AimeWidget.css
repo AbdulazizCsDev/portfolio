@@ -25,14 +25,7 @@
 }
 
 .aime-fab:not(.open):not(.recording) {
-  animation:
-    fab-idle 3.5s var(--ease-linear-out) infinite,
-    fab-attention  1.3s ease-out 3.2s 3;
-}
-
-@keyframes fab-idle {
-  0%, 100% { transform: scale(1); }
-  50%      { transform: scale(1.02); }
+  animation: fab-attention 1.3s ease-out 3.6s 2;
 }
 
 /* §4 — لفت انتباه بتجاوز ~2% لا بارتداد: مفصل يتعدّى هدفه قليلاً ثم يستقر */

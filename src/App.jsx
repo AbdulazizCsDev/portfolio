@@ -8,7 +8,6 @@ import NowBuilding from './components/NowBuilding';
 import Contact from './components/Contact';
 import AimeWidget from './components/AimeWidget';
 import Calibration from './components/Calibration';
-import Measure from './components/Measure';
 import ProjectPage from './components/ProjectPage';
 import { useRoute, matchProject } from './lib/router';
 import './App.css';
@@ -30,7 +29,6 @@ function AppContent() {
       <div className={`app ${lang === 'ar' ? 'rtl' : 'ltr'}`}>
       <a className="skip-link" href="#main">{lang === 'ar' ? 'تخطَّ إلى المحتوى' : 'Skip to content'}</a>
       <div className="scanline-overlay" aria-hidden="true" />
-      <Measure />
       <Navbar />
       {projectId ? (
         <ProjectPage id={projectId} />

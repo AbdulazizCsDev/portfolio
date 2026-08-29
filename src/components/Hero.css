@@ -1,11 +1,16 @@
-/* الكتلة على جانب البداية، والفراغ الواسع على الآخر — القاعدة ٣. */
+/* الكتلة على جانب البداية، والشجرة على الجانب الفارغ.
+   عمودان منفصلان، فلا يقع النص فوق الرسم بأي عرض. */
 .hero {
+  position: relative;
   min-height: 92vh;
   display: grid;
   align-content: center;
+  gap: var(--space-16);
   padding-block: var(--space-24);
   padding-inline: var(--space-6) 0;
 }
+
+.hero-text { display: grid; align-content: center; }
 
 .hero-name {
   font-family: var(--font-display);
@@ -14,7 +19,6 @@
   line-height: 0.86;
   letter-spacing: -0.05em;
   color: var(--text);
-  max-width: 11ch;
 }
 
 /* السطر الوحيد الذي حلّ محل قسم «عني». */
@@ -31,11 +35,15 @@
   display: flex;
   gap: var(--space-8);
   align-items: baseline;
+  flex-wrap: wrap;
 }
 
 @media (min-width: 900px) {
-  .hero { padding-inline: var(--space-16) 0; }
-  /* الثقل على الثلثين، والثلث الباقي فراغ مقصود. */
-  .hero-name, .hero-line, .hero-cta { max-inline-size: 62%; }
+  .hero {
+    grid-template-columns: minmax(0, 1fr) 40%;
+    align-items: center;
+    gap: var(--space-8);
+    padding-inline: var(--space-16) 0;
+  }
   .hero-name { max-width: 11ch; }
 }

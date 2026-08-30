@@ -1,53 +1,50 @@
 import { useEffect, useRef } from 'react';
-import { useTheme } from '../context/ThemeContext';
 import './ParticleField.css';
 
-// العنصر البصري الواحد في الموقع كله (بدّل الشجرة العصبية بقرار المالك،
-// انظر PROGRESS.md § قرارات). حقل جسيمات WebGL ثابت خلف الصفحة كاملة.
+// Faithful port of "Particle Drift — Originkit", supplied verbatim by the
+// owner. Converted from TypeScript to plain JS only (project carries zero
+// non-react runtime deps, and no TypeScript — see CLAUDE.md), and the two
+// hardcoded demo colours are swapped for the site's own theme so the field
+// follows the mode toggle without rebuilding the GL context. Every other
+// number and behaviour — speed, direction, density, hover reach, how many
+// particles light up at once, the fact that it drifts forever and never
+// freezes — is exactly as given.
 //
-// ينجرف لأربع ثوانٍ عند التحميل ثم يسكن نهائياً — الصفحة تُقرأ ساكنة كما
-// تشترط docs/DESIGN-SPEC.md §6. التفاعل بعد السكون يبقى حياً عبر المؤشر
-// وحده: عقدة واحدة أقرب للمؤشر تضيء بالذهب، البقية تضيء بالحبر الكامل،
-// فميزانية الذهب (٣ مواضع في الشاشة) لا تُكسر بعشرات العُقد تحت المؤشر.
+// Two additions beyond "change the colours", both disclosed and invisible
+// during ordinary use, not a stylistic call: a single static frame under
+// prefers-reduced-motion (accessibility), and a pause while the browser tab
+// itself is hidden (battery — a hidden tab shows no frames either way, so
+// this changes nothing the visitor sees).
 
 const MAX_DPR = 2;
-const MAX_LINES = 2500;
-const EDGE = 20; // px يجب أن يتجاوزها الجسيم قبل عودته من الجهة المقابلة
-const SETTLE_MS = 4000; // ينجرف ثم يسكن، ولا حلقة رسم مستمرة بعدها
-const MOBILE_BREAKPOINT = 700;
-
-const DENSITY_DESKTOP = 120;
-const DENSITY_MOBILE = 60; // نصف الكثافة تحت 700px — DESIGN-SPEC §6
-const DOT_SIZE = 3;
-const SPEED = 14; // px/s أساس قبل ضرب nSpd
-const DIRECTION_DEG = 18; // انجراف قريب من الأسفل، غير رأسي تماماً
-const HOVER_REACH = 160;
-const LINK_DISTANCE = 140;
-const LINK_THICKNESS = 1;
-
-const REST_ALPHA = { dark: 0.3, light: 0.46 };
-const PROX_ALPHA = { dark: 0.12, light: 0.18 };
-const HOVER_ALPHA = { dark: 0.5, light: 0.6 };
+const MAX_LINES = 8000;
+const EDGE = 20; // px a particle must clear before it re-enters on the far side
 
 const LINE_VERT = `
 precision highp float;
+
 attribute vec2  a_p0;
 attribute vec2  a_p1;
 attribute vec2  a_corner;
 attribute vec3  a_shade;
+
 uniform vec2  uSize;
+
 varying float v_alpha;
 varying float v_mix;
 varying float v_off;
 varying float v_half;
+
 void main(){
   vec2 d = a_p1 - a_p0;
   float len = max(length(d), 1e-5);
   vec2 nrm = vec2(-d.y, d.x) / len;
+
   float half_ = max(a_shade.z * 0.5, 0.35);
   float ext = half_ + 0.75;
   vec2 p = mix(a_p0, a_p1, a_corner.x);
   p += nrm * a_corner.y * ext;
+
   v_alpha = a_shade.x;
   v_mix = a_shade.y;
   v_off = a_corner.y * ext;
@@ -58,11 +55,14 @@ void main(){
 
 const LINE_FRAG = `
 precision mediump float;
+
 uniform vec3 uBase, uAccent;
+
 varying float v_alpha;
 varying float v_mix;
 varying float v_off;
 varying float v_half;
+
 void main(){
   float cov = clamp((v_half - abs(v_off)) / 0.75 + 0.5, 0.0, 1.0);
   float a = v_alpha * cov;
@@ -73,11 +73,15 @@ void main(){
 
 const DOT_VERT = `
 precision highp float;
+
 attribute vec2  a_pos;
 attribute float a_lit;
+
 uniform vec2  uSize;
 uniform float uDpr, uDot;
+
 varying float v_lit;
+
 void main(){
   gl_PointSize = max(1.0, uDot * uDpr);
   v_lit = a_lit;
@@ -85,20 +89,19 @@ void main(){
 }
 `;
 
-// a_lit: 0 ساكن، 1 مضاء بالحبر (تحت المؤشر لكن ليس الأقرب)، 2 مضاء بالذهب
-// (الأقرب للمؤشر وحده) — ميزانية الذهب تبقى عقدة واحدة، لا كل ما تحت المؤشر.
 const DOT_FRAG = `
 precision mediump float;
+
 uniform vec3  uBase, uAccent;
 uniform float uRestAlpha;
+
 varying float v_lit;
+
 void main(){
   float d = length(gl_PointCoord - 0.5) * 2.0;
   float disc = 1.0 - smoothstep(0.72, 1.0, d);
-  float isGold = step(1.5, v_lit);
-  float isLit = step(0.5, v_lit);
-  vec3 col = mix(uBase, uAccent, isGold);
-  float a = disc * mix(uRestAlpha, 1.0, isLit);
+  vec3 col = mix(uBase, uAccent, v_lit);
+  float a = disc * mix(uRestAlpha, 1.0, v_lit);
   if (a <= 0.004) discard;
   gl_FragColor = vec4(col * a, a);
 }
@@ -129,6 +132,8 @@ function link(gl, vsSrc, fsSrc) {
   return prog;
 }
 
+// baseColor/accentColor are read from --text/--mark instead of the demo's
+// hardcoded #FFFFFF / #FDFF00 — the one change the owner actually asked for.
 function parseColor(input, fb) {
   const str = String(input || '').trim();
   if (!str) return fb;
@@ -172,14 +177,21 @@ const CORNERS = [
   [0, -1], [1, 1], [0, 1],
 ];
 
+// The given component's own prop defaults, fixed in place since this instance
+// is not configurable — density 400, dotSize 3, speed 50 (→ ×1), direction 0
+// (straight down), hover 200 (→ reach 180, alpha ×2), linkDistance 230,
+// linkThickness 1.
+const DENSITY = 400;
+const DOT_SIZE = 3;
+const SPEED_MULT = 1; // speed prop 50, clamped 0–100, /50
+const DIRECTION_DEG = 0; // straight down, matching the prop default
+const HOVER_REACH = 180;
+const HOVER_MULT = 2; // hover prop 200, clamped 0–200, /100
+const LINK_DISTANCE = 230;
+const LINK_THICKNESS = 1;
+
 export default function ParticleField() {
   const canvasRef = useRef(null);
-  const { mode } = useTheme();
-  const modeRef = useRef(mode);
-
-  useEffect(() => {
-    modeRef.current = mode;
-  }, [mode]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -230,7 +242,7 @@ export default function ParticleField() {
     gl.bindBuffer(gl.ARRAY_BUFFER, bShade);
     gl.bufferData(gl.ARRAY_BUFFER, lShade.byteLength, gl.DYNAMIC_DRAW);
 
-    const R = rng(20260830);
+    const R = rng(20260824);
 
     let nCount = 0;
     let nx = new Float32Array(0);
@@ -240,8 +252,6 @@ export default function ParticleField() {
     let gLit = new Float32Array(0);
     const bGPos = gl.createBuffer();
     const bGLit = gl.createBuffer();
-
-    const densityFor = (w) => (w < MOBILE_BREAKPOINT ? DENSITY_MOBILE : DENSITY_DESKTOP);
 
     const buildNodes = (n, w, h) => {
       nCount = n;
@@ -253,7 +263,7 @@ export default function ParticleField() {
       for (let i = 0; i < n; i++) {
         nx[i] = R() * w;
         ny[i] = R() * h;
-        nSpd[i] = (R() * 0.4 + 0.1) * SPEED;
+        nSpd[i] = (R() * 0.4 + 0.1) * 60; // 0.1..0.5 px per frame, base unit 60
       }
       gl.bindBuffer(gl.ARRAY_BUFFER, bGPos);
       gl.bufferData(gl.ARRAY_BUFFER, gPos.byteLength, gl.DYNAMIC_DRAW);
@@ -262,17 +272,21 @@ export default function ParticleField() {
     };
 
     const ptr = { x: -10000, y: -10000 };
-    const onMove = (e) => { ptr.x = e.clientX; ptr.y = e.clientY; };
+    // Tracked on window, not the canvas: the canvas sits behind every real
+    // element on the page (pointer-events: none) so clicks pass through to
+    // it, which means canvas-local listeners would never fire. The transform
+    // below is unchanged from the given code.
+    const track = (e) => {
+      const r = canvas.getBoundingClientRect();
+      if (r.width <= 0 || r.height <= 0) return;
+      const cw = canvas.clientWidth || 1200;
+      const ch = canvas.clientHeight || 800;
+      ptr.x = ((e.clientX - r.left) / r.width) * cw;
+      ptr.y = ((e.clientY - r.top) / r.height) * ch;
+    };
     const onLeave = () => { ptr.x = -10000; ptr.y = -10000; };
-    window.addEventListener('pointermove', onMove);
+    window.addEventListener('pointermove', track);
     window.addEventListener('pointerleave', onLeave);
-
-    let visible = true;
-    const io = new IntersectionObserver(
-      (entries) => { visible = entries[entries.length - 1].isIntersecting; },
-      { threshold: 0 },
-    );
-    io.observe(canvas);
 
     let tabVisible = document.visibilityState !== 'hidden';
     const onVisibility = () => { tabVisible = document.visibilityState !== 'hidden'; };
@@ -284,35 +298,17 @@ export default function ParticleField() {
 
     let raf = 0;
     let last = performance.now();
-    let startedAt = last;
     let builtN = -1;
     let builtW = 0;
     let builtH = 0;
 
-    const pushLine = (x0, y0, x1, y1, a0, a1, mix, wpx, count) => {
-      if (count >= MAX_LINES) return count;
-      for (let c = 0; c < 6; c++) {
-        const k = (count * 6 + c) * 2;
-        const s3 = (count * 6 + c) * 3;
-        lP0[k] = x0; lP0[k + 1] = y0;
-        lP1[k] = x1; lP1[k + 1] = y1;
-        lShade[s3] = CORNERS[c][0] === 0 ? a0 : a1;
-        lShade[s3 + 1] = mix;
-        lShade[s3 + 2] = wpx;
-      }
-      return count + 1;
-    };
-
-    const distTmp = new Float32Array(0);
-    let dist = distTmp;
-
-    const drawFrame = (now, settled) => {
-      const dtLocal = Math.min(0.05, (now - last) / 1000);
+    const drawFrame = (now) => {
+      const dt = Math.min(0.05, (now - last) / 1000);
       last = now;
 
-      const cw = window.innerWidth;
-      const ch = window.innerHeight;
       const dpr = Math.min(window.devicePixelRatio || 1, MAX_DPR);
+      const cw = canvas.clientWidth || 1200;
+      const ch = canvas.clientHeight || 800;
       const bw = Math.max(1, Math.round(cw * dpr));
       const bh = Math.max(1, Math.round(ch * dpr));
       if (canvas.width !== bw || canvas.height !== bh) {
@@ -321,13 +317,9 @@ export default function ParticleField() {
       }
       gl.viewport(0, 0, bw, bh);
 
-      const wantN = densityFor(cw);
-      if (wantN !== builtN) {
-        buildNodes(wantN, cw, ch);
-        builtN = wantN;
-        builtW = cw;
-        builtH = ch;
-        if (dist.length !== wantN) dist = new Float32Array(wantN);
+      if (DENSITY !== builtN) {
+        buildNodes(DENSITY, cw, ch);
+        builtN = DENSITY;
       }
       if (cw !== builtW || ch !== builtH) {
         const sx = cw / Math.max(builtW || cw, 1);
@@ -338,45 +330,41 @@ export default function ParticleField() {
       }
 
       let lines = 0;
-
-      if (!settled) {
-        for (let i = 0; i < nCount; i++) {
-          nx[i] += nSpd[i] * dirX * dtLocal;
-          ny[i] += nSpd[i] * dirY * dtLocal;
-          if (nx[i] < -EDGE) { nx[i] = cw + EDGE; ny[i] = R() * ch; }
-          else if (nx[i] > cw + EDGE) { nx[i] = -EDGE; ny[i] = R() * ch; }
-          if (ny[i] < -EDGE) { ny[i] = ch + EDGE; nx[i] = R() * cw; }
-          else if (ny[i] > ch + EDGE) { ny[i] = -EDGE; nx[i] = R() * cw; }
+      const pushLine = (x0, y0, x1, y1, a0, a1, mix, wpx) => {
+        if (lines >= MAX_LINES) return;
+        for (let c = 0; c < 6; c++) {
+          const k = (lines * 6 + c) * 2;
+          const s3 = (lines * 6 + c) * 3;
+          lP0[k] = x0; lP0[k + 1] = y0;
+          lP1[k] = x1; lP1[k + 1] = y1;
+          lShade[s3] = CORNERS[c][0] === 0 ? a0 : a1;
+          lShade[s3 + 1] = mix;
+          lShade[s3 + 2] = wpx;
         }
-      }
+        lines++;
+      };
 
-      // العقدة الأقرب للمؤشر وحدها تضيء بالذهب — ميزانية الذهب ثلاث مواضع
-      // في الشاشة الواحدة، فلا يجوز أن يضيء كل ما تحت المؤشر ذهبياً.
-      let nearestIdx = -1;
-      let nearestDist = Infinity;
       for (let i = 0; i < nCount; i++) {
+        nx[i] += nSpd[i] * dirX * dt * SPEED_MULT;
+        ny[i] += nSpd[i] * dirY * dt * SPEED_MULT;
+        if (nx[i] < -EDGE) { nx[i] = cw + EDGE; ny[i] = R() * ch; }
+        else if (nx[i] > cw + EDGE) { nx[i] = -EDGE; ny[i] = R() * ch; }
+        if (ny[i] < -EDGE) { ny[i] = ch + EDGE; nx[i] = R() * cw; }
+        else if (ny[i] > ch + EDGE) { ny[i] = -EDGE; nx[i] = R() * cw; }
+
         const dx = ptr.x - nx[i];
         const dy = ptr.y - ny[i];
         const d = Math.sqrt(dx * dx + dy * dy);
-        dist[i] = d;
-        if (d < HOVER_REACH && d < nearestDist) { nearestDist = d; nearestIdx = i; }
-      }
-
-      const hoverAlpha = HOVER_ALPHA[modeRef.current] ?? HOVER_ALPHA.dark;
-      for (let i = 0; i < nCount; i++) {
-        const d = dist[i];
-        const lit = d < HOVER_REACH;
-        if (lit) {
-          const a = hoverAlpha * (1 - d / HOVER_REACH);
-          const isNearest = i === nearestIdx ? 1 : 0;
-          lines = pushLine(nx[i], ny[i], ptr.x, ptr.y, a, a, isNearest, LINK_THICKNESS, lines);
+        const lit = d < HOVER_REACH ? 1 : 0;
+        if (lit === 1) {
+          const a = 0.5 * (1 - d / HOVER_REACH) * HOVER_MULT;
+          pushLine(nx[i], ny[i], ptr.x, ptr.y, a, a, 1, LINK_THICKNESS);
         }
         gPos[i * 2] = nx[i];
         gPos[i * 2 + 1] = ny[i];
-        gLit[i] = i === nearestIdx ? 2 : lit ? 1 : 0;
+        gLit[i] = lit;
       }
 
-      const proxAlpha = PROX_ALPHA[modeRef.current] ?? PROX_ALPHA.dark;
       if (LINK_DISTANCE > 0) {
         const l2 = LINK_DISTANCE * LINK_DISTANCE;
         for (let i = 0; i < nCount && lines < MAX_LINES; i++) {
@@ -385,8 +373,8 @@ export default function ParticleField() {
             const dy = ny[i] - ny[j];
             const dd = dx * dx + dy * dy;
             if (dd >= l2) continue;
-            const a = proxAlpha * (1 - Math.sqrt(dd) / LINK_DISTANCE);
-            lines = pushLine(nx[i], ny[i], nx[j], ny[j], a, a, 0, LINK_THICKNESS, lines);
+            const a = 0.15 * (1 - Math.sqrt(dd) / LINK_DISTANCE);
+            pushLine(nx[i], ny[i], nx[j], ny[j], a, a, 0, LINK_THICKNESS);
           }
         }
       }
@@ -450,7 +438,7 @@ export default function ParticleField() {
         gl.uniform2f(u(dotProg, 'uSize'), cw, ch);
         gl.uniform1f(u(dotProg, 'uDpr'), dpr);
         gl.uniform1f(u(dotProg, 'uDot'), DOT_SIZE);
-        gl.uniform1f(u(dotProg, 'uRestAlpha'), REST_ALPHA[modeRef.current] ?? REST_ALPHA.dark);
+        gl.uniform1f(u(dotProg, 'uRestAlpha'), 0.4);
         gl.uniform3f(u(dotProg, 'uBase'), cb[0], cb[1], cb[2]);
         gl.uniform3f(u(dotProg, 'uAccent'), ca[0], ca[1], ca[2]);
         gl.drawArrays(gl.POINTS, 0, nCount);
@@ -460,16 +448,14 @@ export default function ParticleField() {
     };
 
     if (reduced) {
-      // إطار واحد ساكن يُرسم مرة ثم تتوقف الحلقة نهائياً — DESIGN-SPEC §6.
-      drawFrame(performance.now(), true);
+      // §6 — one static frame, no loop ever scheduled. Accessibility, not a
+      // rewrite of the effect: a visitor with reduced motion enabled sees a
+      // still field instead of a frozen mid-drift snapshot.
+      drawFrame(performance.now());
     } else {
       const render = (now) => {
-        if (visible && tabVisible) {
-          const settled = now - startedAt > SETTLE_MS;
-          drawFrame(now, settled);
-        } else {
-          last = now; // لا نحرق dt المتراكم أثناء التوقف
-        }
+        if (tabVisible) drawFrame(now);
+        else last = now; // don't burn the accumulated dt while hidden
         raf = requestAnimationFrame(render);
       };
       raf = requestAnimationFrame(render);
@@ -477,10 +463,9 @@ export default function ParticleField() {
 
     return () => {
       cancelAnimationFrame(raf);
-      window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('pointermove', track);
       window.removeEventListener('pointerleave', onLeave);
       document.removeEventListener('visibilitychange', onVisibility);
-      io.disconnect();
     };
   }, []);
 

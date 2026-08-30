@@ -1,13 +1,12 @@
-/* الكتلة على جانب البداية، والشجرة على الجانب الفارغ.
-   عمودان منفصلان، فلا يقع النص فوق الرسم بأي عرض. */
+/* العنصر البصري صار حقلاً ثابتاً خلف الصفحة كلها لا عموداً في الهيرو،
+   فالهيرو عمود واحد بفراغ واسع على الجانب الفارغ. */
 .hero {
   position: relative;
   min-height: 92vh;
   display: grid;
   align-content: center;
-  gap: var(--space-16);
   padding-block: var(--space-24);
-  padding-inline: var(--space-6) 0;
+  padding-inline: var(--space-6);
 }
 
 .hero-text { display: grid; align-content: center; }
@@ -40,10 +39,7 @@
 
 @media (min-width: 900px) {
   .hero {
-    grid-template-columns: minmax(0, 1fr) 40%;
-    align-items: center;
-    gap: var(--space-8);
-    padding-inline: var(--space-16) 0;
+    padding-inline: var(--space-16);
   }
   .hero-name { max-width: 11ch; }
 }

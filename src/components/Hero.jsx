@@ -1,6 +1,5 @@
 import { useLanguage } from '../context/LanguageContext';
 import Bidi from '../lib/Bidi';
-import NeuralTree from './NeuralTree';
 import './Hero.css';
 
 export default function Hero() {
@@ -29,7 +28,6 @@ export default function Hero() {
           </a>
         </div>
       </div>
-      <NeuralTree />
     </section>
   );
 }

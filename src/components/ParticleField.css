@@ -1,0 +1,14 @@
+/* حقل ثابت خلف الصفحة كاملة، تحت كل طبقة أخرى — انظر App.jsx لترتيب z-index. */
+.particle-field {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.particle-field canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}

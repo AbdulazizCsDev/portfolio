@@ -11,7 +11,7 @@ function detectIntent(text) {
     return { section: 'about', highlight: 'certs' };
   if (/now building|working on|currently|قيد البناء|يعمل حالياً|حالياً على/i.test(text))
     return { section: 'now' };
-  if (/board.?room|hackathon|himmah|agrocure|هاكاثون|همة|همّة|مجلس الإدارة|أجروكيور/i.test(text))
+  if (/board.?room|hackathon|himmah|agri.?cure|agro.?cure|هاكاثون|همة|همّة|مجلس الإدارة|أجريكيور|أجروكيور/i.test(text))
     return { section: 'projects', highlight: 'projects' };
   if (/project|مشروع|مشاريع|aime voice|spy|game|tweet|forecast|car.?wash/i.test(text))
     return { section: 'projects', highlight: 'projects' };

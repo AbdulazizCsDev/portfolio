@@ -3,18 +3,21 @@ import './ParticleField.css';
 
 // Faithful port of "Particle Drift — Originkit", supplied verbatim by the
 // owner. Converted from TypeScript to plain JS only (project carries zero
-// non-react runtime deps, and no TypeScript — see CLAUDE.md), and the two
-// hardcoded demo colours are swapped for the site's own theme so the field
-// follows the mode toggle without rebuilding the GL context. Every other
-// number and behaviour — speed, direction, density, hover reach, how many
-// particles light up at once, the fact that it drifts forever and never
-// freezes — is exactly as given.
+// non-react runtime deps, and no TypeScript — see CLAUDE.md). Direction,
+// density, hover reach, and the binary hover-gold logic are exactly as
+// given; the fact that it drifts forever and never freezes is exactly as
+// given. Three things differ from the given source, all on later explicit
+// owner request, each noted where it's implemented: the two hardcoded demo
+// colours read live from the site's own theme instead; speed is knocked
+// down from the given default; and node positions no longer rescale to fit
+// the canvas on resize, so a shrinking viewport clips the field instead of
+// squeezing it.
 //
-// Two additions beyond "change the colours", both disclosed and invisible
-// during ordinary use, not a stylistic call: a single static frame under
-// prefers-reduced-motion (accessibility), and a pause while the browser tab
-// itself is hidden (battery — a hidden tab shows no frames either way, so
-// this changes nothing the visitor sees).
+// Two further additions, both disclosed and invisible during ordinary use,
+// not a stylistic call: a single static frame under prefers-reduced-motion
+// (accessibility), and a pause while the browser tab itself is hidden
+// (battery — a hidden tab shows no frames either way, so this changes
+// nothing the visitor sees).
 
 const MAX_DPR = 2;
 const MAX_LINES = 8000;
@@ -178,12 +181,13 @@ const CORNERS = [
 ];
 
 // The given component's own prop defaults, fixed in place since this instance
-// is not configurable — density 400, dotSize 3, speed 50 (→ ×1), direction 0
-// (straight down), hover 200 (→ reach 180, alpha ×2), linkDistance 230,
-// linkThickness 1.
+// is not configurable — density 400, dotSize 3, direction 0 (straight down),
+// hover 200 (→ reach 180, alpha ×2), linkDistance 230, linkThickness 1. Speed
+// is the one prop knocked down from the given default (50 → 20) on explicit
+// owner request, not a silent slowdown like the one that was rejected before.
 const DENSITY = 400;
 const DOT_SIZE = 3;
-const SPEED_MULT = 1; // speed prop 50, clamped 0–100, /50
+const SPEED_MULT = 0.4; // speed prop 20, clamped 0–100, /50
 const DIRECTION_DEG = 0; // straight down, matching the prop default
 const HOVER_REACH = 180;
 const HOVER_MULT = 2; // hover prop 200, clamped 0–200, /100
@@ -299,8 +303,6 @@ export default function ParticleField() {
     let raf = 0;
     let last = performance.now();
     let builtN = -1;
-    let builtW = 0;
-    let builtH = 0;
 
     const drawFrame = (now) => {
       const dt = Math.min(0.05, (now - last) / 1000);
@@ -321,13 +323,14 @@ export default function ParticleField() {
         buildNodes(DENSITY, cw, ch);
         builtN = DENSITY;
       }
-      if (cw !== builtW || ch !== builtH) {
-        const sx = cw / Math.max(builtW || cw, 1);
-        const sy = ch / Math.max(builtH || ch, 1);
-        for (let i = 0; i < nCount; i++) { nx[i] *= sx; ny[i] *= sy; }
-        builtW = cw;
-        builtH = ch;
-      }
+      // No rescale-to-fit on resize: node positions stay in the pixel space
+      // they were built in. When the viewport shrinks (mobile browser chrome
+      // collapsing on scroll, an actual window resize), the field doesn't
+      // squeeze to keep filling the new bounds — it just gets clipped at the
+      // new edges, and edge-wrap (below) recycles particles back in using
+      // whatever cw/ch is current. Requested explicitly: a full-field
+      // rescale on every viewport change reads as the background dragging
+      // itself around instead of sitting still and getting cropped.
 
       let lines = 0;
       const pushLine = (x0, y0, x1, y1, a0, a1, mix, wpx) => {

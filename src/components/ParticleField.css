@@ -11,4 +11,9 @@
   display: block;
   width: 100%;
   height: 100%;
+  /* Opacity over blur: blur softens the hover-glow interaction into mush and
+     costs an extra GPU pass; opacity dims every pixel uniformly against the
+     page background, which is what was asked for — more text contrast, same
+     crisp lines. */
+  opacity: 0.55;
 }

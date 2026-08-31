@@ -3,15 +3,16 @@ import './ParticleField.css';
 
 // Faithful port of "Particle Drift — Originkit", supplied verbatim by the
 // owner. Converted from TypeScript to plain JS only (project carries zero
-// non-react runtime deps, and no TypeScript — see CLAUDE.md). Direction,
-// density, hover reach, and the binary hover-gold logic are exactly as
-// given; the fact that it drifts forever and never freezes is exactly as
-// given. Three things differ from the given source, all on later explicit
-// owner request, each noted where it's implemented: the two hardcoded demo
-// colours read live from the site's own theme instead; speed is knocked
-// down from the given default; and node positions no longer rescale to fit
-// the canvas on resize, so a shrinking viewport clips the field instead of
-// squeezing it.
+// non-react runtime deps, and no TypeScript — see CLAUDE.md). Direction and
+// the binary hover-gold logic are exactly as given; the fact that it drifts
+// forever and never freezes is exactly as given. What differs from the given
+// source differs on later explicit owner request, each noted where it's
+// implemented: the two hardcoded demo colours read live from the site's own
+// theme; speed is knocked down from the given default; node positions never
+// rescale to fit the canvas on resize, so a shrinking viewport clips the
+// field instead of squeezing it; density and link/hover reach follow the
+// viewport's area, so a phone doesn't carry a desktop's worth of nodes; and
+// the pointer interaction is mouse-only.
 //
 // Two further additions, both disclosed and invisible during ordinary use,
 // not a stylistic call: a single static frame under prefers-reduced-motion
@@ -181,11 +182,11 @@ const CORNERS = [
 ];
 
 // The given component's own prop defaults, fixed in place since this instance
-// is not configurable — density 400, dotSize 3, direction 0 (straight down),
-// hover 200 (→ reach 180, alpha ×2), linkDistance 230, linkThickness 1. Speed
-// is the one prop knocked down from the given default (50 → 20) on explicit
-// owner request, not a silent slowdown like the one that was rejected before.
-const DENSITY = 400;
+// is not configurable — dotSize 3, direction 0 (straight down), hover 200
+// (→ reach 180, alpha ×2), linkDistance 230, linkThickness 1. Speed is knocked
+// down from the given default (50 → 20) on explicit owner request, not a
+// silent slowdown like the one that was rejected before.
+const MAX_DENSITY = 400;
 const DOT_SIZE = 3;
 const SPEED_MULT = 0.4; // speed prop 20, clamped 0–100, /50
 const DIRECTION_DEG = 0; // straight down, matching the prop default
@@ -193,6 +194,31 @@ const HOVER_REACH = 180;
 const HOVER_MULT = 2; // hover prop 200, clamped 0–200, /100
 const LINK_DISTANCE = 230;
 const LINK_THICKNESS = 1;
+
+// The given source's density 400 is authored for a desktop-sized canvas. Held
+// as a flat count it means a phone carries the same 400 nodes in a quarter of
+// the area — 4.4x the desktop density, which is the pile-up the owner
+// reported. So 400 becomes a rate (nodes per px²) measured against this
+// reference viewport: desktop renders exactly as before, a 375x700 phone gets
+// ~91 nodes instead of 400.
+const REF_AREA = 1280 * 900;
+const NODES_PER_AREA = MAX_DENSITY / REF_AREA;
+// Floor keeps the field from thinning into nothing on a very short viewport;
+// ceiling is a performance guard, not taste — the proximity-link pass is
+// O(n²), so 400 nodes is 80k pair tests a frame and an uncapped 4K viewport
+// would be ~800k.
+const MIN_DENSITY = 80;
+// Link and hover radii scale with the viewport's linear dimension. Constant
+// nodes-per-area already fixes the *count* of neighbours in reach; this is
+// about proportion — a flat 230px reach spans 61% of a 375px screen, so the
+// links read as lines crossing the whole page instead of a local mesh.
+const MIN_REACH_SCALE = 0.5;
+// Rebuild band and cooldown: a mobile browser collapsing its URL bar on
+// scroll changes viewport height constantly, and reacting to every pixel of
+// that would churn the node list. Only a >10% swing in the target count, and
+// at most once every 500ms, is worth acting on.
+const DENSITY_BAND = 0.1;
+const RESIZE_COOLDOWN_MS = 500;
 
 export default function ParticleField() {
   const canvasRef = useRef(null);
@@ -248,31 +274,39 @@ export default function ParticleField() {
 
     const R = rng(20260824);
 
-    let nCount = 0;
-    let nx = new Float32Array(0);
-    let ny = new Float32Array(0);
-    let nSpd = new Float32Array(0);
-    let gPos = new Float32Array(0);
-    let gLit = new Float32Array(0);
+    // Allocated once at full capacity; only nCount — how many of these slots
+    // are live — moves with the viewport. Nothing is ever reallocated, so
+    // adapting the density costs no GC and no bufferData call.
+    const nx = new Float32Array(MAX_DENSITY);
+    const ny = new Float32Array(MAX_DENSITY);
+    const nSpd = new Float32Array(MAX_DENSITY);
+    const gPos = new Float32Array(MAX_DENSITY * 2);
+    const gLit = new Float32Array(MAX_DENSITY);
     const bGPos = gl.createBuffer();
     const bGLit = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, bGPos);
+    gl.bufferData(gl.ARRAY_BUFFER, gPos.byteLength, gl.DYNAMIC_DRAW);
+    gl.bindBuffer(gl.ARRAY_BUFFER, bGLit);
+    gl.bufferData(gl.ARRAY_BUFFER, gLit.byteLength, gl.DYNAMIC_DRAW);
 
-    const buildNodes = (n, w, h) => {
-      nCount = n;
-      nx = new Float32Array(n);
-      ny = new Float32Array(n);
-      nSpd = new Float32Array(n);
-      gPos = new Float32Array(n * 2);
-      gLit = new Float32Array(n);
-      for (let i = 0; i < n; i++) {
+    let nCount = 0;
+
+    // Grows or shrinks the live node count in place. Nodes that survive keep
+    // their exact coordinates — this is deliberately NOT the rescale the owner
+    // rejected: the field never drags itself to refit new bounds, it only
+    // gains nodes in the new space or drops them off the tail.
+    const setNodeCount = (n, w, h) => {
+      for (let i = nCount; i < n; i++) {
         nx[i] = R() * w;
         ny[i] = R() * h;
         nSpd[i] = (R() * 0.4 + 0.1) * 60; // 0.1..0.5 px per frame, base unit 60
       }
-      gl.bindBuffer(gl.ARRAY_BUFFER, bGPos);
-      gl.bufferData(gl.ARRAY_BUFFER, gPos.byteLength, gl.DYNAMIC_DRAW);
-      gl.bindBuffer(gl.ARRAY_BUFFER, bGLit);
-      gl.bufferData(gl.ARRAY_BUFFER, gLit.byteLength, gl.DYNAMIC_DRAW);
+      nCount = n;
+    };
+
+    const targetCount = (w, h) => {
+      const n = Math.round(w * h * NODES_PER_AREA);
+      return Math.max(MIN_DENSITY, Math.min(MAX_DENSITY, n));
     };
 
     const ptr = { x: -10000, y: -10000 };
@@ -280,7 +314,14 @@ export default function ParticleField() {
     // element on the page (pointer-events: none) so clicks pass through to
     // it, which means canvas-local listeners would never fire. The transform
     // below is unchanged from the given code.
+    //
+    // Mouse only. A finger has no hover state: a tap would park the pointer
+    // wherever it landed and leave a permanent gold starburst stuck to that
+    // spot (visible in the owner's phone screenshot). Gating on pointerType
+    // rather than a (hover: hover) media query keeps the mouse working on a
+    // touchscreen laptop.
     const track = (e) => {
+      if (e.pointerType !== 'mouse') return;
       const r = canvas.getBoundingClientRect();
       if (r.width <= 0 || r.height <= 0) return;
       const cw = canvas.clientWidth || 1200;
@@ -288,7 +329,11 @@ export default function ParticleField() {
       ptr.x = ((e.clientX - r.left) / r.width) * cw;
       ptr.y = ((e.clientY - r.top) / r.height) * ch;
     };
-    const onLeave = () => { ptr.x = -10000; ptr.y = -10000; };
+    const onLeave = (e) => {
+      if (e.pointerType !== 'mouse') return;
+      ptr.x = -10000;
+      ptr.y = -10000;
+    };
     window.addEventListener('pointermove', track);
     window.addEventListener('pointerleave', onLeave);
 
@@ -302,7 +347,7 @@ export default function ParticleField() {
 
     let raf = 0;
     let last = performance.now();
-    let builtN = -1;
+    let lastResize = -Infinity;
 
     const drawFrame = (now) => {
       const dt = Math.min(0.05, (now - last) / 1000);
@@ -319,18 +364,35 @@ export default function ParticleField() {
       }
       gl.viewport(0, 0, bw, bh);
 
-      if (DENSITY !== builtN) {
-        buildNodes(DENSITY, cw, ch);
-        builtN = DENSITY;
+      // Density follows the viewport's area. On the first frame this just
+      // builds the field; afterwards it only reacts to a swing wide enough to
+      // matter, no more often than the cooldown allows.
+      //
+      // What it never does is move an existing node. The field still does not
+      // rescale to refit new bounds — a shrinking viewport clips it, exactly
+      // as requested; edge-wrap (below) recycles particles using whatever
+      // cw/ch is current. Adapting *how many* nodes there are and *where* they
+      // sit are separate things, and only the first one is wanted here.
+      const want = targetCount(cw, ch);
+      if (nCount === 0) {
+        setNodeCount(want, cw, ch);
+        lastResize = now;
+      } else if (
+        Math.abs(want - nCount) > nCount * DENSITY_BAND &&
+        now - lastResize >= RESIZE_COOLDOWN_MS
+      ) {
+        setNodeCount(want, cw, ch);
+        lastResize = now;
       }
-      // No rescale-to-fit on resize: node positions stay in the pixel space
-      // they were built in. When the viewport shrinks (mobile browser chrome
-      // collapsing on scroll, an actual window resize), the field doesn't
-      // squeeze to keep filling the new bounds — it just gets clipped at the
-      // new edges, and edge-wrap (below) recycles particles back in using
-      // whatever cw/ch is current. Requested explicitly: a full-field
-      // rescale on every viewport change reads as the background dragging
-      // itself around instead of sitting still and getting cropped.
+
+      // Radii scale with the viewport's linear size, so a phone gets a local
+      // mesh rather than links spanning most of the screen.
+      const reachScale = Math.max(
+        MIN_REACH_SCALE,
+        Math.min(1, Math.sqrt((cw * ch) / REF_AREA)),
+      );
+      const hoverReach = HOVER_REACH * reachScale;
+      const linkDistance = LINK_DISTANCE * reachScale;
 
       let lines = 0;
       const pushLine = (x0, y0, x1, y1, a0, a1, mix, wpx) => {
@@ -358,9 +420,9 @@ export default function ParticleField() {
         const dx = ptr.x - nx[i];
         const dy = ptr.y - ny[i];
         const d = Math.sqrt(dx * dx + dy * dy);
-        const lit = d < HOVER_REACH ? 1 : 0;
+        const lit = d < hoverReach ? 1 : 0;
         if (lit === 1) {
-          const a = 0.5 * (1 - d / HOVER_REACH) * HOVER_MULT;
+          const a = 0.5 * (1 - d / hoverReach) * HOVER_MULT;
           pushLine(nx[i], ny[i], ptr.x, ptr.y, a, a, 1, LINK_THICKNESS);
         }
         gPos[i * 2] = nx[i];
@@ -368,15 +430,15 @@ export default function ParticleField() {
         gLit[i] = lit;
       }
 
-      if (LINK_DISTANCE > 0) {
-        const l2 = LINK_DISTANCE * LINK_DISTANCE;
+      if (linkDistance > 0) {
+        const l2 = linkDistance * linkDistance;
         for (let i = 0; i < nCount && lines < MAX_LINES; i++) {
           for (let j = i + 1; j < nCount && lines < MAX_LINES; j++) {
             const dx = nx[i] - nx[j];
             const dy = ny[i] - ny[j];
             const dd = dx * dx + dy * dy;
             if (dd >= l2) continue;
-            const a = 0.15 * (1 - Math.sqrt(dd) / LINK_DISTANCE);
+            const a = 0.15 * (1 - Math.sqrt(dd) / linkDistance);
             pushLine(nx[i], ny[i], nx[j], ny[j], a, a, 0, LINK_THICKNESS);
           }
         }
@@ -428,12 +490,14 @@ export default function ParticleField() {
       if (nCount > 0) {
         gl.useProgram(dotProg);
         gl.bindBuffer(gl.ARRAY_BUFFER, bGPos);
-        gl.bufferSubData(gl.ARRAY_BUFFER, 0, gPos);
+        // Only the live slots — the arrays are allocated at MAX_DENSITY, and
+        // anything past nCount is stale and never drawn.
+        gl.bufferSubData(gl.ARRAY_BUFFER, 0, gPos.subarray(0, nCount * 2));
         const aPos = gl.getAttribLocation(dotProg, 'a_pos');
         gl.enableVertexAttribArray(aPos);
         gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
         gl.bindBuffer(gl.ARRAY_BUFFER, bGLit);
-        gl.bufferSubData(gl.ARRAY_BUFFER, 0, gLit);
+        gl.bufferSubData(gl.ARRAY_BUFFER, 0, gLit.subarray(0, nCount));
         const aLit = gl.getAttribLocation(dotProg, 'a_lit');
         gl.enableVertexAttribArray(aLit);
         gl.vertexAttribPointer(aLit, 1, gl.FLOAT, false, 0, 0);

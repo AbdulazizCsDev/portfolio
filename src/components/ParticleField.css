@@ -15,5 +15,5 @@
      costs an extra GPU pass; opacity dims every pixel uniformly against the
      page background, which is what was asked for — more text contrast, same
      crisp lines. */
-  opacity: 0.55;
+  opacity: 0.35;
 }

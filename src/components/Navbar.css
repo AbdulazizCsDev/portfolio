@@ -21,27 +21,13 @@
   gap: 2rem;
 }
 
-/* Logo */
-.nav-logo {
-  font-size: 1.2rem;
-  font-weight: 400;
-  letter-spacing: 0.05em;
-  color: var(--text);
-  transition: color var(--t-fast), background-color var(--t-fast), border-color var(--t-fast), transform var(--t-fast);
-  display: flex;
-  align-items: center;
-  gap: 2px;
-}
-.nav-logo:hover { color: var(--mark); }
-
-.logo-bracket { color: var(--mark); font-weight: 400; }
-.logo-text { color: var(--text); font-weight: 400; }
-
-/* Nav links */
+/* Nav links — margin-inline: auto keeps them centred now that the logo no
+   longer occupies the start edge of the space-between row. */
 .nav-links {
   display: none;
   align-items: center;
   gap: var(--space-2);
+  margin-inline: auto;
 }
 
 .nav-link {
@@ -64,6 +50,10 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  /* Mobile: the links are hidden, so this is the row's only child and
+     space-between would park it at the start edge. The logo used to hold that
+     edge, so keep the actions where they have always been — the far end. */
+  margin-inline-start: auto;
 }
 
 .lang-btn {
@@ -141,12 +131,12 @@
 .mobile-link:hover,
 .mobile-link.active { color: var(--mark); }
 
-/* RTL adjustments */
-.rtl .nav-logo { flex-direction: row-reverse; }
-
 /* Responsive */
 @media (min-width: 768px) {
   .nav-links { display: flex; }
   .hamburger { display: none; }
   .navbar { padding: 0 var(--space-8); }
+  /* Links are back, and their auto margins now do the pushing: the actions
+     land at the end and the links centre in what's left. */
+  .nav-actions { margin-inline-start: 0; }
 }

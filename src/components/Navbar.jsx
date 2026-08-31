@@ -64,22 +64,6 @@ export default function Navbar() {
   return (
     <nav className={`navbar ${scrolled ? 'scrolled' : ''} ${menuOpen ? 'menu-open' : ''}`}>
       <div className="nav-inner">
-        <button className="nav-logo" onClick={() => scrollTo('hero')} aria-label="Home">
-          <svg width="20" height="24" viewBox="0 0 100 120" fill="none" aria-hidden="true">
-            <defs>
-              <linearGradient id="nav-grad" x1="50" y1="2" x2="50" y2="118" gradientUnits="userSpaceOnUse">
-                <stop offset="0%"   stopColor="var(--mark)" />
-                <stop offset="100%" stopColor="var(--mark)" />
-              </linearGradient>
-            </defs>
-            <path
-              fillRule="evenodd"
-              fill="url(#nav-grad)"
-              d="M50,2 L94,60 L50,118 L6,60 Z M50,14 L27,57 L73,57 Z M50,106 L73,63 L27,63 Z"
-            />
-          </svg>
-        </button>
-
         <ul className={`nav-links ${menuOpen ? 'open' : ''}`}>
           {navItems.map(({ id, label }) => (
             <li key={id}>

@@ -1,5 +1,5 @@
-/* العنصر البصري صار حقلاً ثابتاً خلف الصفحة كلها لا عموداً في الهيرو،
-   فالهيرو عمود واحد بفراغ واسع على الجانب الفارغ. */
+/* العنصر البصري حقل ثابت خلف الصفحة كلها لا عمود في الهيرو، فالهيرو نص واحد
+   يتوسّط الشاشة أفقياً ورأسياً بدل عمود يلاصق حافة. */
 .hero {
   position: relative;
   min-height: 92vh;
@@ -9,7 +9,12 @@
   padding-inline: var(--space-6);
 }
 
-.hero-text { display: grid; align-content: center; }
+.hero-text {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  text-align: center;
+}
 
 .hero-name {
   font-family: var(--font-display);
@@ -27,6 +32,7 @@
   line-height: 1.75;
   color: var(--text);
   max-width: 42ch;
+  margin-inline: auto;
 }
 
 .hero-cta {
@@ -34,6 +40,7 @@
   display: flex;
   gap: var(--space-8);
   align-items: baseline;
+  justify-content: center;
   flex-wrap: wrap;
 }
 
@@ -41,5 +48,5 @@
   .hero {
     padding-inline: var(--space-16);
   }
-  .hero-name { max-width: 11ch; }
+  .hero-name { max-width: 11ch; margin-inline: auto; }
 }

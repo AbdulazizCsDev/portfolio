@@ -2,6 +2,7 @@ import { useLanguage } from '../context/LanguageContext';
 import Bidi from '../lib/Bidi';
 import Link from '../lib/Link';
 import { projectPath } from '../lib/router';
+import { ArrowIcon } from '../lib/icons';
 import './Projects.css';
 
 export default function Projects() {
@@ -29,12 +30,21 @@ export default function Projects() {
               </div>
 
               <div>
-                <p className="project-summary"><Bidi>{project.summary}</Bidi></p>
+                <div className="project-field">
+                  <p className="project-field-label">{t.projects.summaryLabel}</p>
+                  <p className="project-summary"><Bidi>{project.summary}</Bidi></p>
+                </div>
+
                 {/* What broke. The most valuable line on the page, so it is
                     never the faint layer. */}
-                <p className="project-broke"><Bidi>{project.broke}</Bidi></p>
+                <div className="project-field">
+                  <p className="project-field-label">{t.projects.brokeLabel}</p>
+                  <p className="project-broke"><Bidi>{project.broke}</Bidi></p>
+                </div>
+
                 <Link to={projectPath(project.id)} className="project-open">
-                  {t.projects.open}
+                  <span>{t.projects.open}</span>
+                  <ArrowIcon />
                 </Link>
               </div>
             </article>

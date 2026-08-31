@@ -20,16 +20,20 @@ const translations = {
       backToProjects: 'Projects',
       open: 'Open project',
       notFound: 'No such project.',
+      summaryLabel: 'What it is',
+      brokeLabel: 'What broke',
+      repoLabel: 'Source code',
       // §7 — three projects, four elements each. Nothing else belongs on a card.
       // Fields marked TODO are §11 decisions: the owner writes them, not the build.
       items: [
         {
           id: 'board-room',
+          repo: 'https://github.com/AbdulazizCsDev/ai-board-room',
           name: 'AI Board Room',
           number: '7',
           numberNote: 'LLM calls behind a single question',
           summary:
-            "Three advisors — finance, Saudi law, and market — read the documents you upload and deliberate over two rounds, each one building on what the others said. A chairman turns the disagreement into one verdict: proceed, proceed under conditions, or don't.",
+            "You put a decision on the table and three advisors — finance, Saudi law, and market — argue it out between themselves over two rounds, each one answering what the others said, with the documents you uploaded as the only source of figures. A chairman turns the disagreement into one verdict: proceed, proceed under conditions, or don't.",
           broke:
             "Streaming the debate over SSE worked locally and died in production: the host's proxy cut long-lived responses, so the browser reported 'couldn't reach API' against a 200. I replaced it with one plain JSON request and moved the pacing into the client. Streaming is a property of the whole path, not of your server.",
           detail: {
@@ -56,13 +60,14 @@ const translations = {
               },
               {
                 heading: 'Code',
-                body: 'github.com/AbdulazizCsDev/ai-board-room — open, MIT.',
+                body: 'Open source under the MIT licence — the repository link is at the top of this page.',
               },
             ],
           },
         },
         {
           id: 'aime',
+          repo: 'https://github.com/AbdulazizCsDev/aime-voice-assistant',
           name: 'Aime Voice Assistant',
           number: '1.5',
           numberNote: 'seconds of silence that decide you stopped talking',
@@ -94,13 +99,14 @@ const translations = {
               },
               {
                 heading: 'Code',
-                body: 'github.com/AbdulazizCsDev/aime-voice-assistant — open.',
+                body: 'Open source — the repository link is at the top of this page.',
               },
             ],
           },
         },
         {
           id: 'agrocure',
+          repo: 'https://github.com/AbdulazizCsDev/AgriCure-App',
           name: 'AgroCure',
           number: '0.015',
           numberNote: 'calibration error after temperature scaling, down from 0.029',
@@ -132,7 +138,7 @@ const translations = {
               },
               {
                 heading: 'Code',
-                body: 'github.com/AbdulazizCsDev/AgriCure-App — open, MIT.',
+                body: 'Open source under the MIT licence — the repository link is at the top of this page.',
               },
             ],
           },
@@ -239,16 +245,20 @@ const translations = {
       backToProjects: 'المشاريع',
       open: 'افتح المشروع',
       notFound: 'لا يوجد مشروع بهذا الاسم.',
+      summaryLabel: 'الفكرة',
+      brokeLabel: 'ما انكسر',
+      repoLabel: 'الكود المصدري',
       // §7 — ثلاثة مشاريع، أربعة عناصر لكل بطاقة. لا شيء غيرها.
       // الحقول المعلَّمة TODO قرارات §11: يكتبها المالك، لا البناء.
       items: [
         {
           id: 'board-room',
+          repo: 'https://github.com/AbdulazizCsDev/ai-board-room',
           name: 'مجلس الإدارة الذكي',
           number: '7',
           numberNote: 'نداءات نموذج خلف السؤال الواحد',
           summary:
-            'ثلاثة مستشارين — مالي وقانوني سعودي وخبير سوق — يقرؤون المستندات التي ترفعها ويتداولون على جولتين، كل واحد يبني على ما قاله الآخرون. ثم يحوّل رئيس المجلس الخلاف إلى قرار واحد: نفّذ، أو نفّذ بشروط، أو لا تنفّذ.',
+            'تطرح قراراً على الطاولة، فيتناقش فيه ثلاثة مستشارين — مالي وقانوني سعودي وخبير سوق — فيما بينهم على جولتين، كل واحد يردّ على ما قاله الآخرون، ومستنداتك التي رفعتها هي مصدر الأرقام الوحيد. ثم يحوّل رئيس المجلس الخلاف إلى قرار واحد: نفّذ، أو نفّذ بشروط، أو لا تنفّذ.',
           broke:
             'بثّ النقاش عبر SSE اشتغل محلياً ومات على الاستضافة: بروكسي المضيف يقطع الاستجابات الطويلة، فيقول المتصفح «تعذّر الوصول» أمام استجابة ناجحة. استبدلته بطلب JSON واحد ونقلت إيقاع العرض إلى العميل. البثّ خاصية المسار كله لا خاصية خادمك.',
           detail: {
@@ -275,13 +285,14 @@ const translations = {
               },
               {
                 heading: 'الكود',
-                body: 'github.com/AbdulazizCsDev/ai-board-room — مفتوح، رخصة MIT.',
+                body: 'مفتوح المصدر برخصة MIT — رابط المستودع أعلى الصفحة.',
               },
             ],
           },
         },
         {
           id: 'aime',
+          repo: 'https://github.com/AbdulazizCsDev/aime-voice-assistant',
           name: 'آيم — المساعد الصوتي',
           number: '1.5',
           numberNote: 'ثانية ونصف من الصمت تقرّر أنك سكتّ',
@@ -313,13 +324,14 @@ const translations = {
               },
               {
                 heading: 'الكود',
-                body: 'github.com/AbdulazizCsDev/aime-voice-assistant — مفتوح.',
+                body: 'مفتوح المصدر — رابط المستودع أعلى الصفحة.',
               },
             ],
           },
         },
         {
           id: 'agrocure',
+          repo: 'https://github.com/AbdulazizCsDev/AgriCure-App',
           name: 'أجروكيور',
           number: '0.015',
           numberNote: 'خطأ المعايرة بعد ضبط الحرارة، نازلاً من 0.029',
@@ -351,7 +363,7 @@ const translations = {
               },
               {
                 heading: 'الكود',
-                body: 'github.com/AbdulazizCsDev/AgriCure-App — مفتوح، رخصة MIT.',
+                body: 'مفتوح المصدر برخصة MIT — رابط المستودع أعلى الصفحة.',
               },
             ],
           },

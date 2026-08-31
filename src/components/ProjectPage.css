@@ -9,53 +9,128 @@
   margin-inline: auto;
 }
 
+/* Long identifiers in the prose (gpt-4o-mini, max_tokens, responds_to) have no
+   break opportunity of their own and used to push the line past 320px. */
+.project-page-inner :is(p, h1, h2) {
+  overflow-wrap: break-word;
+}
+
 .project-back {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
   font-size: var(--t-note);
+  font-family: var(--font-mono);
+  letter-spacing: 0.04em;
   color: var(--text-muted);
   margin-bottom: var(--space-12);
-  transition: color var(--t-fast);
+  transition: color var(--t-fast), opacity var(--t-fast);
 }
 .project-back:hover { color: var(--mark); }
 
 .project-page-head {
   padding-bottom: var(--space-12);
-  margin-bottom: var(--space-12);
+  margin-bottom: var(--space-16);
 }
 
+/* --t-mid, not --t-max: at the display size the hero uses, a three-word
+   project name filled the whole viewport and the page opened like a poster.
+   This is a reference document — the title should sit at the top of it, not
+   be the whole first screen. Still display type, still well over the 2×
+   floor the brief sets for this face. */
 .project-page-name {
   font-family: var(--font-display);
-  font-size: var(--t-max);
+  font-size: var(--t-mid);
   font-weight: 700;
-  line-height: 0.9;
+  line-height: 1;
   color: var(--text);
   letter-spacing: -0.02em;
+  /* Evens out the last line instead of leaving one word alone under a title. */
+  text-wrap: balance;
+}
+
+/* The headline figure reads as one unit with its note, not two stray lines. */
+.project-figure { margin-top: var(--space-10); }
+
+/* ─── Labelled fields ───────────────────────────────────────
+   «What it is» and «What broke» were two unlabelled paragraphs that a reader
+   had to parse before knowing which was which. The label is the same mono
+   note used for section headings, so the page has one labelling language. */
+.project-field { margin-top: var(--space-12); }
+
+.project-field-label {
+  font-family: var(--font-mono);
+  font-size: var(--t-note);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: var(--space-3);
 }
 
 .project-page-summary {
   font-size: var(--t-body);
   color: var(--text);
   line-height: 1.75;
-  margin-top: var(--space-6);
+  text-wrap: pretty;
 }
 
-.project-section + .project-section { margin-top: var(--space-12); }
+/* ─── Repository link ─────────────────────────────────────── */
+.project-repo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-12);
+  font-family: var(--font-mono);
+  font-size: var(--t-note);
+  letter-spacing: 0.06em;
+  color: var(--text);
+  padding-block: var(--space-2);
+  /* Underline instead of a border or a pill: the brief bans both, and an
+     underline is the one affordance a link is allowed to carry. */
+  box-shadow: inset 0 -1px 0 0 var(--text-muted);
+  transition: color var(--t-fast), transform var(--t-fast);
+}
+.project-repo:hover { color: var(--mark); }
+.project-repo:active { transform: translateY(1px); }
+.project-repo .icon-directional { transition: transform var(--t-fast); }
+.project-repo:hover .icon-directional { transform: translateX(3px); }
+.rtl .project-repo .icon-directional { transform: scaleX(-1); }
+.rtl .project-repo:hover .icon-directional { transform: scaleX(-1) translateX(3px); }
+
+/* ─── Sections ──────────────────────────────────────────────
+   Numbered and rule-topped so the page scans as a technical document with
+   parts, rather than one continuous piece of writing. */
+.project-section + .project-section { margin-top: var(--space-16); }
 
 .project-section-heading {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-4);
   font-size: var(--t-note);
   font-weight: 400;
   font-family: var(--font-mono);
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--text-muted);
-  margin-bottom: var(--space-3);
+  color: var(--text);
+  padding-top: var(--space-4);
+  margin-bottom: var(--space-6);
+  box-shadow: inset 0 1px 0 0 var(--absent);
+}
+
+.project-section-index {
+  color: var(--mark);
+  font-variant-numeric: tabular-nums;
 }
 
 .project-section-body {
   font-size: var(--t-body);
   color: var(--text);
   line-height: 1.8;
+  /* Avoids the one-word last line that made these paragraphs read as prose. */
+  text-wrap: pretty;
+  max-width: 62ch;
 }
+.project-section-body + .project-section-body { margin-top: var(--space-5); }
 
 .project-page-missing {
   font-size: var(--t-body);

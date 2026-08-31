@@ -49,11 +49,25 @@
   letter-spacing: 0.04em;
 }
 
+/* حقلان كانا فقرتين بلا اسم، فيقرأ الزائر ليعرف أيّهما أيّ. التسمية بنفس
+   لغة عناوين الأقسام في صفحة المشروع حتى تكون الصفحتان بنظام واحد. */
+.project-field + .project-field { margin-top: var(--space-8); }
+
+.project-field-label {
+  font-family: var(--font-mono);
+  font-size: var(--t-note);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: var(--space-3);
+}
+
 .project-summary {
   font-size: var(--t-body);
   line-height: 1.75;
   color: var(--text);
   max-width: 46ch;
+  text-wrap: pretty;
 }
 
 /* أثمن سطر في الصفحة — حاضر بتباين كامل، لا خافت. */
@@ -62,22 +76,32 @@
   line-height: 1.75;
   color: var(--text);
   max-width: 46ch;
-  margin-top: var(--space-6);
   padding-inline-start: var(--space-4);
   box-shadow: inset 2px 0 0 0 var(--absent);
+  text-wrap: pretty;
 }
 .rtl .project-broke { box-shadow: inset -2px 0 0 0 var(--absent); }
 
+/* سهم وخط سفلي: الرابط كان نصاً عادياً لا يقول إنه يُضغط. */
 .project-open {
-  display: inline-block;
-  margin-top: var(--space-8);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-10);
+  padding-block: var(--space-2);
   font-size: var(--t-note);
   font-family: var(--font-mono);
   letter-spacing: 0.06em;
   color: var(--text);
-  transition: opacity var(--t-fast);
+  box-shadow: inset 0 -1px 0 0 var(--text-muted);
+  transition: color var(--t-fast), transform var(--t-fast);
 }
-.project-open:hover { opacity: 0.55; }
+.project-open:hover { color: var(--mark); }
+.project-open:active { transform: translateY(1px); }
+.project-open .icon-directional { transition: transform var(--t-fast); }
+.project-open:hover .icon-directional { transform: translateX(3px); }
+.rtl .project-open .icon-directional { transform: scaleX(-1); }
+.rtl .project-open:hover .icon-directional { transform: scaleX(-1) translateX(3px); }
 
 @media (min-width: 900px) {
   /* عدم تماثل: العنوان والرقم على جانب، النص على الآخر، وفراغ بينهما. */

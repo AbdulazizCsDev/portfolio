@@ -2,24 +2,8 @@ import { useState, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { useTheme } from '../context/ThemeContext';
 import { navigate } from '../lib/router';
+import { SunIcon, MoonIcon } from '../lib/icons';
 import './Navbar.css';
-
-function InkIcon() {
-  return (
-    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
-      <path d="M12 3.5c3.6 3.2 5.5 5.9 5.5 8.4a5.5 5.5 0 0 1-11 0c0-2.5 1.9-5.2 5.5-8.4z" />
-    </svg>
-  );
-}
-
-function PaperIcon() {
-  return (
-    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
-      <rect x="4.5" y="3.5" width="15" height="17" rx="2" />
-      <path d="M8 8.5h8M8 12h8M8 15.5h5" />
-    </svg>
-  );
-}
 
 export default function Navbar() {
   const { lang, toggle, t } = useLanguage();
@@ -78,13 +62,16 @@ export default function Navbar() {
         </ul>
 
         <div className="nav-actions">
+          {/* The icon shows the mode you'd switch *to*, and carries no title
+              attribute — the browser tooltip named the two modes, which meant
+              nothing to a visitor who has not read the design brief. The
+              aria-label stays for screen readers. */}
           <button
             className="mode-btn"
             onClick={toggleMode}
             aria-label={mode === 'dark' ? 'التبديل إلى الوضع الفاتح' : 'التبديل إلى الوضع الداكن'}
-            title={mode === 'dark' ? 'ورق' : 'حبر'}
           >
-            {mode === 'dark' ? <PaperIcon /> : <InkIcon />}
+            {mode === 'dark' ? <SunIcon /> : <MoonIcon />}
           </button>
           <button className="lang-btn" onClick={toggle} title="Toggle language">
             {lang === 'en' ? 'عربي' : 'EN'}

@@ -42,6 +42,16 @@ export function ArrowIcon({ size = 14 }) {
   );
 }
 
+// Box with an arrow leaving it — the standard "opens elsewhere" mark.
+export function ExternalIcon({ size = 16 }) {
+  return (
+    <svg {...base} width={size} height={size}>
+      <path d="M14 4h6v6M20 4l-8.5 8.5" />
+      <path d="M18.5 14.5V19a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 19V7A1.5 1.5 0 0 1 5 5.5h4.5" />
+    </svg>
+  );
+}
+
 export function GithubIcon({ size = 16 }) {
   return (
     <svg {...base} width={size} height={size}>

@@ -23,12 +23,14 @@ const translations = {
       summaryLabel: 'What it is',
       brokeLabel: 'What broke',
       repoLabel: 'Source code',
+      liveLabel: 'Live demo',
       // §7 — three projects, four elements each. Nothing else belongs on a card.
       // Fields marked TODO are §11 decisions: the owner writes them, not the build.
       items: [
         {
           id: 'board-room',
           repo: 'https://github.com/AbdulazizCsDev/ai-board-room',
+          live: 'https://ai-board-room-2wtb.onrender.com/',
           name: 'AI Board Room',
           number: '7',
           numberNote: 'LLM calls behind a single question',
@@ -68,6 +70,7 @@ const translations = {
         {
           id: 'aime',
           repo: 'https://github.com/AbdulazizCsDev/aime-voice-assistant',
+          live: 'https://aime-voice-assistant-rw2z.vercel.app/',
           name: 'Aime Voice Assistant',
           number: '1.5',
           numberNote: 'seconds of silence that decide you stopped talking',
@@ -107,6 +110,7 @@ const translations = {
         {
           id: 'agrocure',
           repo: 'https://github.com/AbdulazizCsDev/AgriCure-App',
+          live: 'https://abdulazizcsdev-agrocure-app.hf.space/',
           name: 'AgroCure',
           number: '0.015',
           numberNote: 'calibration error after temperature scaling, down from 0.029',
@@ -248,12 +252,14 @@ const translations = {
       summaryLabel: 'الفكرة',
       brokeLabel: 'ما انكسر',
       repoLabel: 'الكود المصدري',
+      liveLabel: 'عرض مباشر',
       // §7 — ثلاثة مشاريع، أربعة عناصر لكل بطاقة. لا شيء غيرها.
       // الحقول المعلَّمة TODO قرارات §11: يكتبها المالك، لا البناء.
       items: [
         {
           id: 'board-room',
           repo: 'https://github.com/AbdulazizCsDev/ai-board-room',
+          live: 'https://ai-board-room-2wtb.onrender.com/',
           name: 'مجلس الإدارة الذكي',
           number: '7',
           numberNote: 'نداءات نموذج خلف السؤال الواحد',
@@ -293,6 +299,7 @@ const translations = {
         {
           id: 'aime',
           repo: 'https://github.com/AbdulazizCsDev/aime-voice-assistant',
+          live: 'https://aime-voice-assistant-rw2z.vercel.app/',
           name: 'آيم — المساعد الصوتي',
           number: '1.5',
           numberNote: 'ثانية ونصف من الصمت تقرّر أنك سكتّ',
@@ -332,6 +339,7 @@ const translations = {
         {
           id: 'agrocure',
           repo: 'https://github.com/AbdulazizCsDev/AgriCure-App',
+          live: 'https://abdulazizcsdev-agrocure-app.hf.space/',
           name: 'أجروكيور',
           number: '0.015',
           numberNote: 'خطأ المعايرة بعد ضبط الحرارة، نازلاً من 0.029',

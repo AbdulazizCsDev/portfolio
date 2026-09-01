@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import Link from '../lib/Link';
 import Bidi from '../lib/Bidi';
-import { ArrowIcon, GithubIcon } from '../lib/icons';
+import { ArrowIcon, GithubIcon, ExternalIcon } from '../lib/icons';
 import './ProjectPage.css';
 
 // Section bodies are authored as one long string each. Rendered as a single
@@ -74,17 +74,33 @@ export default function ProjectPage({ id }) {
             <p className="project-broke"><Bidi>{project.broke}</Bidi></p>
           </div>
 
-          {project.repo && (
-            <a
-              className="project-repo"
-              href={project.repo}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <GithubIcon />
-              <span>{t.projects.repoLabel}</span>
-              <ArrowIcon />
-            </a>
+          {(project.live || project.repo) && (
+            <div className="project-links">
+              {project.live && (
+                <a
+                  className="project-link project-link-live"
+                  href={project.live}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <ExternalIcon />
+                  <span>{t.projects.liveLabel}</span>
+                  <ArrowIcon />
+                </a>
+              )}
+              {project.repo && (
+                <a
+                  className="project-link"
+                  href={project.repo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <GithubIcon />
+                  <span>{t.projects.repoLabel}</span>
+                  <ArrowIcon />
+                </a>
+              )}
+            </div>
           )}
         </header>
 

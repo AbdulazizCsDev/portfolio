@@ -74,12 +74,20 @@
   text-wrap: pretty;
 }
 
-/* ─── Repository link ─────────────────────────────────────── */
-.project-repo {
+/* ─── Live demo and repository links ────────────────────────
+   Both leave the site, so both carry the same weight and sit on one row —
+   the live demo first, because seeing the thing run beats reading its source. */
+.project-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-8);
+  margin-top: var(--space-12);
+}
+
+.project-link {
   display: inline-flex;
   align-items: center;
   gap: var(--space-3);
-  margin-top: var(--space-12);
   font-family: var(--font-mono);
   font-size: var(--t-note);
   letter-spacing: 0.06em;
@@ -90,12 +98,12 @@
   box-shadow: inset 0 -1px 0 0 var(--text-muted);
   transition: color var(--t-fast), transform var(--t-fast);
 }
-.project-repo:hover { color: var(--mark); }
-.project-repo:active { transform: translateY(1px); }
-.project-repo .icon-directional { transition: transform var(--t-fast); }
-.project-repo:hover .icon-directional { transform: translateX(3px); }
-.rtl .project-repo .icon-directional { transform: scaleX(-1); }
-.rtl .project-repo:hover .icon-directional { transform: scaleX(-1) translateX(3px); }
+.project-link:hover { color: var(--mark); }
+.project-link:active { transform: translateY(1px); }
+.project-link .icon-directional { transition: transform var(--t-fast); }
+.project-link:hover .icon-directional { transform: translateX(3px); }
+.rtl .project-link .icon-directional { transform: scaleX(-1); }
+.rtl .project-link:hover .icon-directional { transform: scaleX(-1) translateX(3px); }
 
 /* ─── Sections ──────────────────────────────────────────────
    Numbered and rule-topped so the page scans as a technical document with

@@ -82,11 +82,11 @@ const translations = {
             sections: [
               {
                 heading: 'Architecture',
-                body: "Whisper transcribes, Claude answers, ElevenLabs speaks it back in a cloned voice, and every reply carries a trailing ACTION token that is parsed out before display. The token names a section or a project card, and the page scrolls there and highlights it. The knowledge base is one text file injected whole into the system prompt. FastAPI on Vercel serves it; the local build adds always-on capture with its own voice-activity detection.",
+                body: "Whisper transcribes, Claude Haiku 4.5 answers, ElevenLabs speaks it back in a cloned voice, and every reply carries a trailing ACTION token that is parsed out before display. The token names a section or a project card, and the page scrolls there and highlights it. The knowledge base is one text file injected whole into the system prompt. FastAPI on Vercel serves it; the local build adds always-on capture with its own voice-activity detection.",
               },
               {
                 heading: 'Decisions',
-                body: "No embeddings and no vector store: the knowledge base is small enough to inject in full, so retrieval would add a failure mode and a similarity threshold to tune while removing information the model can already see. The system prompt forbids restating anything already on screen — the reply is a pointing sentence plus a follow-up question, because the page is the answer and the voice is the index. Voice activity detection is a hand-tuned RMS threshold rather than a wake word, so nothing has to be said to start.",
+                body: "No embeddings, no vector store, and no retrieval framework — the dependency list is six packages long. The knowledge base is 9 KB, small enough to inject in full, so retrieval would add a failure mode and a similarity threshold to tune while removing information the model can already see. The module still named rag.py is a file reader: it returns the whole knowledge base and ignores the query it is handed, which the signature keeps only for API compatibility. The system prompt forbids restating anything already on screen — the reply is a pointing sentence plus a follow-up question, because the page is the answer and the voice is the index. Voice activity detection is a hand-tuned RMS threshold rather than a wake word, so nothing has to be said to start.",
               },
               {
                 heading: 'Metrics',
@@ -223,7 +223,7 @@ const translations = {
       ],
       tour: [
         { text: 'His projects. Start with AI Board Room — a multi-agent advisory board that took 1st place at the Himmah Digital Camps hackathon.', action: 'projects.board-room' },
-        { text: 'AgroCure — plant-disease detection running at 73 ms on a Raspberry Pi. He led the four-person team behind it.', action: 'projects.agrocure' },
+        { text: 'AgroCure — plant-disease detection built around the refusal: below its confidence floor it abstains and sends the scan to a human reviewer. He led the four-person team behind it.', action: 'projects.agrocure' },
         { text: "And Aime — that's me: Whisper, Claude, and ElevenLabs, deployed and talking to you right now.", action: 'projects.aime' },
         { text: "What he's building now: hardening Board Room and AgroCure into trustworthy, Arabic-first systems for the Saudi market.", action: 'now' },
         { text: "And this is where to reach him. Ask me anything else — I'm here.", action: 'contact' },
@@ -311,11 +311,11 @@ const translations = {
             sections: [
               {
                 heading: 'المعمارية',
-                body: 'ويسبر يفرّغ الصوت نصاً، وكلود يجيب، وElevenLabs ينطق الرد بصوت مستنسخ، وكل رد يحمل في آخره رمز ACTION يُنتزع قبل العرض. الرمز يسمّي قسماً أو بطاقة مشروع، فتنتقل الصفحة إليه وتُبرزه. وقاعدة المعرفة ملف نصي واحد يُحقن كاملاً في تعليمات النظام. وFastAPI على Vercel يقدّمه، والنسخة المحلية تضيف التقاطاً دائماً بكشف نشاط صوتي خاص بها.',
+                body: 'ويسبر يفرّغ الصوت نصاً، وكلود Haiku 4.5 يجيب، وElevenLabs ينطق الرد بصوت مستنسخ، وكل رد يحمل في آخره رمز ACTION يُنتزع قبل العرض. الرمز يسمّي قسماً أو بطاقة مشروع، فتنتقل الصفحة إليه وتُبرزه. وقاعدة المعرفة ملف نصي واحد يُحقن كاملاً في تعليمات النظام. وFastAPI على Vercel يقدّمه، والنسخة المحلية تضيف التقاطاً دائماً بكشف نشاط صوتي خاص بها.',
               },
               {
                 heading: 'القرارات',
-                body: 'لا تضمينات ولا قاعدة متجهات: قاعدة المعرفة صغيرة بما يكفي لحقنها كاملة، فالاسترجاع كان سيضيف نقطة فشل وعتبة تشابه تُضبط، ويحجب عن النموذج معلومات يراها أصلاً. وتعليمات النظام تمنع منعاً باتاً إعادة ذكر أي شيء معروض على الشاشة — الرد جملة إشارة وسؤال متابعة، لأن الصفحة هي الجواب والصوت فهرسها. وكشف نشاط الصوت عتبة RMS مضبوطة يدوياً لا كلمة إيقاظ، فلا يلزم قول شيء للبدء.',
+                body: 'لا تضمينات ولا قاعدة متجهات ولا إطار استرجاع — قائمة الاعتماديات ست حزم لا غير. قاعدة المعرفة تسعة كيلوبايت، صغيرة بما يكفي لحقنها كاملة، فالاسترجاع كان سيضيف نقطة فشل وعتبة تشابه تُضبط، ويحجب عن النموذج معلومات يراها أصلاً. والملف الذي ما زال اسمه rag.py قارئ ملفات: يرجّع قاعدة المعرفة كاملة ويتجاهل الاستعلام المُمرَّر إليه، والمعامل باقٍ في التوقيع للتوافق فقط. وتعليمات النظام تمنع منعاً باتاً إعادة ذكر أي شيء معروض على الشاشة — الرد جملة إشارة وسؤال متابعة، لأن الصفحة هي الجواب والصوت فهرسها. وكشف نشاط الصوت عتبة RMS مضبوطة يدوياً لا كلمة إيقاظ، فلا يلزم قول شيء للبدء.',
               },
               {
                 heading: 'المقاييس',
@@ -452,7 +452,7 @@ const translations = {
       ],
       tour: [
         { text: 'مشاريعه. لنبدأ بمجلس الإدارة الذكي — نظام استشاري متعدد الوكلاء حصد المركز الأول في هاكاثون معسكرات همّة الرقمية.', action: 'projects.board-room' },
-        { text: 'أجروكيور — كشف أمراض النباتات بزمن 73 مللي ثانية على Raspberry Pi، وقد قاد فريقه المكوّن من أربعة مهندسين.', action: 'projects.agrocure' },
+        { text: 'أجروكيور — كشف أمراض النباتات مبنيّ حول الامتناع: تحت عتبة الثقة يمتنع ويحوّل الصورة إلى مراجع بشري، وقد قاد فريقه المكوّن من أربعة مهندسين.', action: 'projects.agrocure' },
         { text: 'وآيم — هذا أنا: Whisper وClaude وElevenLabs، منشور ويتحدث معك الآن.', action: 'projects.aime' },
         { text: 'ما يبنيه الآن: تطوير مجلس الإدارة وأجروكيور إلى أنظمة موثوقة تتحدث العربية أولاً للسوق السعودي.', action: 'now' },
         { text: 'وهنا تصل إليه. اسألني ما تشاء — أنا هنا.', action: 'contact' },

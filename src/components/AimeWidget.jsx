@@ -64,8 +64,6 @@ export default function AimeWidget() {
   const hasGreetedRef    = useRef(false);
   const inputRef         = useRef(null);
   const isMutedRef       = useRef(false);
-  const pendingGreetRef  = useRef(false);
-  const speakTextRef     = useRef(null);
   const bubbleTextRef    = useRef('');
   const audioCtxRef      = useRef(null);
   const silenceTimerRef  = useRef(null);
@@ -91,14 +89,19 @@ export default function AimeWidget() {
     };
   }, [isOpen, isExpanded]);
 
-  // Reset greeting when language changes (skip on first mount)
+  // Swap the greeting to the new language (skip on first mount).
+  //
+  // Silently. This used to speak the greeting aloud 300 ms after any language
+  // switch — from anywhere on the page, with the panel shut and the visitor
+  // never having addressed Aime. Toggling the site language is not a request
+  // to be talked at. Aime now speaks only in reply to something the visitor
+  // sent from inside the panel: a typed or dictated message, a suggestion
+  // chip, or the guided tour they asked for.
   useEffect(() => {
     if (isLangMountRef.current) { isLangMountRef.current = false; return; }
     hasGreetedRef.current = false;
-    pendingGreetRef.current = false;
     setMessages([{ role: 'aime', content: t.aime.greeting }]);
     setShowSuggestions(true);
-    setTimeout(() => speakTextRef.current?.(t.aime.greeting), 300);
   }, [lang]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Resolves when playback finishes (or fails), so callers can sequence speech.
@@ -129,11 +132,10 @@ export default function AimeWidget() {
       setIsSpeaking(false);
     }
   }, []);
-  // Keep refs in sync so early-bound effects can call the latest version
-  useEffect(() => { speakTextRef.current = speakText; });
+  // Keep the bubble text in sync for the early-bound bubble effect
   useEffect(() => { bubbleTextRef.current = t.aime.bubbleGreet; }, [t.aime.bubbleGreet]);
 
-  // Show greeting in chat on first open (text only, no sound - lang effect handles sound)
+  // Seed the greeting into the transcript. Text only — nothing here speaks.
   useEffect(() => {
     if (hasGreetedRef.current) return;
     hasGreetedRef.current = true;
@@ -177,8 +179,6 @@ export default function AimeWidget() {
       if (!trimmed) return;
       setShowSuggestions(false);
       tourRef.current = false; // the visitor takes over: stop any running tour
-      // Cancel any pending greeting speak so it doesn't overlap
-      pendingGreetRef.current = false;
 
       const userIntent = detectIntent(trimmed);
       setMessages((prev) => [...prev, { role: 'user', content: trimmed }]);

@@ -10,7 +10,7 @@ const translations = {
     hero: {
       name: 'Abdulaziz Alhaidan',
       title: 'AI / Machine Learning Engineer',
-      line: "I build LLM and computer-vision systems in Arabic and English. Most of the work goes into the part where they should refuse to answer.",
+      line: 'I build end-to-end systems that solve problems or add real value, powered by AI.',
       cta1: 'Talk to Aime',
       cta2: 'View Projects',
       cta3: 'Download CV',
@@ -239,7 +239,7 @@ const translations = {
     hero: {
       name: 'عبدالعزيز الحيدان',
       title: 'مهندس ذكاء اصطناعي وتعلّم آلة',
-      line: 'أبني أنظمة نماذج لغوية ورؤية حاسوبية بالعربية والإنجليزية. وأكثر العمل يذهب إلى الجزء الذي يجب أن ترفض فيه الإجابة.',
+      line: 'أبني أنظمة متكاملة من البداية للنهاية تحلّ مشاكل أو تضيف قيمة فعلية ومدعومة بالذكاء الاصطناعي.',
       cta1: 'تحدث مع آيم',
       cta2: 'عرض المشاريع',
       cta3: 'تحميل السيرة الذاتية',

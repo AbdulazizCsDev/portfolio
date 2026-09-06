@@ -1,6 +1,7 @@
-/* حقل ثابت خلف الصفحة كاملة، تحت كل طبقة أخرى — انظر App.jsx لترتيب z-index. */
+/* الحقل محصور بقسم الهيرو وحده: `absolute` داخل `.hero` (وهو `relative`)،
+   فينتهي حيث ينتهي الهيرو بدل أن يمتد خلف الصفحة كلها. */
 .particle-field {
-  position: fixed;
+  position: absolute;
   inset: 0;
   z-index: 0;
   pointer-events: none;

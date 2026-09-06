@@ -9,7 +9,6 @@ import Contact from './components/Contact';
 import AimeWidget from './components/AimeWidget';
 import Calibration from './components/Calibration';
 import ProjectPage from './components/ProjectPage';
-import ParticleField from './components/ParticleField';
 import { useRoute, matchProject } from './lib/router';
 import './App.css';
 
@@ -27,7 +26,6 @@ function AppContent() {
 
   return (
     <>
-      <ParticleField />
       <div className={`app ${lang === 'ar' ? 'rtl' : 'ltr'}`}>
       <a className="skip-link" href="#main">{lang === 'ar' ? 'تخطَّ إلى المحتوى' : 'Skip to content'}</a>
       <div className="scanline-overlay" aria-hidden="true" />

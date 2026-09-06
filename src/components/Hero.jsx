@@ -1,5 +1,6 @@
 import { useLanguage } from '../context/LanguageContext';
 import Bidi from '../lib/Bidi';
+import ParticleField from './ParticleField';
 import './Hero.css';
 
 export default function Hero() {
@@ -9,6 +10,11 @@ export default function Hero() {
 
   return (
     <section id="hero" className="hero">
+      {/* Scoped to the hero: the field used to be a fixed backdrop behind the
+          whole page. It is absolutely positioned inside this section now, so it
+          ends where the hero ends. */}
+      <ParticleField />
+
       <div className="hero-text">
         <h1 className="hero-name" data-calibrate style={{ '--cal-i': 0 }}>
           <Bidi>{t.hero.name}</Bidi>

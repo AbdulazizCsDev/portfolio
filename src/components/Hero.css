@@ -9,7 +9,10 @@
   padding-inline: var(--space-6);
 }
 
+/* فوق الحقل، لا تحته. */
 .hero-text {
+  position: relative;
+  z-index: 1;
   display: grid;
   align-content: center;
   justify-items: center;

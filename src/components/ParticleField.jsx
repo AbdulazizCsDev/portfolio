@@ -341,6 +341,19 @@ export default function ParticleField() {
     const onVisibility = () => { tabVisible = document.visibilityState !== 'hidden'; };
     document.addEventListener('visibilitychange', onVisibility);
 
+    // The field is scoped to the hero now, so it scrolls out of view — which
+    // is exactly the case an IntersectionObserver is for. While it was a
+    // fixed full-page backdrop none was needed (it was always on screen
+    // whenever the tab was), and the docs said so; scoping it to one section
+    // is what changed that. Without this the loop keeps drawing a canvas
+    // nobody can see for the whole rest of the page.
+    let onScreen = true;
+    const io = new IntersectionObserver(
+      ([entry]) => { onScreen = entry.isIntersecting; },
+      { rootMargin: '100px' },
+    );
+    io.observe(canvas);
+
     const th = (DIRECTION_DEG * Math.PI) / 180;
     const dirX = Math.sin(th);
     const dirY = Math.cos(th);
@@ -521,7 +534,7 @@ export default function ParticleField() {
       drawFrame(performance.now());
     } else {
       const render = (now) => {
-        if (tabVisible) drawFrame(now);
+        if (tabVisible && onScreen) drawFrame(now);
         else last = now; // don't burn the accumulated dt while hidden
         raf = requestAnimationFrame(render);
       };
@@ -533,6 +546,7 @@ export default function ParticleField() {
       window.removeEventListener('pointermove', track);
       window.removeEventListener('pointerleave', onLeave);
       document.removeEventListener('visibilitychange', onVisibility);
+      io.disconnect();
     };
   }, []);
 

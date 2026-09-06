@@ -24,11 +24,13 @@ const translations = {
       brokeLabel: 'What broke',
       repoLabel: 'Source code',
       liveLabel: 'Live demo',
-      // §7 — three projects, four elements each. Nothing else belongs on a card.
-      // Fields marked TODO are §11 decisions: the owner writes them, not the build.
+      // Four projects, shown as cards. `image` is a slot: null until real files
+      // are added under public/, at which point the card renders it instead of
+      // the index number. Every project needs the same keys in `en` and `ar`.
       items: [
         {
           id: 'board-room',
+          image: null,
           repo: 'https://github.com/AbdulazizCsDev/ai-board-room',
           live: 'https://ai-board-room-2wtb.onrender.com/',
           name: 'AI Board Room',
@@ -69,6 +71,7 @@ const translations = {
         },
         {
           id: 'aime',
+          image: null,
           repo: 'https://github.com/AbdulazizCsDev/aime-voice-assistant',
           live: 'https://aime-voice-assistant-rw2z.vercel.app/',
           name: 'Aime Voice Assistant',
@@ -109,6 +112,7 @@ const translations = {
         },
         {
           id: 'agrocure',
+          image: null,
           repo: 'https://github.com/AbdulazizCsDev/AgriCure-App',
           live: 'https://abdulazizcsdev-agrocure-app.hf.space/',
           name: 'AgroCure',
@@ -143,6 +147,46 @@ const translations = {
               {
                 heading: 'Code',
                 body: 'Open source under the MIT licence — the repository link is at the top of this page.',
+              },
+            ],
+          },
+        },
+        {
+          id: 'hanak',
+          live: 'https://hanak.app',
+          image: null,
+          name: 'Hanak',
+          number: '4',
+          numberNote: 'seconds that proved a drop-off was not a bug',
+          summary:
+            "An Arabic web app where you log the places you have eaten, and your archive is public and shareable. It is explicitly a behaviour test rather than a product — the question it exists to answer is whether people actually log anything — and anything outside that question gets written down and not built.",
+          broke:
+            "A penetration test found that any anonymous visitor could read the moderation columns on profiles: the ban reason and the admin's private note. Row-level security restricts rows, not columns, and the SELECT grant was on the table, so it covered every column. Nothing had leaked yet only because no account was in a non-active state at the time — the first moderation action would have published its own reason.",
+          detail: {
+            sections: [
+              {
+                heading: 'Architecture',
+                body: 'Next.js 16 App Router with React 19 and TypeScript in strict mode, on Supabase for Postgres, auth, and storage, with Tailwind v4 for styling. Functions run in Vercel fra1 and the database in eu-central-1; the pairing is deliberate, not a default. Reviews carry photos compressed in the browser before upload, and share cards are rendered from the DOM rather than drawn server-side. Access control lives in the database as row-level security policies plus SECURITY DEFINER functions for the paths that must bypass them, so the rules hold no matter which client asks.',
+              },
+              {
+                heading: 'Decisions',
+                body: 'The main branch is wired straight to Vercel, so a push is a production deploy with no separate step and no delay. Everything is tried on a permanent preview branch first. There is no test suite: verification is types, lint, build, and opening the page — and the build passing is explicitly not evidence, because every failure this project has recorded was silent to it. A class typo, a client/server boundary, a Hijri calendar on one device, a card 14% too narrow, an image converter cropping instead of resizing: none produced an error.',
+              },
+              {
+                heading: 'Metrics',
+                body: '167 accounts, 39 reviews, and 57 venues across ten cities, measured from the database rather than estimated. Storage sits at 49.7 MB of a 1 GB ceiling while the database sits at 13.97 MB of 500 MB — about 283 KB per account against 845 KB per review, which means storage fills roughly six times sooner than the tables do. Any future capacity pressure comes from photographs, not rows.',
+              },
+              {
+                heading: 'Limits',
+                body: 'It runs on the free Supabase tier. Eleven orphaned files hold 8.3 MB — 17% of the storage in use — because a photo uploads when it is chosen rather than when the review is saved, so anyone who abandons the form leaves a file behind; that is the diagnosed behaviour, not a fault. There is no Content Security Policy, dropped on purpose and recorded as missing depth rather than an open hole, since the project contains no innerHTML, no dangerouslySetInnerHTML, and no eval. The photos bucket is public, but paths carry 122 bits of UUID and private reviews are unreachable through row-level security.',
+              },
+              {
+                heading: 'Tried and failed',
+                body: 'Trusting SQL simulation to validate queries. A PostgREST embed whose foreign key is ambiguous returns 300 instead of 200, and the page receives null and renders empty rather than broken — Postgres is perfectly happy, so no amount of SQL testing surfaces it. The rule now is a real HTTP request with the anonymous key before relying on any embed or any changed function signature. A second false failure came from the tools: Arabic sent through curl on a Windows shell is mangled, and the query returns zero rows with no error, which reads exactly like a bug in the code.',
+              },
+              {
+                heading: 'Code',
+                body: 'Private repository. The live app is linked at the top of this page.',
               },
             ],
           },
@@ -253,11 +297,13 @@ const translations = {
       brokeLabel: 'ما انكسر',
       repoLabel: 'الكود المصدري',
       liveLabel: 'عرض مباشر',
-      // §7 — ثلاثة مشاريع، أربعة عناصر لكل بطاقة. لا شيء غيرها.
-      // الحقول المعلَّمة TODO قرارات §11: يكتبها المالك، لا البناء.
+      // أربعة مشاريع تُعرض كبطاقات. `image` خانة محجوزة: `null` حتى تُضاف ملفات
+      // فعلية تحت public/، فتعرضها البطاقة بدل رقم الترتيب. وكل مشروع يحمل نفس
+      // المفاتيح في `en` و`ar`.
       items: [
         {
           id: 'board-room',
+          image: null,
           repo: 'https://github.com/AbdulazizCsDev/ai-board-room',
           live: 'https://ai-board-room-2wtb.onrender.com/',
           name: 'مجلس الإدارة الذكي',
@@ -298,6 +344,7 @@ const translations = {
         },
         {
           id: 'aime',
+          image: null,
           repo: 'https://github.com/AbdulazizCsDev/aime-voice-assistant',
           live: 'https://aime-voice-assistant-rw2z.vercel.app/',
           name: 'آيم — المساعد الصوتي',
@@ -338,6 +385,7 @@ const translations = {
         },
         {
           id: 'agrocure',
+          image: null,
           repo: 'https://github.com/AbdulazizCsDev/AgriCure-App',
           live: 'https://abdulazizcsdev-agrocure-app.hf.space/',
           name: 'أجروكيور',
@@ -372,6 +420,46 @@ const translations = {
               {
                 heading: 'الكود',
                 body: 'مفتوح المصدر برخصة MIT — رابط المستودع أعلى الصفحة.',
+              },
+            ],
+          },
+        },
+        {
+          id: 'hanak',
+          live: 'https://hanak.app',
+          image: null,
+          name: 'حنك',
+          number: '٤',
+          numberNote: 'ثوانٍ أثبتت أن التسرّب ليس عطلاً',
+          summary:
+            'تطبيق ويب عربي يسجّل فيه المستخدم الأماكن التي أكل فيها، وأرشيفه عام قابل للمشاركة. وهو صراحةً اختبار سلوك لا منتج — سؤاله الوحيد: هل يسجّل الناس فعلاً؟ وما خرج عن هذا السؤال يُكتب ولا يُنفَّذ.',
+          broke:
+            'اختبار اختراق كشف أن أي زائر مجهول يستطيع قراءة أعمدة الإشراف في ملفات المستخدمين: سبب الحظر وملاحظة الأدمن الخاصة. أمن مستوى الصف يقيّد **الصفوف لا الأعمدة**، ومنحة القراءة كانت على الجدول فشملت كل عمود. ولم يتسرّب شيء فعلاً لسبب واحد: لا حساب كان بحالة غير نشطة وقتها — وأول إجراء إشراف كان سينشر سببه بنفسه.',
+          detail: {
+            sections: [
+              {
+                heading: 'المعمارية',
+                body: 'Next.js 16 بموجّه App Router مع React 19 وTypeScript صارم، فوق Supabase لقاعدة البيانات والمصادقة والتخزين، وTailwind v4 للأنماط. الدوال تعمل في Vercel على fra1 والقاعدة في eu-central-1، والتطابق مقصود لا افتراضي. التقييمات تحمل صوراً تُضغط في المتصفح قبل الرفع، وبطاقات المشاركة تُرسم من الـDOM لا من الخادم. والتحكّم بالوصول يسكن في القاعدة نفسها: سياسات أمن مستوى الصف، ودوالّ SECURITY DEFINER للمسارات التي يجب أن تتجاوزها — فالقواعد تصمد أياً كان العميل الذي يسأل.',
+              },
+              {
+                heading: 'القرارات',
+                body: 'فرع main موصول مباشرة بـVercel، فالدفع إليه نشر على الإنتاج بلا خطوة منفصلة وبلا فاصل زمني، وكل شيء يُجرَّب على فرع preview دائم أولاً. ولا توجد اختبارات: التحقّق هو الأنواع والتدقيق والبناء وفتح الصفحة بالعين — ونجاح البناء ليس دليلاً بنصّ التوثيق، لأن كل عطل سجّله هذا المشروع كان صامتاً أمامه. خطأ في اسم صنف، وحدّ بين العميل والخادم، وتقويم هجري على جهاز واحد، وبطاقة أضيق بـ١٤٪، ومحوّل صور يقصّ بدل أن يصغّر: ولا واحد منها أنتج خطأ.',
+              },
+              {
+                heading: 'المقاييس',
+                body: '١٦٧ حساباً و٣٩ تقييماً و٥٧ مكاناً في عشر مدن، مقيسة من القاعدة لا مقدَّرة. التخزين عند ٤٩٫٧ ميغابايت من سقف جيجابايت، والقاعدة عند ١٣٫٩٧ من خمسمئة — أي نحو ٢٨٣ كيلوبايت للحساب مقابل ٨٤٥ للتقييم، فالتخزين يمتلئ قبل الجداول بستّة أضعاف تقريباً. وأي ضغط سعة قادم مصدره الصور لا الصفوف.',
+              },
+              {
+                heading: 'الحدود',
+                body: 'يعمل على خطة Supabase المجانية. وأحد عشر ملفاً يتيماً تشغل ٨٫٣ ميغابايت — سبعة عشر بالمئة من المستخدَم — لأن الصورة تُرفع عند اختيارها لا عند حفظ التقييم، فمن يغادر النموذج يترك ملفاً خلفه؛ وهذا سلوك مشخَّص لا خلل. ولا توجد سياسة أمان محتوى، أُسقطت عمداً وسُجّلت كعمق دفاعي مفقود لا ثغرة مفتوحة، إذ لا innerHTML ولا dangerouslySetInnerHTML ولا eval في المشروع كله. ودلو الصور عام، لكن مساراته تحمل ١٢٢ بت من المعرّفات، وتقييمات الحسابات الخاصة لا تُبلَغ أصلاً عبر أمن مستوى الصف.',
+              },
+              {
+                heading: 'ما جُرّب وفشل',
+                body: 'الاعتماد على محاكاة SQL للتحقّق من الاستعلامات. تضمين PostgREST الذي يغمض فيه المفتاح الأجنبي يرجّع 300 لا 200، فتصل الصفحةَ قيمة فارغة وتبدو **خالية لا مكسورة** — وPostgres راضٍ تماماً، فلا اختبار SQL مهما اتّسع يكشفه. القاعدة الآن: طلب HTTP حقيقي بمفتاح الزائر قبل الاعتماد على أي تضمين أو أي دالّة تغيّر توقيعها. وفشل كاذب ثانٍ مصدره الأدوات نفسها: النص العربي المرسَل بـcurl من طرفية ويندوز يُفسَد، فيرجع الاستعلام صفر صفوف بلا خطأ — وهو ما يُقرأ تماماً كعطل في الكود.',
+              },
+              {
+                heading: 'الكود',
+                body: 'مستودع خاص. رابط التطبيق المباشر أعلى الصفحة.',
               },
             ],
           },

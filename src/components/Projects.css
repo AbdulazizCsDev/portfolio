@@ -1,140 +1,155 @@
-/* صفوف بعرض الصفحة لا أعمدة متساوية: كل مشروع يأخذ وزنه كاملاً. */
-.projects-list {
-  display: flex;
-  flex-direction: column;
-  gap: calc(var(--space-24) * 2);
+/* بطاقات بطلب مالك صريح، بعد أن كانت صفوفاً بعرض الصفحة. البطاقة أسهل تصفّحاً
+   وكلها رابط واحد إلى صفحة المشروع. هذا يخالف «صفر بطاقات» في التوجيه —
+   مخالفة مقصودة وموثّقة في PROGRESS.md. */
+.projects-grid {
   position: relative;
+  display: grid;
+  gap: var(--space-8);
+  grid-template-columns: 1fr;
 }
 
-/* ضوء يتبع المؤشر فوق الصفوف.
+/* ضوء يتبع المؤشر فوق الشبكة.
    الإحداثيان يكتبهما JS في `--chroma-x/-y` ولا شيء غيرهما، والتدرّج كله هنا.
-   طبقة واحدة خلف المحتوى (`z-index: -1`) لا إطار لكل مشروع: التوجيه يمنع
-   البطاقات والحدود، والذهب مادة واحدة فلا لون مخصّص لكل عنصر. */
-.projects-list::before {
+   طبقة واحدة خلف البطاقات لا إطار لكل واحدة: الذهب مادة واحدة، فلا لون
+   مخصّص لكل بطاقة كما يفعل ChromaGrid الأصلي. */
+.projects-grid::before {
   content: '';
   position: absolute;
-  inset: calc(var(--space-16) * -1);
-  z-index: -1;
+  inset: calc(var(--space-12) * -1);
+  z-index: 0;
   pointer-events: none;
   opacity: 0;
   transition: opacity var(--t-base);
   background: radial-gradient(
-    circle 22rem at var(--chroma-x, 50%) var(--chroma-y, 50%),
+    circle 20rem at var(--chroma-x, 50%) var(--chroma-y, 50%),
     var(--mark-dim) 0%,
-    var(--mark-soft) 38%,
-    transparent 68%
+    var(--mark-soft) 40%,
+    transparent 70%
   );
 }
-.projects-list.is-lit::before { opacity: 1; }
+.projects-grid.is-lit::before { opacity: 1; }
 
-/* الضوء نفسه يبقى، وتسقط مدّة الظهور وحدها. */
 @media (prefers-reduced-motion: reduce) {
-  .projects-list::before { transition: none; }
+  .projects-grid::before { transition: none; }
 }
 
-.project-row {
+/* ─── البطاقة ───────────────────────────────────────────── */
+.project-card {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding: var(--space-5);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  /* الحدّ بـ`box-shadow` لا `border` حتى لا يزيح التخطيط عند التحويم. */
+  box-shadow: inset 0 0 0 1px var(--border);
+  transition: transform var(--t-fast), background-color var(--t-fast);
+}
+.project-card:hover {
+  background: var(--surface-raised);
+  transform: translateY(-2px);
+}
+.project-card:active { transform: translateY(1px); }
+
+/* ─── خانة الصورة ───────────────────────────────────────
+   محجوزة بنسبة ثابتة حتى لا تتغيّر الشبكة حين تُضاف الصور لاحقاً.
+   بلا صورة: رقم المشروع في الطبقة الغائبة يملأ المكان. */
+.project-media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  overflow: hidden;
   display: grid;
-  gap: var(--space-6);
-  align-items: start;
+  place-items: center;
 }
-
-/* الترتيب في الطبقة الغائبة — بنية تُرى ولا تُقرأ. */
-.project-index {
+.project-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.project-media-index {
   font-family: var(--font-mono);
   font-size: var(--t-mid);
-  line-height: 0.8;
+  line-height: 1;
+  letter-spacing: -0.04em;
   color: var(--absent);
-  letter-spacing: -0.04em;
 }
 
-.project-name {
+/* ─── متن البطاقة ───────────────────────────────────────── */
+.project-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.project-card-name {
   font-family: var(--font-display);
-  font-size: var(--t-mid);
+  font-size: var(--t-body);
   font-weight: 700;
-  line-height: 0.95;
-  letter-spacing: -0.04em;
+  line-height: 1.2;
   color: var(--text);
-  margin-top: var(--space-4);
 }
 
-/* الرقم الواحد هو الموضع الذهبي الوحيد في هذا القسم. */
-.project-number {
+.project-card-figure {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+/* الرقم هو الموضع الذهبي الوحيد في البطاقة. */
+.project-card-number {
   font-family: var(--font-mono);
   font-size: var(--t-body);
-  line-height: 1;
   color: var(--mark);
   font-variant-numeric: tabular-nums;
+}
+
+.project-card-note {
+  font-family: var(--font-mono);
+  font-size: var(--t-note);
+  color: var(--text);
   letter-spacing: 0.02em;
-  margin-top: var(--space-8);
 }
 
-.project-number-note {
-  font-size: var(--t-note);
-  font-family: var(--font-mono);
-  color: var(--text);
-  margin-top: var(--space-2);
-  letter-spacing: 0.04em;
-}
-
-/* حقلان كانا فقرتين بلا اسم، فيقرأ الزائر ليعرف أيّهما أيّ. التسمية بنفس
-   لغة عناوين الأقسام في صفحة المشروع حتى تكون الصفحتان بنظام واحد. */
-.project-field + .project-field { margin-top: var(--space-8); }
-
-.project-field-label {
-  font-family: var(--font-mono);
-  font-size: var(--t-note);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  margin-bottom: var(--space-3);
-}
-
-.project-summary {
+.project-card-summary {
   font-size: var(--t-body);
-  line-height: 1.75;
+  line-height: 1.7;
   color: var(--text);
-  max-width: 46ch;
   text-wrap: pretty;
+  /* أربعة أسطر ثم قصّ: البطاقة للتصفّح، والتفصيل كامل في صفحة المشروع. */
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-/* أثمن سطر في الصفحة — حاضر بتباين كامل، لا خافت. */
-.project-broke {
-  font-size: var(--t-body);
-  line-height: 1.75;
-  color: var(--text);
-  max-width: 46ch;
-  padding-inline-start: var(--space-4);
-  box-shadow: inset 2px 0 0 0 var(--absent);
-  text-wrap: pretty;
-}
-.rtl .project-broke { box-shadow: inset -2px 0 0 0 var(--absent); }
-
-/* سهم وخط سفلي: الرابط كان نصاً عادياً لا يقول إنه يُضغط. */
-.project-open {
+.project-card-cta {
   display: inline-flex;
   align-items: center;
   gap: var(--space-3);
-  margin-top: var(--space-10);
-  padding-block: var(--space-2);
-  font-size: var(--t-note);
+  margin-top: var(--space-2);
   font-family: var(--font-mono);
+  font-size: var(--t-note);
   letter-spacing: 0.06em;
   color: var(--text);
-  box-shadow: inset 0 -1px 0 0 var(--text-muted);
-  transition: color var(--t-fast), transform var(--t-fast);
 }
-.project-open:hover { color: var(--mark); }
-.project-open:active { transform: translateY(1px); }
-.project-open .icon-directional { transition: transform var(--t-fast); }
-.project-open:hover .icon-directional { transform: translateX(3px); }
-.rtl .project-open .icon-directional { transform: scaleX(-1); }
-.rtl .project-open:hover .icon-directional { transform: scaleX(-1) translateX(3px); }
+.project-card:hover .project-card-cta { color: var(--mark); }
+.project-card-cta .icon-directional { transition: transform var(--t-fast); }
+.project-card:hover .icon-directional { transform: translateX(3px); }
+.rtl .project-card-cta .icon-directional { transform: scaleX(-1); }
+.rtl .project-card:hover .icon-directional { transform: scaleX(-1) translateX(3px); }
 
-@media (min-width: 900px) {
-  /* عدم تماثل: العنوان والرقم على جانب، النص على الآخر، وفراغ بينهما. */
-  .project-row {
-    grid-template-columns: 1fr 1.15fr;
-    gap: var(--space-24);
-  }
-  .project-row > :first-child { position: sticky; top: var(--space-16); }
+@media (min-width: 700px) {
+  .projects-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 1100px) {
+  .projects-grid { gap: var(--space-8); }
 }

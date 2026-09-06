@@ -8,51 +8,47 @@ import './Projects.css';
 
 export default function Projects() {
   const { t } = useLanguage();
-  const listRef = useRef(null);
+  const gridRef = useRef(null);
 
-  // A light that follows the cursor across the project rows: the pointer
-  // position is written to two custom properties and CSS draws a soft gold
-  // wash there. Deliberately not a card grid — no package, no borders, no
-  // per-item colour, so the ink-and-gold palette and the "space, not boxes"
-  // rule both hold.
-  //
-  // Mouse only, like the particle field: a finger has no hover state, so on a
-  // touchscreen a tap would strand the light wherever it landed.
+  // A light that follows the cursor across the grid: JS writes only the pointer
+  // position into two custom properties, and CSS draws a soft gold wash there.
+  // Mouse only, like the particle field — a finger has no hover state, so a tap
+  // would strand the light where it landed.
   useEffect(() => {
-    const list = listRef.current;
-    if (!list) return undefined;
+    const grid = gridRef.current;
+    if (!grid) return undefined;
 
     let frame = 0;
     let pending = null;
 
-    // Coalesced to one write per frame — pointermove fires far more often
-    // than the screen repaints, and each write invalidates the gradient.
+    // Coalesced to one write per frame: pointermove fires far more often than
+    // the screen repaints, and each write invalidates the gradient.
     const flush = () => {
       frame = 0;
       if (!pending) return;
-      list.style.setProperty('--chroma-x', `${pending.x}px`);
-      list.style.setProperty('--chroma-y', `${pending.y}px`);
+      grid.style.setProperty('--chroma-x', `${pending.x}px`);
+      grid.style.setProperty('--chroma-y', `${pending.y}px`);
     };
 
     const onMove = (e) => {
       if (e.pointerType !== 'mouse') return;
-      const r = list.getBoundingClientRect();
+      const r = grid.getBoundingClientRect();
       pending = { x: e.clientX - r.left, y: e.clientY - r.top };
-      list.classList.add('is-lit');
+      grid.classList.add('is-lit');
       if (!frame) frame = requestAnimationFrame(flush);
     };
 
     const onLeave = (e) => {
       if (e.pointerType !== 'mouse') return;
-      list.classList.remove('is-lit');
+      grid.classList.remove('is-lit');
     };
 
-    list.addEventListener('pointermove', onMove);
-    list.addEventListener('pointerleave', onLeave);
+    grid.addEventListener('pointermove', onMove);
+    grid.addEventListener('pointerleave', onLeave);
     return () => {
       cancelAnimationFrame(frame);
-      list.removeEventListener('pointermove', onMove);
-      list.removeEventListener('pointerleave', onLeave);
+      grid.removeEventListener('pointermove', onMove);
+      grid.removeEventListener('pointerleave', onLeave);
     };
   }, []);
 
@@ -63,39 +59,45 @@ export default function Projects() {
           <Bidi>{t.projects.title}</Bidi>
         </h2>
 
-        <div className="projects-list" ref={listRef}>
+        <div className="projects-grid" ref={gridRef}>
           {t.projects.items.map((project, i) => (
-            <article
-              className="project-row"
+            // The whole card is the link — the target is the project page that
+            // already exists, unchanged.
+            <Link
               key={project.id}
+              to={projectPath(project.id)}
+              className="project-card"
               data-target-id={project.id}
             >
-              <div>
-                <p className="project-index" dir="ltr">{String(i + 1).padStart(2, '0')}</p>
-                <h3 className="project-name"><Bidi>{project.name}</Bidi></h3>
-                <p className="project-number"><Bidi>{project.number}</Bidi></p>
-                <p className="project-number-note"><Bidi>{project.numberNote}</Bidi></p>
+              {/* Image slot. `image` is null on every project until real files
+                  are dropped in; the frame holds the same aspect either way so
+                  adding one later does not reflow the grid. */}
+              <div className="project-media">
+                {project.image ? (
+                  <img src={project.image} alt="" loading="lazy" />
+                ) : (
+                  <span className="project-media-index" dir="ltr">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                )}
               </div>
 
-              <div>
-                <div className="project-field">
-                  <p className="project-field-label">{t.projects.summaryLabel}</p>
-                  <p className="project-summary"><Bidi>{project.summary}</Bidi></p>
-                </div>
+              <div className="project-card-body">
+                <h3 className="project-card-name"><Bidi>{project.name}</Bidi></h3>
 
-                {/* What broke. The most valuable line on the page, so it is
-                    never the faint layer. */}
-                <div className="project-field">
-                  <p className="project-field-label">{t.projects.brokeLabel}</p>
-                  <p className="project-broke"><Bidi>{project.broke}</Bidi></p>
-                </div>
+                <p className="project-card-figure">
+                  <span className="project-card-number"><Bidi>{project.number}</Bidi></span>
+                  <span className="project-card-note"><Bidi>{project.numberNote}</Bidi></span>
+                </p>
 
-                <Link to={projectPath(project.id)} className="project-open">
+                <p className="project-card-summary"><Bidi>{project.summary}</Bidi></p>
+
+                <span className="project-card-cta">
                   <span>{t.projects.open}</span>
                   <ArrowIcon />
-                </Link>
+                </span>
               </div>
-            </article>
+            </Link>
           ))}
         </div>
       </div>

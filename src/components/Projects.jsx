@@ -85,11 +85,8 @@ export default function Projects() {
               <div className="project-card-body">
                 <h3 className="project-card-name"><Bidi>{project.name}</Bidi></h3>
 
-                <p className="project-card-figure">
-                  <span className="project-card-number"><Bidi>{project.number}</Bidi></span>
-                  <span className="project-card-note"><Bidi>{project.numberNote}</Bidi></span>
-                </p>
-
+                {/* The headline figure and its note live on the project page,
+                    not here — the card is for grasping what the thing is. */}
                 <p className="project-card-summary"><Bidi>{project.summary}</Bidi></p>
 
                 <span className="project-card-cta">

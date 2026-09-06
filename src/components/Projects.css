@@ -4,33 +4,8 @@
 .projects-grid {
   position: relative;
   display: grid;
-  gap: var(--space-8);
+  gap: var(--space-5);
   grid-template-columns: 1fr;
-}
-
-/* ضوء يتبع المؤشر فوق الشبكة.
-   الإحداثيان يكتبهما JS في `--chroma-x/-y` ولا شيء غيرهما، والتدرّج كله هنا.
-   طبقة واحدة خلف البطاقات لا إطار لكل واحدة: الذهب مادة واحدة، فلا لون
-   مخصّص لكل بطاقة كما يفعل ChromaGrid الأصلي. */
-.projects-grid::before {
-  content: '';
-  position: absolute;
-  inset: calc(var(--space-12) * -1);
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity var(--t-base);
-  background: radial-gradient(
-    circle 20rem at var(--chroma-x, 50%) var(--chroma-y, 50%),
-    var(--mark-dim) 0%,
-    var(--mark-soft) 40%,
-    transparent 70%
-  );
-}
-.projects-grid.is-lit::before { opacity: 1; }
-
-@media (prefers-reduced-motion: reduce) {
-  .projects-grid::before { transition: none; }
 }
 
 /* ─── البطاقة ───────────────────────────────────────────── */
@@ -39,28 +14,25 @@
   z-index: 1;
   display: flex;
   flex-direction: column;
-  gap: var(--space-5);
-  padding: var(--space-5);
+  gap: var(--space-4);
+  padding: var(--space-4);
   border-radius: var(--radius-lg);
   background: var(--surface);
   color: var(--text);
   cursor: pointer;
   /* الحدّ بـ`box-shadow` لا `border` حتى لا يزيح التخطيط عند التحويم. */
   box-shadow: inset 0 0 0 1px var(--border);
-  transition: transform var(--t-fast), background-color var(--t-fast);
-}
-.project-card:hover {
-  background: var(--surface-raised);
-  transform: translateY(-2px);
+  transition: opacity var(--t-base), transform var(--t-fast),
+              background-color var(--t-fast);
 }
 .project-card:active { transform: translateY(1px); }
 
 /* ─── خانة الصورة ───────────────────────────────────────
    محجوزة بنسبة ثابتة حتى لا تتغيّر الشبكة حين تُضاف الصور لاحقاً.
-   بلا صورة: رقم المشروع في الطبقة الغائبة يملأ المكان. */
+   بلا صورة: رقم الترتيب في الطبقة الغائبة يملأ المكان. */
 .project-media {
   position: relative;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 4 / 3;
   border-radius: var(--radius-sm);
   background: var(--bg);
   overflow: hidden;
@@ -96,34 +68,12 @@
   color: var(--text);
 }
 
-.project-card-figure {
-  display: flex;
-  align-items: baseline;
-  gap: var(--space-3);
-  flex-wrap: wrap;
-}
-
-/* الرقم هو الموضع الذهبي الوحيد في البطاقة. */
-.project-card-number {
-  font-family: var(--font-mono);
-  font-size: var(--t-body);
-  color: var(--mark);
-  font-variant-numeric: tabular-nums;
-}
-
-.project-card-note {
-  font-family: var(--font-mono);
-  font-size: var(--t-note);
-  color: var(--text);
-  letter-spacing: 0.02em;
-}
-
 .project-card-summary {
   font-size: var(--t-body);
   line-height: 1.7;
   color: var(--text);
   text-wrap: pretty;
-  /* أربعة أسطر ثم قصّ: البطاقة للتصفّح، والتفصيل كامل في صفحة المشروع. */
+  /* الزبدة أولاً: أربعة أسطر تكفي لفهم ما هو المشروع وما فائدته. */
   display: -webkit-box;
   -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
@@ -134,22 +84,75 @@
   display: inline-flex;
   align-items: center;
   gap: var(--space-3);
-  margin-top: var(--space-2);
+  margin-top: auto;
+  padding-top: var(--space-2);
   font-family: var(--font-mono);
   font-size: var(--t-note);
   letter-spacing: 0.06em;
   color: var(--text);
 }
-.project-card:hover .project-card-cta { color: var(--mark); }
 .project-card-cta .icon-directional { transition: transform var(--t-fast); }
-.project-card:hover .icon-directional { transform: translateX(3px); }
 .rtl .project-card-cta .icon-directional { transform: scaleX(-1); }
-.rtl .project-card:hover .icon-directional { transform: scaleX(-1) translateX(3px); }
 
-@media (min-width: 700px) {
+/* ─── التحويم: البطاقات خافتة إلا التي تحت المؤشر ──────────
+   محصور بأجهزة المؤشر الدقيق: على اللمس لا تحويم، فإخفات البطاقات هناك يعني
+   محتوى غير مقروء بلا طريقة لكشفه. */
+@media (hover: hover) and (pointer: fine) {
+  .project-card { opacity: 0.6; }
+  .projects-grid:hover .project-card { opacity: 0.32; }
+  .projects-grid:hover .project-card:hover { opacity: 1; }
+
+  .project-card:hover {
+    background: var(--surface-raised);
+    transform: translateY(-2px);
+  }
+  .project-card:hover .project-card-cta { color: var(--mark); }
+  .project-card:hover .icon-directional { transform: translateX(3px); }
+  .rtl .project-card:hover .icon-directional { transform: scaleX(-1) translateX(3px); }
+
+  /* البطاقة تحت المؤشر تكشف بقية الفكرة، والباقي يبقى عند الزبدة. */
+  .project-card:hover .project-card-summary { -webkit-line-clamp: 14; }
+
+  /* التركيز بلوحة المفاتيح يكشف مثل التحويم — وإلا صار المحتوى غير مقروء لمن
+     يتنقّل بالـTab. */
+  .project-card:focus-visible { opacity: 1; }
+  .project-card:focus-visible .project-card-summary { -webkit-line-clamp: 14; }
+
+  /* ضوء يتبع المؤشر **فوق** البطاقات لا خلفها.
+     الإحداثيان يكتبهما JS في `--chroma-x/-y` ولا شيء غيرهما، والتدرّج كله هنا.
+     طبقة واحدة للشبكة كلها، والذهب مادة واحدة — فلا لون مخصّص لكل بطاقة كما
+     يفعل ChromaGrid الأصلي. */
+  .projects-grid::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity var(--t-base);
+    background: radial-gradient(
+      circle 16rem at var(--chroma-x, 50%) var(--chroma-y, 50%),
+      var(--mark-dim) 0%,
+      var(--mark-soft) 45%,
+      transparent 72%
+    );
+  }
+  .projects-grid.is-lit::before { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-card,
+  .projects-grid::before { transition: none; }
+}
+
+@media (min-width: 640px) {
   .projects-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
-@media (min-width: 1100px) {
-  .projects-grid { gap: var(--space-8); }
+/* أربع بجانب بعض — بطلب المالك. */
+@media (min-width: 1000px) {
+  .projects-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-4);
+  }
 }

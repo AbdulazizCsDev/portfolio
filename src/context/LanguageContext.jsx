@@ -37,7 +37,7 @@ const translations = {
           number: '7',
           numberNote: 'LLM calls behind a single question',
           summary:
-            "You put a decision on the table and three advisors — finance, Saudi law, and market — argue it out between themselves over two rounds, each one answering what the others said, with the documents you uploaded as the only source of figures. A chairman turns the disagreement into one verdict: proceed, proceed under conditions, or don't.",
+            "Put a business decision on the table — entering a market, a price, a partnership — and three advisors (finance, Saudi law, market) argue it out between themselves for two rounds, reasoning from the documents you uploaded rather than from generalities. A chairman ends it with one verdict: proceed, proceed under conditions, or don't. What you get: a board-level second opinion in minutes instead of hiring three consultants.",
           broke:
             "Streaming the debate over SSE worked locally and died in production: the host's proxy cut long-lived responses, so the browser reported 'couldn't reach API' against a 200. I replaced it with one plain JSON request and moved the pacing into the client. Streaming is a property of the whole path, not of your server.",
           detail: {
@@ -78,7 +78,7 @@ const translations = {
           number: '1.5',
           numberNote: 'seconds of silence that decide you stopped talking',
           summary:
-            "The assistant on this site. You speak, it answers in Arabic or English, and it drives the page while it talks — scrolling to whatever it is describing and highlighting it, so it points at the screen instead of reading it out to you.",
+            "The assistant on this site. Ask it out loud in Arabic or English and it answers, then drives the page as it speaks — scrolling to whatever it is describing and highlighting it, pointing at the screen instead of reading it aloud to you. What you get: reach any part of this portfolio with one question instead of browsing it.",
           broke:
             "The cloned voice was deleted from the ElevenLabs account and the whole assistant went mute — a 404 on every reply, with no path back. Now a missing or dead voice falls back to a standard one, failed voice IDs are remembered per process, and a failing TTS degrades to visible text instead of silence. Anything you do not own can be removed without telling you.",
           detail: {
@@ -119,7 +119,7 @@ const translations = {
           number: '0.015',
           numberNote: 'calibration error after temperature scaling, down from 0.029',
           summary:
-            "Photograph a leaf and it names the plant, then the disease. What it is actually built around is the refusal: below its confidence floor it abstains and hands the scan to a human reviewer instead of returning a confident wrong answer.",
+            "Photograph a leaf and it names the plant, then the disease. The part it is actually built around is the refusal: below its confidence floor it abstains and hands the scan to a human reviewer rather than returning a confident wrong answer. What you get: a diagnosis in the field without lab equipment, and a spraying decision resting on either a trustworthy answer or an explicit \"I don't know\".",
           broke:
             "Every seeded image was embedded twice, by CLIP and by ResNet, and both vectors were written to the database. Months later the ResNet column had never been read once — the similarity query was CLIP-only from the first day. Storage and compute spent on a number nothing asked for. Now one embedding path is shared by seeding and inference, so the library and the query cannot drift apart.",
           detail: {
@@ -159,7 +159,7 @@ const translations = {
           number: '4',
           numberNote: 'seconds that proved a drop-off was not a bug',
           summary:
-            "An Arabic web app where you log the places you have eaten, and your archive is public and shareable. It is explicitly a behaviour test rather than a product — the question it exists to answer is whether people actually log anything — and anything outside that question gets written down and not built.",
+            "An Arabic web app for logging the restaurants and cafés you have tried, with a photo and a verdict, in an archive that is public and shareable. What you get: you remember where you ate and what you thought, and you have one link to hand someone instead of recommendations scattered across chats. It is deliberately a behaviour test rather than a product — the one question it exists to answer is whether people log anything at all.",
           broke:
             "A penetration test found that any anonymous visitor could read the moderation columns on profiles: the ban reason and the admin's private note. Row-level security restricts rows, not columns, and the SELECT grant was on the table, so it covered every column. Nothing had leaked yet only because no account was in a non-active state at the time — the first moderation action would have published its own reason.",
           detail: {
@@ -310,7 +310,7 @@ const translations = {
           number: '7',
           numberNote: 'نداءات نموذج خلف السؤال الواحد',
           summary:
-            'تطرح قراراً على الطاولة، فيتناقش فيه ثلاثة مستشارين — مالي وقانوني سعودي وخبير سوق — فيما بينهم على جولتين، كل واحد يردّ على ما قاله الآخرون، ومستنداتك التي رفعتها هي مصدر الأرقام الوحيد. ثم يحوّل رئيس المجلس الخلاف إلى قرار واحد: نفّذ، أو نفّذ بشروط، أو لا تنفّذ.',
+            'تطرح قراراً تجارياً — دخول سوق، أو تسعيرة، أو شراكة — فيتناقش فيه ثلاثة مستشارين (مالي، وقانوني سعودي، وخبير سوق) فيما بينهم على جولتين، مستدلّين بمستنداتك أنت لا بكلام عام. ثم ينهيه رئيس المجلس بقرار واحد: نفّذ، أو نفّذ بشروط، أو لا تنفّذ. الفائدة: رأي مجلس استشاري في دقائق بدل استئجار ثلاثة استشاريين.',
           broke:
             'بثّ النقاش عبر SSE اشتغل محلياً ومات على الاستضافة: بروكسي المضيف يقطع الاستجابات الطويلة، فيقول المتصفح «تعذّر الوصول» أمام استجابة ناجحة. استبدلته بطلب JSON واحد ونقلت إيقاع العرض إلى العميل. البثّ خاصية المسار كله لا خاصية خادمك.',
           detail: {
@@ -351,7 +351,7 @@ const translations = {
           number: '1.5',
           numberNote: 'ثانية ونصف من الصمت تقرّر أنك سكتّ',
           summary:
-            'المساعد الموجود في هذا الموقع. تتكلم فيجيبك بالعربية أو الإنجليزية، ويقود الصفحة وهو يتكلم — ينتقل إلى ما يصفه ويُبرزه، فيشير إلى الشاشة بدل أن يقرأها عليك.',
+            'المساعد الموجود في هذا الموقع. تسأله بصوتك بالعربية أو الإنجليزية فيجيبك، ويقود الصفحة وهو يتكلّم — ينتقل إلى ما يصفه ويُبرزه، فيشير إلى الشاشة بدل أن يقرأها عليك. الفائدة: تصل إلى أي جزء من هذا الملف بسؤال واحد بدل تصفّحه كله.',
           broke:
             'الصوت المستنسخ حُذف من حساب ElevenLabs فصمت المساعد بالكامل — خطأ 404 على كل رد، بلا طريق رجوع. الآن الصوت المفقود يسقط إلى صوت قياسي، والمعرّفات الميتة تُحفظ فلا يُعاد سؤالها، وفشل النطق ينزل إلى نص مرئي لا إلى صمت. ما لا تملكه يمكن أن يُسحب منك بلا إشعار.',
           detail: {
@@ -392,7 +392,7 @@ const translations = {
           number: '0.015',
           numberNote: 'خطأ المعايرة بعد ضبط الحرارة، نازلاً من 0.029',
           summary:
-            'تصوّر ورقة نبات فيسمّي النبتة ثم المرض. والذي بُني حوله فعلاً هو الامتناع: تحت عتبة الثقة يمتنع ويحوّل الصورة إلى مراجع بشري بدل أن يرجّع جواباً واثقاً خاطئاً.',
+            'تصوّر ورقة نبات فيسمّي النبتة ثم المرض. والذي بُني حوله فعلاً هو الامتناع: تحت عتبة الثقة يمتنع ويحوّل الصورة إلى مراجع بشري بدل أن يرجّع جواباً واثقاً خاطئاً. الفائدة: تشخيص في الحقل بلا أجهزة مختبر، وقرار رشّ مبنيّ إمّا على جواب موثوق أو على «لا أعرف» صريحة.',
           broke:
             'كل صورة تُزرع في المكتبة كانت تُضمَّن مرتين، بـCLIP وبـResNet، ويُكتب المتجهان في قاعدة البيانات. وبعد شهور تبيّن أن عمود ResNet لم يُقرأ ولا مرة — استعلام التشابه كان بـCLIP وحده من أول يوم. تخزين وحوسبة أُنفقا على رقم لم يسأل عنه أحد. الآن مسار تضمين واحد تتشاركه الزراعة والاستدلال، فلا تنحرف المكتبة عن الاستعلام.',
           detail: {
@@ -432,7 +432,7 @@ const translations = {
           number: '٤',
           numberNote: 'ثوانٍ أثبتت أن التسرّب ليس عطلاً',
           summary:
-            'تطبيق ويب عربي يسجّل فيه المستخدم الأماكن التي أكل فيها، وأرشيفه عام قابل للمشاركة. وهو صراحةً اختبار سلوك لا منتج — سؤاله الوحيد: هل يسجّل الناس فعلاً؟ وما خرج عن هذا السؤال يُكتب ولا يُنفَّذ.',
+            'تطبيق ويب عربي تسجّل فيه المطاعم والمقاهي التي جرّبتها بصورة ورأي، وأرشيفك عام قابل للمشاركة. الفائدة: تتذكّر أين أكلت وما رأيك، ويصير لك رابط واحد تعطيه لمن يسأل بدل توصيات متفرّقة في المحادثات. وهو عمداً اختبار سلوك لا منتج — سؤاله الوحيد: هل يسجّل الناس فعلاً؟',
           broke:
             'اختبار اختراق كشف أن أي زائر مجهول يستطيع قراءة أعمدة الإشراف في ملفات المستخدمين: سبب الحظر وملاحظة الأدمن الخاصة. أمن مستوى الصف يقيّد **الصفوف لا الأعمدة**، ومنحة القراءة كانت على الجدول فشملت كل عمود. ولم يتسرّب شيء فعلاً لسبب واحد: لا حساب كان بحالة غير نشطة وقتها — وأول إجراء إشراف كان سينشر سببه بنفسه.',
           detail: {

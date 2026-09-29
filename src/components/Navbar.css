@@ -26,27 +26,14 @@
   gap: 2rem;
 }
 
-/* Logo */
-.nav-logo {
-  font-size: 1.2rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  color: var(--text-primary);
-  transition: var(--transition);
-  display: flex;
-  align-items: center;
-  gap: 2px;
-}
-.nav-logo:hover { color: var(--accent); }
-
-.logo-bracket { color: var(--accent); font-weight: 300; }
-.logo-text { color: var(--text-primary); font-weight: 700; }
-
 /* Nav links */
 .nav-links {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  /* Centred in the space before the actions, where they sat when the logo
+     held the start edge of this space-between row. */
+  margin-inline: auto;
 }
 
 .nav-link {
@@ -158,12 +145,10 @@
 .mobile-link:hover,
 .mobile-link.active { color: var(--accent); }
 
-/* RTL adjustments */
-.rtl .nav-logo { flex-direction: row-reverse; }
-
 /* Responsive */
 @media (max-width: 768px) {
   .nav-links { display: none; }
+  .nav-actions { margin-inline-start: auto; }
   .hamburger { display: flex; }
   .navbar { padding: 0 1rem; }
 }

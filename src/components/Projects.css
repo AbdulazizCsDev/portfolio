@@ -54,6 +54,7 @@
   background: rgba(255, 209, 102, 0.1);
   border: 1px solid rgba(255, 209, 102, 0.35);
 }
+.award-icon { width: 14px; height: 14px; flex-shrink: 0; }
 
 .projects-more-title {
   font-size: 1.1rem;

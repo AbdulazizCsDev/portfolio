@@ -1,6 +1,35 @@
 import { useLanguage } from '../context/LanguageContext';
 import './Projects.css';
 
+// Award icons, keyed by `awardIcon` in t.projects.items.
+const AWARD_ICONS = {
+  trophy: (
+    <>
+      <path d="M8 4h8v5a4 4 0 0 1-8 0z" />
+      <path d="M8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4" />
+      <path d="M12 13v4M9 20h6M10 17h4" />
+    </>
+  ),
+  team: (
+    <>
+      <circle cx="9" cy="8" r="3" />
+      <path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6" />
+      <path d="M16 5.2a3 3 0 0 1 0 5.6M18 14.3c1.8.9 3 2.8 3 5" />
+    </>
+  ),
+};
+
+function AwardIcon({ name }) {
+  const glyph = AWARD_ICONS[name];
+  if (!glyph) return null;
+  return (
+    <svg className="award-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      {glyph}
+    </svg>
+  );
+}
+
 function ExternalIcon() {
   return (
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -40,7 +69,12 @@ export default function Projects() {
               data-target-id={project.id}
             >
               <div className="project-number">0{i + 1}</div>
-              {project.award && <div className="project-award">{project.award}</div>}
+              {project.award && (
+                <div className="project-award">
+                  <AwardIcon name={project.awardIcon} />
+                  {project.award}
+                </div>
+              )}
               <h3 className="project-name">{project.name}</h3>
               <p className="project-desc">{project.desc}</p>
 

@@ -4,6 +4,36 @@ import './AimeWidget.css';
 
 const API = 'https://aime-voice-assistant-rw2z.vercel.app';
 
+// Suggestion-chip icons, keyed by the `icon` field in t.aime.suggestions.
+// Drawn inline rather than emoji, so they take the chip's colour and weight.
+const CHIP_ICONS = {
+  target: (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <circle cx="12" cy="12" r="5" />
+      <circle cx="12" cy="12" r="1.2" fill="currentColor" />
+    </>
+  ),
+  trophy: (
+    <>
+      <path d="M8 4h8v5a4 4 0 0 1-8 0z" />
+      <path d="M8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4" />
+      <path d="M12 13v4M9 20h6M10 17h4" />
+    </>
+  ),
+};
+
+function ChipIcon({ name }) {
+  const glyph = CHIP_ICONS[name];
+  if (!glyph) return null;
+  return (
+    <svg className="chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      {glyph}
+    </svg>
+  );
+}
+
 // Detect which portfolio section the text is about
 function detectIntent(text) {
   if (!text) return null;
@@ -70,11 +100,9 @@ export default function AimeWidget() {
 
   const [isOpen, setIsOpen]             = useState(false);
   const [isExpanded, setIsExpanded]     = useState(false);
-  const [isMuted, setIsMuted]           = useState(false);
   const [messages, setMessages]         = useState([]);
   const [inputText, setInputText]       = useState('');
   const [isRecording, setIsRecording]   = useState(false);
-  const [isSpeaking, setIsSpeaking]     = useState(false);
   const [isLoading, setIsLoading]       = useState(false);
   const [micError, setMicError]         = useState(null);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -83,17 +111,13 @@ export default function AimeWidget() {
   const chunksRef        = useRef([]);
   const streamRef        = useRef(null);
   const messagesEndRef   = useRef(null);
-  const currentAudioRef  = useRef(null);
   const hasGreetedRef    = useRef(false);
   const inputRef         = useRef(null);
-  const isMutedRef       = useRef(false);
-  const speakTextRef     = useRef(null);
   const audioCtxRef      = useRef(null);
   const silenceTimerRef  = useRef(null);
   const isRecordingRef   = useRef(false);
   const tourRef          = useRef(false);
 
-  useEffect(() => { isMutedRef.current = isMuted; }, [isMuted]);
   const isLangMountRef = useRef(true);
 
   // Open from Hero CTA button
@@ -118,41 +142,10 @@ export default function AimeWidget() {
     hasGreetedRef.current = false;
     setMessages([{ role: 'aime', content: t.aime.greeting }]);
     setShowSuggestions(true);
-    setTimeout(() => speakTextRef.current?.(t.aime.greeting), 300);
   }, [lang]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Resolves when playback finishes (or fails), so callers can sequence speech.
-  const speakText = useCallback(async (text) => {
-    if (isMutedRef.current) return;
-    if (currentAudioRef.current) {
-      currentAudioRef.current.pause();
-      currentAudioRef.current = null;
-    }
-    try {
-      setIsSpeaking(true);
-      const res = await fetch(`${API}/speak`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text }),
-      });
-      if (!res.ok) throw new Error();
-      const blob = await res.blob();
-      const url = URL.createObjectURL(blob);
-      const audio = new Audio(url);
-      currentAudioRef.current = audio;
-      await new Promise((resolve) => {
-        audio.onended = () => { setIsSpeaking(false); URL.revokeObjectURL(url); currentAudioRef.current = null; resolve(); };
-        audio.onerror = () => { setIsSpeaking(false); currentAudioRef.current = null; resolve(); };
-        audio.play().catch(() => { setIsSpeaking(false); resolve(); });
-      });
-    } catch {
-      setIsSpeaking(false);
-    }
-  }, []);
-  // Keep refs in sync so early-bound effects can call the latest version
-  useEffect(() => { speakTextRef.current = speakText; });
 
-  // Show greeting in chat on first open (text only, no sound - lang effect handles sound)
+  // Show greeting in chat on first open (text only — Aime replies in text, it does not speak)
   useEffect(() => {
     if (hasGreetedRef.current) return;
     hasGreetedRef.current = true;
@@ -228,14 +221,13 @@ export default function AimeWidget() {
         // Prefer the backend's navigation action; fall back to local intent detection
         if (data.action) applyAction(data.action);
         else navigateToSection(userIntent || detectIntent(reply));
-        speakText(reply);
       } catch {
         setMessages((prev) => [...prev, { role: 'aime', content: t.aime.noBackend }]);
       } finally {
         setIsLoading(false);
       }
     },
-    [messages, speakText, navigateToSection, applyAction, t.aime.noBackend, lang]
+    [messages, navigateToSection, applyAction, t.aime.noBackend, lang]
   );
 
   // ── Guided tour & canned answers ──────────────────────────────────────────
@@ -252,15 +244,12 @@ export default function AimeWidget() {
       if (!tourRef.current) break;
       setMessages((prev) => [...prev, { role: 'aime', content: step.text }]);
       applyAction(step.action);
-      if (isMutedRef.current) {
-        await wait(4200);
-      } else {
-        await Promise.race([speakText(step.text), wait(25000)]);
-        await wait(900);
-      }
+      // Paced for reading: each step stays on screen long enough to take in
+      // before the page moves on. (This used to wait for the spoken line.)
+      await wait(4200);
     }
     tourRef.current = false;
-  }, [t.aime.tour, applyAction, speakText]);
+  }, [t.aime.tour, applyAction]);
 
   // Instant answers for common questions: no LLM round-trip, the page itself
   // is the content — Aime just navigates and adds one line.
@@ -273,8 +262,7 @@ export default function AimeWidget() {
       { role: 'aime', content: s.canned },
     ]);
     applyAction(s.action);
-    speakText(s.canned);
-  }, [applyAction, speakText]);
+  }, [applyAction]);
 
   // ── Smart VAD recording ────────────────────────────────────────────────────
   const SILENCE_THRESHOLD = 0.012; // RMS below this = silence
@@ -316,8 +304,6 @@ export default function AimeWidget() {
   const startRecording = async () => {
     if (isRecordingRef.current) { stopRecordingVAD(); return; } // toggle off
     setMicError(null);
-    // Stop any playing audio first
-    if (currentAudioRef.current) { currentAudioRef.current.pause(); setIsSpeaking(false); }
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       streamRef.current = stream;
@@ -374,22 +360,17 @@ export default function AimeWidget() {
 
   const statusLabel = isRecording ? t.aime.listening
     : isLoading   ? t.aime.thinking
-    : isSpeaking  ? t.aime.speaking
     : t.aime.online;
 
   return (
     <>
       {/* FAB - minimize/maximize toggle */}
       <button
-        className={`aime-fab ${isOpen ? 'open' : ''} ${isSpeaking ? 'speaking' : ''} ${isRecording ? 'recording' : ''}`}
+        className={`aime-fab ${isOpen ? 'open' : ''} ${isRecording ? 'recording' : ''}`}
         onClick={() => setIsOpen((o) => !o)}
         aria-label="Toggle Aime assistant"
       >
-        {isSpeaking ? (
-          <div className="fab-wave">
-            {[...Array(5)].map((_, i) => <span key={i} style={{ '--i': i }} />)}
-          </div>
-        ) : isOpen ? (
+        {isOpen ? (
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
             <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
           </svg>
@@ -412,13 +393,10 @@ export default function AimeWidget() {
         {/* Header */}
         <div className="aime-header">
           <div className="aime-header-left">
-            <div className={`aime-avatar ${isSpeaking ? 'speaking' : ''}`}>
-              A
-              {isSpeaking && <div className="avatar-rings"><span /><span /><span /></div>}
-            </div>
+            <div className="aime-avatar">A</div>
             <div>
               <h4><span className="name-ai">AI</span>me</h4>
-              <span className={`aime-status ${isRecording ? 'listening' : isSpeaking ? 'speaking' : isLoading ? 'thinking' : 'online'}`}>
+              <span className={`aime-status ${isRecording ? 'listening' : isLoading ? 'thinking' : 'online'}`}>
                 <span className="status-dot" />
                 {statusLabel}
               </span>
@@ -426,29 +404,6 @@ export default function AimeWidget() {
           </div>
 
           <div className="aime-header-actions">
-            {/* Mute */}
-            <button
-              className={`header-icon-btn ${isMuted ? 'muted' : ''}`}
-              onClick={() => {
-                if (!isMuted && currentAudioRef.current) { currentAudioRef.current.pause(); setIsSpeaking(false); }
-                setIsMuted((m) => !m);
-              }}
-              title={isMuted ? t.aime.unmute : t.aime.mute}
-            >
-              {isMuted ? (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
-                  <line x1="23" y1="9" x2="17" y2="15" /><line x1="17" y1="9" x2="23" y2="15" />
-                </svg>
-              ) : (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
-                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
-                  <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
-                </svg>
-              )}
-            </button>
-
             {/* Expand */}
             <button
               className={`header-icon-btn ${isExpanded ? 'active' : ''}`}
@@ -499,6 +454,7 @@ export default function AimeWidget() {
                     else sendMessage(s.query);
                   }}
                 >
+                  <ChipIcon name={s.icon} />
                   {s.label}
                 </button>
               ))}
@@ -514,13 +470,6 @@ export default function AimeWidget() {
 
           <div ref={messagesEndRef} />
         </div>
-
-        {/* Speaking waveform */}
-        {isSpeaking && (
-          <div className="speaking-wave">
-            {[...Array(18)].map((_, i) => <div key={i} className="wave-bar" style={{ '--i': i }} />)}
-          </div>
-        )}
 
         {/* Input area */}
         <div className="aime-input-area">
@@ -538,25 +487,13 @@ export default function AimeWidget() {
               dir={lang === 'ar' ? 'rtl' : 'ltr'}
             />
 
-            {isSpeaking && (
-              <button
-                className="stop-btn"
-                onClick={() => { currentAudioRef.current?.pause(); setIsSpeaking(false); }}
-                title={lang === 'en' ? 'Stop' : 'إيقاف'}
-              >
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <rect x="6" y="6" width="12" height="12" rx="2" />
-                </svg>
-              </button>
-            )}
-
             <button
               className={`mic-btn-inline ${isRecording ? 'recording' : ''}`}
               onClick={startRecording}
               title={isRecording
                 ? (lang === 'en' ? 'Stop recording' : 'إيقاف التسجيل')
                 : (lang === 'en' ? 'Click to speak' : 'اضغط للتحدث')}
-              disabled={isLoading || isSpeaking}
+              disabled={isLoading}
             >
               {isRecording ? (
                 <div className="mic-recording-anim">
@@ -583,7 +520,7 @@ export default function AimeWidget() {
           <p className="input-hint">
             {isRecording
               ? (lang === 'en' ? 'Listening… tap mic again to stop' : 'يستمع… اضغط المايك للإيقاف')
-              : (lang === 'en' ? 'Type a message or tap 🎤 to speak' : 'اكتب رسالة أو اضغط 🎤 للتحدث')}
+              : (lang === 'en' ? 'Type a message or tap the mic to speak' : 'اكتب رسالة أو اضغط المايك للتحدث')}
           </p>
         </div>
       </div>

@@ -47,11 +47,14 @@
 }
 
 .edu-icon {
-  font-size: 2rem;
-  line-height: 1;
+  display: inline-flex;
+  width: 2rem;
+  height: 2rem;
   flex-shrink: 0;
+  color: var(--accent);
   filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.3));
 }
+.edu-icon svg { width: 100%; height: 100%; }
 
 .edu-info h4 {
   font-size: 1.1rem;

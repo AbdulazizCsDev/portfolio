@@ -598,7 +598,6 @@
     padding-inline-end: min(750px, 56vw);
   }
   body.aime-open .projects-grid,
-  body.aime-open .now-grid,
   body.aime-open .skills-grid {
     grid-template-columns: repeat(2, 1fr);
   }

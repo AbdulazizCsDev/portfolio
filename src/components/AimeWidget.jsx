@@ -39,11 +39,9 @@ function detectIntent(text) {
   if (!text) return null;
   if (/cert|شهادة|شهادات|ibm|tensorflow|aws/i.test(text))
     return { section: 'about', highlight: 'certs' };
-  if (/now building|working on|currently|قيد البناء|يعمل حالياً|حالياً على/i.test(text))
-    return { section: 'now' };
   if (/board.?room|hackathon|himmah|agrocure|هاكاثون|همة|همّة|مجلس الإدارة|أجروكيور/i.test(text))
     return { section: 'projects', highlight: 'projects' };
-  if (/project|مشروع|مشاريع|aime voice|spy|game|tweet|forecast|car.?wash/i.test(text))
+  if (/project|مشروع|مشاريع|aime voice|hanak|spy|game|tweet|forecast|car.?wash/i.test(text))
     return { section: 'projects', highlight: 'projects' };
   if (/experience|bootcamp|quality assurance|خبرة|خبرات|معسكر|ضمان الجودة/i.test(text))
     return { section: 'experience' };
@@ -83,7 +81,7 @@ function spotlightCard(section, targetId) {
   const card = document.querySelector(`#${section} [data-target-id="${targetId}"]`);
   if (!card) return;
   clearSpotlight();
-  const grid = card.closest('.projects-grid, .projects-more-grid, .now-grid');
+  const grid = card.closest('.projects-grid, .projects-more-grid');
   grid?.classList.add('spotlight-dim');
   card.classList.add('card-targeted');
   card.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -171,7 +169,10 @@ export default function AimeWidget() {
   // and spotlights the matching card; a bare section token just scrolls.
   const applyAction = useCallback((token) => {
     if (!token || token === 'none') return;
-    const [section, targetId] = token.split('.');
+    const [raw, targetId] = token.split('.');
+    // The "now" section was removed; its cards live on in Projects, so an
+    // older server token still lands somewhere sensible.
+    const section = raw === 'now' ? 'projects' : raw;
     setTimeout(() => {
       document.getElementById(section)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       if (targetId) {

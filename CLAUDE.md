@@ -29,12 +29,17 @@
   الاثنين معاً، وإلا انهار العرض عند التبديل (`.map` على `undefined`).
 - **البيانات محتوى لا كود**: المشاريع والمهارات والشهادات مصفوفات داخل
   `translations`؛ المكوّن يعرضها فقط. إضافة مشروع = إضافة عنصر، لا تعديل JSX.
-- **مُعرّفات الأقسام عقد**: `hero/about/experience/projects/now/skills/contact`
+- **مُعرّفات الأقسام عقد**: `hero/about/experience/projects/skills/contact`
   يستعملها الـ Navbar و`detectIntent` و`applyAction` عبر `getElementById`.
+  قسم `now` («قيد البناء») حُذف؛ `applyAction` يحوّل رمز `now` القديم من الخادم
+  إلى `projects`.
 - **`data-target-id`** على البطاقات يطابق `id` في `translations`، والخادم الخارجي
   يرجّع رموزاً مثل `projects.board-room` لتوجيه التمرير والإضاءة.
 - **هيكل القسم**: `<section id>` ← `.section-inner` ← `.section-title` + `.title-line`.
 - **الحركة**: أضف `data-reveal` (+ `data-reveal-delay="1..5"` فقط، لا أكثر).
+- **النص المتدرّج** (`background-clip: text` في `.section-title` و`.hero-name`) يُرسم
+  داخل الصندوق فقط، فيقصّ رؤوس الحروف العربية ونقاطها. لهما `padding-block: 0.15em`
+  يلغيه هامش سالب بنفس القدر — أي نص متدرّج جديد يأخذ النمط نفسه.
 - **الأنماط**: متغيّرات `--*` من `index.css` حصراً، لا ألوان مكتوبة يدوياً.
   `.card-glass` و`.tag` أصناف مشتركة تُعاد لا تُستنسخ.
 - **RTL**: يُدار بـ `body.rtl` + `documentElement.dir`؛ كل ملف CSS يحمل تجاوزات
@@ -64,7 +69,11 @@
   في `LanguageContext.jsx` — الـ lint يفشل بدونه.
 - لا تنقل منطق التمرير/الإضاءة خارج `AimeWidget` — الويدجت هو المتحكّم الوحيد
   بالصفحة، والمكوّنات الأخرى تعرض فقط.
+- **المحتوى يطابق السيرة الذاتية** في `public/Abdulaziz-Alhaidan-CV.pdf` (التواريخ،
+  المسمّيات، سنوات الشهادات، المشاريع). أي تعديل في أحدهما يُنقل للآخر. استثناء
+  مقصود واحد: **آيم** يُوصف بما في كوده (لا LangChain ولا ChromaDB ولا RAG)،
+  ولا يُذكر **Raspberry Pi** إطلاقاً — كلاهما قرار المالك.
 - عنوان خادم Aime ثابت في `AimeWidget.jsx` ويشير لمشروع منفصل — تغييره يقطع
-  الدردشة والصوت.
+  الدردشة والميكروفون.
 
 اقرأ PROGRESS.md لآخر حالة عمل.

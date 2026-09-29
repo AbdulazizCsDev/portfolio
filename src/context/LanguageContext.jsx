@@ -5,7 +5,6 @@ const translations = {
     nav: {
       about: 'About',
       projects: 'Projects',
-      now: 'Now Building',
       skills: 'Skills',
       contact: 'Contact',
     },
@@ -14,7 +13,7 @@ const translations = {
       name: 'Abdulaziz Alhaidan',
       title: 'AI / Machine Learning Engineer',
       titles: ['AI / ML Engineer', 'LLM & Multi-Agent Systems', 'RAG & GenAI Engineer', 'Backend Engineer'],
-      bio: "AI / Machine Learning Engineer who designs, builds, and ships production-grade LLM and ML systems end-to-end — from data and training to RAG pipelines, multi-agent orchestration, and deployment. Currently building trustworthy, Arabic-first AI for the Saudi market.",
+      bio: "AI / Machine Learning Engineer who designs, builds, and ships production-grade LLM and ML systems end-to-end — from data and training to RAG pipelines, multi-agent orchestration, and deployment. Focused on trustworthy, Arabic-first AI for the Saudi market.",
       cta1: 'Talk to Aime',
       cta2: 'View Projects',
       cta3: 'Download CV',
@@ -22,8 +21,8 @@ const translations = {
     },
     about: {
       title: 'About Me',
-      p1: "AI / Machine Learning Engineer with a B.Sc. in Computer Science who builds and ships production-grade LLM and ML systems end-to-end. I won 1st place at the Himmah Digital Camps hackathon for AI Board Room — a multi-agent executive-advisory system — and deployed an edge-optimized computer-vision model running at 73 ms inference latency on a Raspberry Pi.",
-      p2: "My edge is Arabic-first, production-ready AI: LLM integration (OpenAI, Anthropic Claude), multi-agent orchestration, RAG pipelines built from scratch, embeddings, and vector databases — served through reliable FastAPI backends and deployed to the cloud. I've led a four-person engineering team across data, training, and deployment, and I build with responsible-AI practices from day one.",
+      p1: "AI / Machine Learning Engineer with a B.Sc. in Computer Science who builds and ships production-grade LLM and ML systems end-to-end. I won 1st place at the Himmah Digital Camps hackathon for AI Board Room — a multi-agent executive-advisory system — and independently designed, built, and launched Hanak, an Arabic-first review platform now live in production.",
+      p2: "My edge is Arabic-first, production-ready AI: LLM integration (OpenAI, Azure OpenAI, Anthropic Claude), multi-agent orchestration, RAG pipelines built from scratch, embeddings, and vector databases — served through reliable FastAPI backends and deployed to the cloud. I've led a four-person engineering team across data, training, and deployment, and I build with responsible-AI practices from day one.",
       education: 'Education',
       university: 'Majmaah University — College of Sciences, Zulfi',
       degree: 'Bachelor of Computer Science',
@@ -31,9 +30,9 @@ const translations = {
       period: '2020 – 2025',
       certifications: 'Certifications',
       certs: [
-        { name: 'IBM Data Science Professional Certificate', issuer: 'IBM / Coursera', year: '2024' },
-        { name: 'TensorFlow Developer Specialization', issuer: 'DeepLearning.AI', year: '2024' },
-        { name: 'AWS Cloud Practitioner Essentials', issuer: 'Amazon Web Services', year: '2023' },
+        { name: 'IBM Data Science Professional Certificate', issuer: 'IBM / Coursera', year: '2025' },
+        { name: 'TensorFlow Developer Specialization', issuer: 'DeepLearning.AI', year: '2025' },
+        { name: 'AWS Cloud Practitioner Essentials (course)', issuer: 'Amazon Web Services', year: '2025' },
       ],
     },
     experience: {
@@ -41,10 +40,10 @@ const translations = {
       current: 'Current',
       items: [
         {
-          role: 'AI / Machine Learning Engineering — Intensive Bootcamp',
-          org: 'Projects & Coursework',
-          period: '2026 – Present',
-          current: true,
+          role: 'AI Engineering Bootcamp',
+          org: 'Saudi Digital Academy (SDA)',
+          period: 'May 2026 – Jul 2026',
+          current: false,
           points: [
             'End-to-end ML pipelines: EDA, feature engineering, hyperparameter tuning, and rigorous error analysis.',
             'CNNs, RNN/LSTM, Seq2Seq, and time-series models; fine-tuned BERT with Hugging Face.',
@@ -53,13 +52,14 @@ const translations = {
           ],
         },
         {
-          role: 'Quality Assurance Specialist',
+          role: 'Cooperative Training — Quality Assurance',
           org: 'T2 — Riyadh, Saudi Arabia',
           period: 'Feb 2025 – May 2025',
           current: false,
           points: [
-            'Executed functional and regression testing across releases.',
-            'Reported and tracked defects, and validated fixes to ensure product quality.',
+            'Designed and executed functional and regression test suites across releases.',
+            'Tracked defects to resolution and validated fixes before sign-off.',
+            'Built a systematic approach to failure-case and edge-case analysis — the same discipline now applied to evaluating model outputs.',
           ],
         },
       ],
@@ -85,8 +85,8 @@ const translations = {
           id: 'aime',
           name: 'Aime Voice Assistant',
           award: null,
-          desc: "Production-deployed Arabic-first AI voice assistant: Whisper (speech-to-text), Claude (reasoning), and ElevenLabs (voice cloning), with a RAG pipeline for grounded answers. You're talking to it live on this site.",
-          tags: ['Python', 'FastAPI', 'Whisper', 'Claude', 'ElevenLabs', 'RAG'],
+          desc: "Production-deployed Arabic-first AI voice assistant: Whisper (speech-to-text), Claude (reasoning), and ElevenLabs (voice cloning), served through FastAPI and grounded in a curated knowledge base. You're chatting with it live on this site.",
+          tags: ['Python', 'FastAPI', 'Whisper', 'Claude', 'ElevenLabs'],
           live: 'https://aime-voice-assistant-rw2z.vercel.app/',
           github: 'https://github.com/AbdulazizCsDev/aime-voice-assistant',
         },
@@ -95,10 +95,19 @@ const translations = {
           name: 'AgroCure — Plant Disease Detection',
           award: 'Led a 4-person team',
           awardIcon: 'team',
-          desc: 'End-to-end plant-disease classification (ResNet50 transfer learning, 36+ classes, ~7,300 images) with a RAG advisory layer for rare classes and a custom in-house dataset. Deployed on a Raspberry Pi at 73 ms inference; experiments tracked with MLflow.',
-          tags: ['PyTorch', 'ResNet50', 'FAISS', 'MLflow', 'Edge AI'],
+          desc: 'End-to-end plant-disease classification (ResNet50 transfer learning, 36+ classes, ~7,300 images) with a RAG advisory layer for rare classes and a custom in-house dataset. Served as a public inference API on Hugging Face Spaces (FastAPI + Docker); experiments tracked with MLflow on DagsHub.',
+          tags: ['PyTorch', 'ResNet50', 'FAISS', 'MLflow', 'Docker'],
           live: 'https://abdulazizcsdev-agrocure-app.hf.space/',
           github: 'https://github.com/AbdulazizCsDev/AgriCure-App',
+        },
+        {
+          id: 'hanak',
+          name: 'Hanak — Arabic Restaurant Reviews',
+          award: null,
+          desc: 'Arabic-first restaurant review platform, designed and shipped end-to-end from concept to live release. Postgres on Supabase with trigram (pg_trgm) fuzzy search over Arabic venue names and SECURITY DEFINER policies for admin operations; each restaurant\'s menu is the canonical unit, so reviews stay attributed across branches and name variants.',
+          tags: ['Next.js', 'Supabase', 'PostgreSQL', 'Vercel'],
+          live: 'https://hanak-rosy.vercel.app/',
+          github: null,
         },
         {
           id: 'lines',
@@ -139,44 +148,13 @@ const translations = {
         },
       ],
     },
-    now: {
-      title: 'Now Building',
-      subtitle: "What I'm actively working on right now — built in public, updated as it happens.",
-      startedLabel: 'Started',
-      items: [
-        {
-          id: 'board-room',
-          name: 'AI Board Room — Trustworthy Edition',
-          status: 'In Progress',
-          started: '2026',
-          desc: 'Upgrading the hackathon-winning system for trustworthy, enterprise-grade use in the Saudi market: Arabic-first agents, grounded citations behind every recommendation, and safety & reliability evaluation.',
-          focus: ['Arabic-first agents', 'Grounded citations', 'Evaluation & guardrails'],
-        },
-        {
-          id: 'agrocure',
-          name: 'AgroCure — Saudi Agriculture',
-          status: 'In Progress',
-          started: '2026',
-          desc: 'Adapting the plant-disease system to Saudi crops and growing conditions, with Arabic advisory output and trustworthy-AI hardening: confidence thresholds, failure-case analysis, and human-review flows.',
-          focus: ['Saudi crops', 'Arabic advisory', 'Confidence & review flows'],
-        },
-        {
-          id: 'bootcamp',
-          name: 'AI / ML Engineering Bootcamp',
-          status: 'Ongoing',
-          started: '2026',
-          desc: 'Deepening production ML week by week — currently: transformer fine-tuning, DSPy/GEPA structured extraction, and MLOps workflows with MLflow and ONNX.',
-          focus: ['Fine-tuning', 'DSPy / GEPA', 'MLOps'],
-        },
-      ],
-    },
     skills: {
       title: 'Skills',
       categories: [
         {
           name: 'GenAI & LLMs',
           icon: 'bot',
-          skills: ['LLM Integration (OpenAI, Claude)', 'Multi-Agent Orchestration', 'RAG (built from scratch)', 'LangChain', 'FAISS', 'ChromaDB', 'Embeddings', 'Prompt Engineering (DSPy/GEPA)', 'Fine-tuning', 'Hugging Face', 'BERT'],
+          skills: ['LLM Integration (OpenAI, Azure OpenAI, Claude)', 'Multi-Agent Orchestration', 'RAG (built from scratch)', 'LangChain', 'FAISS', 'ChromaDB', 'Embeddings', 'Prompt Engineering (DSPy/GEPA)', 'Fine-tuning', 'Hugging Face', 'BERT'],
         },
         {
           name: 'ML & Deep Learning',
@@ -186,7 +164,7 @@ const translations = {
         {
           name: 'MLOps & Deployment',
           icon: 'rocket',
-          skills: ['MLflow', 'ONNX', 'FastAPI Model Serving', 'Edge Deployment (Raspberry Pi)', 'Docker', 'CI/CD', 'AWS (IAM, EC2, S3)'],
+          skills: ['MLflow', 'ONNX', 'FastAPI Model Serving', 'Docker', 'CI/CD', 'Cloud Deployment (HF Spaces, Railway, Render, Vercel)', 'Azure (AI Foundry, OpenAI)', 'AWS (IAM, EC2, S3)'],
         },
         {
           name: 'Backend & APIs',
@@ -196,7 +174,7 @@ const translations = {
         {
           name: 'Databases',
           icon: 'database',
-          skills: ['SQL', 'MySQL', 'Vector Databases', 'Database Design'],
+          skills: ['SQL', 'PostgreSQL (Supabase)', 'MySQL', 'Vector Databases', 'Database Design'],
         },
         {
           name: 'Frontend & Mobile',
@@ -251,9 +229,8 @@ const translations = {
       tour: [
         { text: "Let me show you around. This is Abdulaziz — an AI/ML engineer who designs, builds, and ships LLM and ML systems end-to-end.", action: 'about' },
         { text: 'His projects. Start with AI Board Room — a multi-agent advisory board that took 1st place at the Himmah Digital Camps hackathon.', action: 'projects.board-room' },
-        { text: 'AgroCure — plant-disease detection running at 73 ms on a Raspberry Pi. He led the four-person team behind it.', action: 'projects.agrocure' },
-        { text: "And Aime — that's me: Whisper, Claude, and ElevenLabs, deployed and talking to you right now.", action: 'projects.aime' },
-        { text: "What he's building now: hardening Board Room and AgroCure into trustworthy, Arabic-first systems for the Saudi market.", action: 'now' },
+        { text: 'AgroCure — plant-disease detection across 36+ classes, served live on Hugging Face Spaces. He led the four-person team behind it.', action: 'projects.agrocure' },
+        { text: "And Aime — that's me: Whisper, Claude, and ElevenLabs, deployed and chatting with you right now.", action: 'projects.aime' },
         { text: 'The toolkit behind it all — GenAI, deep learning, and MLOps.', action: 'skills' },
         { text: "And this is where to reach him. Ask me anything else — I'm here.", action: 'contact' },
       ],
@@ -263,7 +240,6 @@ const translations = {
     nav: {
       about: 'عني',
       projects: 'المشاريع',
-      now: 'قيد البناء',
       skills: 'المهارات',
       contact: 'تواصل',
     },
@@ -272,7 +248,7 @@ const translations = {
       name: 'عبدالعزيز الحيدان',
       title: 'مهندس ذكاء اصطناعي وتعلّم آلة',
       titles: ['مهندس ذكاء اصطناعي / تعلّم آلة', 'أنظمة LLM والوكلاء المتعددين', 'مهندس RAG وذكاء توليدي', 'مهندس باك إند'],
-      bio: 'مهندس ذكاء اصطناعي وتعلّم آلة أصمّم وأبني وأطلق أنظمة LLM وتعلّم آلة بجودة إنتاجية من البداية إلى النهاية — من البيانات والتدريب إلى RAG وتنسيق الوكلاء المتعددين والنشر. أعمل حالياً على بناء ذكاء اصطناعي موثوق يتحدث العربية أولاً للسوق السعودي.',
+      bio: 'مهندس ذكاء اصطناعي وتعلّم آلة أصمّم وأبني وأطلق أنظمة LLM وتعلّم آلة بجودة إنتاجية من البداية إلى النهاية — من البيانات والتدريب إلى RAG وتنسيق الوكلاء المتعددين والنشر. أركّز على ذكاء اصطناعي موثوق يتحدث العربية أولاً للسوق السعودي.',
       cta1: 'تحدث مع آيم',
       cta2: 'عرض المشاريع',
       cta3: 'تحميل السيرة الذاتية',
@@ -280,8 +256,8 @@ const translations = {
     },
     about: {
       title: 'عني',
-      p1: 'مهندس ذكاء اصطناعي وتعلّم آلة حاصل على بكالوريوس علوم الحاسب، أبني وأطلق أنظمة LLM وتعلّم آلة بجودة إنتاجية من البداية إلى النهاية. فزت بالمركز الأول في هاكاثون معسكرات همّة الرقمية عن «مجلس الإدارة الذكي» — نظام استشاري تنفيذي متعدد الوكلاء — ونشرت نموذج رؤية حاسوبية مُحسَّناً للحافة يعمل بزمن استدلال 73 مللي ثانية على Raspberry Pi.',
-      p2: 'ما يميزني هو الذكاء الاصطناعي الإنتاجي بالعربية أولاً: دمج نماذج اللغة الكبيرة (OpenAI وClaude من Anthropic)، وتنسيق الوكلاء المتعددين، وبناء أنظمة RAG من الصفر مع التضمينات وقواعد البيانات المتجهة — تُقدَّم عبر واجهات FastAPI موثوقة وتُنشر على السحابة. قُدت فريقاً هندسياً من أربعة أشخاص عبر البيانات والتدريب والنشر، وأبني وفق ممارسات الذكاء الاصطناعي المسؤول منذ اليوم الأول.',
+      p1: 'مهندس ذكاء اصطناعي وتعلّم آلة حاصل على بكالوريوس علوم الحاسب، أبني وأطلق أنظمة LLM وتعلّم آلة بجودة إنتاجية من البداية إلى النهاية. فزت بالمركز الأول في هاكاثون معسكرات همّة الرقمية عن «مجلس الإدارة الذكي» — نظام استشاري تنفيذي متعدد الوكلاء — وصمّمت وبنيت وأطلقت وحدي «Hanak»، منصة تقييمات عربية أولاً تعمل الآن في بيئة الإنتاج.',
+      p2: 'ما يميزني هو الذكاء الاصطناعي الإنتاجي بالعربية أولاً: دمج نماذج اللغة الكبيرة (OpenAI وAzure OpenAI وClaude من Anthropic)، وتنسيق الوكلاء المتعددين، وبناء أنظمة RAG من الصفر مع التضمينات وقواعد البيانات المتجهة — تُقدَّم عبر واجهات FastAPI موثوقة وتُنشر على السحابة. قُدت فريقاً هندسياً من أربعة أشخاص عبر البيانات والتدريب والنشر، وأبني وفق ممارسات الذكاء الاصطناعي المسؤول منذ اليوم الأول.',
       education: 'التعليم',
       university: 'جامعة المجمعة — كلية العلوم، الزلفي',
       degree: 'بكالوريوس علوم الحاسب',
@@ -289,9 +265,9 @@ const translations = {
       period: '2020 – 2025',
       certifications: 'الشهادات',
       certs: [
-        { name: 'شهادة IBM لعلوم البيانات', issuer: 'IBM / Coursera', year: '2024' },
-        { name: 'تخصص TensorFlow للمطورين', issuer: 'DeepLearning.AI', year: '2024' },
-        { name: 'أساسيات السحابة — AWS', issuer: 'أمازون ويب سيرفيسز', year: '2023' },
+        { name: 'شهادة IBM لعلوم البيانات', issuer: 'IBM / Coursera', year: '2025' },
+        { name: 'تخصص TensorFlow للمطورين', issuer: 'DeepLearning.AI', year: '2025' },
+        { name: 'أساسيات السحابة — AWS (دورة)', issuer: 'أمازون ويب سيرفيسز', year: '2025' },
       ],
     },
     experience: {
@@ -299,10 +275,10 @@ const translations = {
       current: 'حالياً',
       items: [
         {
-          role: 'هندسة الذكاء الاصطناعي وتعلّم الآلة — معسكر مكثّف',
-          org: 'مشاريع ومقررات تطبيقية',
-          period: '2026 – الآن',
-          current: true,
+          role: 'معسكر هندسة الذكاء الاصطناعي',
+          org: 'الأكاديمية السعودية الرقمية (SDA)',
+          period: 'مايو 2026 – يوليو 2026',
+          current: false,
           points: [
             'خطوط أنابيب تعلّم آلة متكاملة: تحليل استكشافي، هندسة خصائص، ضبط معاملات، وتحليل دقيق للأخطاء.',
             'شبكات CNN وRNN/LSTM وSeq2Seq ونماذج سلاسل زمنية؛ وضبط دقيق لـ BERT عبر Hugging Face.',
@@ -311,13 +287,14 @@ const translations = {
           ],
         },
         {
-          role: 'أخصائي ضمان الجودة',
+          role: 'تدريب تعاوني — ضمان الجودة',
           org: 'T2 — الرياض، السعودية',
           period: 'فبراير 2025 – مايو 2025',
           current: false,
           points: [
-            'تنفيذ اختبارات وظيفية واختبارات انحدار عبر الإصدارات.',
-            'رصد العيوب وتتبعها والتحقق من الإصلاحات لضمان جودة المنتج.',
+            'تصميم وتنفيذ حزم اختبارات وظيفية واختبارات انحدار عبر الإصدارات.',
+            'تتبّع العيوب حتى إغلاقها والتحقق من الإصلاحات قبل الاعتماد.',
+            'بناء منهجية منظّمة لتحليل حالات الفشل والحالات الحدّية — الانضباط نفسه الذي أطبّقه اليوم في تقييم مخرجات النماذج.',
           ],
         },
       ],
@@ -343,8 +320,8 @@ const translations = {
           id: 'aime',
           name: 'آيم — المساعد الصوتي',
           award: null,
-          desc: 'مساعد صوتي ذكي منشور إنتاجياً يدعم العربية أولاً: Whisper لتحويل الصوت إلى نص، وClaude للاستدلال، وElevenLabs لاستنساخ الصوت، مع نظام RAG لإجابات مؤصّلة. أنت تتحدث معه الآن على هذا الموقع.',
-          tags: ['Python', 'FastAPI', 'Whisper', 'Claude', 'ElevenLabs', 'RAG'],
+          desc: 'مساعد صوتي ذكي منشور إنتاجياً يدعم العربية أولاً: Whisper لتحويل الصوت إلى نص، وClaude للاستدلال، وElevenLabs لاستنساخ الصوت، يُقدَّم عبر FastAPI وإجاباته مؤصّلة في قاعدة معرفة منتقاة. أنت تحادثه الآن على هذا الموقع.',
+          tags: ['Python', 'FastAPI', 'Whisper', 'Claude', 'ElevenLabs'],
           live: 'https://aime-voice-assistant-rw2z.vercel.app/',
           github: 'https://github.com/AbdulazizCsDev/aime-voice-assistant',
         },
@@ -353,10 +330,19 @@ const translations = {
           name: 'أجروكيور — كشف أمراض النباتات',
           award: 'قيادة فريق من 4 مهندسين',
           awardIcon: 'team',
-          desc: 'نظام متكامل لتصنيف أمراض النباتات (ResNet50 بنقل التعلم، +36 صنفاً، ~7,300 صورة) مع طبقة RAG استشارية للأصناف النادرة وبيانات مجمّعة ومصنّفة داخلياً. مُشغَّل على Raspberry Pi بزمن استدلال 73 مللي ثانية؛ مع تتبع التجارب بـ MLflow.',
-          tags: ['PyTorch', 'ResNet50', 'FAISS', 'MLflow', 'Edge AI'],
+          desc: 'نظام متكامل لتصنيف أمراض النباتات (ResNet50 بنقل التعلم، +36 صنفاً، ~7,300 صورة) مع طبقة RAG استشارية للأصناف النادرة وبيانات مجمّعة ومصنّفة داخلياً. يُقدَّم كواجهة استدلال عامة على Hugging Face Spaces (FastAPI + Docker)؛ مع تتبع التجارب بـ MLflow على DagsHub.',
+          tags: ['PyTorch', 'ResNet50', 'FAISS', 'MLflow', 'Docker'],
           live: 'https://abdulazizcsdev-agrocure-app.hf.space/',
           github: 'https://github.com/AbdulazizCsDev/AgriCure-App',
+        },
+        {
+          id: 'hanak',
+          name: 'Hanak — منصة عربية لتقييم المطاعم',
+          award: null,
+          desc: 'منصة تقييمات مطاعم بالعربية أولاً، صمّمتها وأطلقتها من الفكرة حتى الإطلاق الفعلي. قاعدة Postgres على Supabase مع بحث تقريبي بالـ trigram (pg_trgm) على أسماء المطاعم العربية، وسياسات SECURITY DEFINER لعمليات الإدارة؛ وقائمة طعام كل مطعم هي الوحدة المرجعية، فتبقى التقييمات منسوبة بدقة عبر الفروع واختلاف الأسماء.',
+          tags: ['Next.js', 'Supabase', 'PostgreSQL', 'Vercel'],
+          live: 'https://hanak-rosy.vercel.app/',
+          github: null,
         },
         {
           id: 'lines',
@@ -397,44 +383,13 @@ const translations = {
         },
       ],
     },
-    now: {
-      title: 'قيد البناء الآن',
-      subtitle: 'ما أعمل عليه فعلياً في هذه اللحظة — يُبنى علناً ويُحدَّث أولاً بأول.',
-      startedLabel: 'البداية',
-      items: [
-        {
-          id: 'board-room',
-          name: 'مجلس الإدارة الذكي — نسخة موثوقة',
-          status: 'قيد التطوير',
-          started: '2026',
-          desc: 'تطوير النظام الفائز بالهاكاثون ليصبح جاهزاً للاستخدام المؤسسي الموثوق في السوق السعودي: وكلاء يعملون بالعربية أولاً، واستشهادات مؤصّلة خلف كل توصية، وتقييم للسلامة والموثوقية.',
-          focus: ['وكلاء بالعربية أولاً', 'استشهادات مؤصّلة', 'تقييم وضوابط أمان'],
-        },
-        {
-          id: 'agrocure',
-          name: 'أجروكيور — للزراعة السعودية',
-          status: 'قيد التطوير',
-          started: '2026',
-          desc: 'تكييف نظام كشف أمراض النباتات مع المحاصيل والظروف الزراعية السعودية، مع إرشاد زراعي بالعربية وتعزيز الموثوقية: عتبات ثقة، وتحليل حالات الفشل، ومسارات مراجعة بشرية.',
-          focus: ['محاصيل سعودية', 'إرشاد بالعربية', 'عتبات ثقة ومراجعة'],
-        },
-        {
-          id: 'bootcamp',
-          name: 'معسكر هندسة الذكاء الاصطناعي',
-          status: 'مستمر',
-          started: '2026',
-          desc: 'تعميق مهارات تعلّم الآلة الإنتاجي أسبوعاً بعد أسبوع — حالياً: الضبط الدقيق للمحوّلات، والاستخلاص المهيكل بـ DSPy/GEPA، وممارسات MLOps مع MLflow وONNX.',
-          focus: ['ضبط دقيق', 'DSPy / GEPA', 'MLOps'],
-        },
-      ],
-    },
     skills: {
       title: 'المهارات',
       categories: [
         {
           name: 'الذكاء التوليدي ونماذج اللغة',
           icon: 'bot',
-          skills: ['دمج LLM (OpenAI, Claude)', 'تنسيق وكلاء متعددين', 'RAG (من الصفر)', 'LangChain', 'FAISS', 'ChromaDB', 'التضمينات', 'هندسة الموجهات (DSPy/GEPA)', 'الضبط الدقيق', 'Hugging Face', 'BERT'],
+          skills: ['دمج LLM (OpenAI, Azure OpenAI, Claude)', 'تنسيق وكلاء متعددين', 'RAG (من الصفر)', 'LangChain', 'FAISS', 'ChromaDB', 'التضمينات', 'هندسة الموجهات (DSPy/GEPA)', 'الضبط الدقيق', 'Hugging Face', 'BERT'],
         },
         {
           name: 'تعلّم الآلة والتعلّم العميق',
@@ -444,7 +399,7 @@ const translations = {
         {
           name: 'MLOps والنشر',
           icon: 'rocket',
-          skills: ['MLflow', 'ONNX', 'تقديم النماذج عبر FastAPI', 'نشر على الحافة (Raspberry Pi)', 'Docker', 'CI/CD', 'AWS (IAM, EC2, S3)'],
+          skills: ['MLflow', 'ONNX', 'تقديم النماذج عبر FastAPI', 'Docker', 'CI/CD', 'النشر السحابي (HF Spaces, Railway, Render, Vercel)', 'Azure (AI Foundry, OpenAI)', 'AWS (IAM, EC2, S3)'],
         },
         {
           name: 'الباك إند والواجهات البرمجية',
@@ -454,7 +409,7 @@ const translations = {
         {
           name: 'قواعد البيانات',
           icon: 'database',
-          skills: ['SQL', 'MySQL', 'قواعد بيانات متجهة', 'تصميم قواعد البيانات'],
+          skills: ['SQL', 'PostgreSQL (Supabase)', 'MySQL', 'قواعد بيانات متجهة', 'تصميم قواعد البيانات'],
         },
         {
           name: 'الواجهة الأمامية والموبايل',
@@ -509,9 +464,8 @@ const translations = {
       tour: [
         { text: 'دعني آخذك في جولة. هذا عبدالعزيز — مهندس ذكاء اصطناعي يصمّم ويبني ويطلق أنظمة LLM وتعلّم آلة من البداية إلى النهاية.', action: 'about' },
         { text: 'مشاريعه. لنبدأ بمجلس الإدارة الذكي — نظام استشاري متعدد الوكلاء حصد المركز الأول في هاكاثون معسكرات همّة الرقمية.', action: 'projects.board-room' },
-        { text: 'أجروكيور — كشف أمراض النباتات بزمن 73 مللي ثانية على Raspberry Pi، وقد قاد فريقه المكوّن من أربعة مهندسين.', action: 'projects.agrocure' },
-        { text: 'وآيم — هذا أنا: Whisper وClaude وElevenLabs، منشور ويتحدث معك الآن.', action: 'projects.aime' },
-        { text: 'ما يبنيه الآن: تطوير مجلس الإدارة وأجروكيور إلى أنظمة موثوقة تتحدث العربية أولاً للسوق السعودي.', action: 'now' },
+        { text: 'أجروكيور — كشف أمراض النباتات عبر أكثر من 36 صنفاً، منشور مباشرةً على Hugging Face Spaces، وقد قاد فريقه المكوّن من أربعة مهندسين.', action: 'projects.agrocure' },
+        { text: 'وآيم — هذا أنا: Whisper وClaude وElevenLabs، منشور وأحادثك الآن.', action: 'projects.aime' },
         { text: 'العدّة خلف كل ذلك — ذكاء توليدي وتعلّم عميق وMLOps.', action: 'skills' },
         { text: 'وهنا تصل إليه. اسألني ما تشاء — أنا هنا.', action: 'contact' },
       ],

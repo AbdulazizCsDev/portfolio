@@ -94,13 +94,18 @@ h1, h2, h3, h4, h5 { font-weight: 700; line-height: 1.2; letter-spacing: -0.02em
 .section-title {
   font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 800;
-  margin-bottom: 0.5rem;
   background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   display: inline-block;
+  /* background-clip: text paints only inside the box; tall Arabic glyphs and
+     descenders overflow a 1.2 line box and get cut. Pad the painted area and
+     cancel it with a negative margin so the layout stays the same. */
+  padding-block: 0.15em;
+  margin-block: -0.15em calc(0.5rem - 0.15em);
 }
+.rtl .section-title { letter-spacing: 0; }
 
 .section-subtitle {
   color: var(--text-secondary);

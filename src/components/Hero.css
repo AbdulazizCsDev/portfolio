@@ -71,6 +71,10 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
   letter-spacing: -0.03em;
+  /* See .section-title in index.css: pad the gradient's painted area so glyph
+     tops and descenders are not clipped. */
+  padding-block: 0.15em;
+  margin-block: -0.15em;
 }
 
 .hero-title-wrap {
@@ -167,6 +171,8 @@
 .rtl .hero-inner { direction: rtl; }
 .rtl .hero-name,
 .rtl .hero-bio { direction: rtl; }
+/* Arabic script is taller and joins letters: a looser line box, no tracking. */
+.rtl .hero-name { line-height: 1.35; letter-spacing: 0; }
 
 /* ── Responsive ─── */
 @media (max-width: 1024px) {
